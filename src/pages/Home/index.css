@@ -39,6 +39,77 @@
 
 }
 
-.info-day h2 {
-    margin : 2vh;
+.info-day h3 {
+    margin : 3%;
+    color: rgba(240, 248, 255, 0.7);
 }
+
+.slc {
+    display: inline-flex;
+    margin-left: 2.5vw;
+}
+
+.input {
+    height: 5vh;
+    width: 8vw;
+    background-color: transparent;
+    border: solid 2px rgba(240, 248, 255, 0.1) ;
+}
+
+.calendar {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(240, 248, 255, 0.7);
+    margin-top: 0.5vh;
+    margin-left: -2.7vw;
+}
+
+.react-datepicker {
+  background-color: #1d2125 !important; /* Cor do cabeçalho */
+  border: solid 2px rgba(240, 248, 255, 0.1) !important ;
+  border-radius: 20px !important;
+
+}
+ 
+  /* Estilizando o cabeçalho do DatePicker */
+  .react-datepicker__header {
+    background-color: #1d2125 !important; /* Cor do cabeçalho */
+    border-bottom: none !important;    
+
+  }
+  
+  /* Estilizando o mês e o ano do cabeçalho */
+.react-datepicker__current-month {
+    color: rgba(240, 248, 255, 0.7) !important;
+    
+  }
+  
+  /* Estilizando os dias */
+  .react-datepicker__day {
+    background-color: #1d2125 !important; /* Cor de fundo dos dias */
+    color: rgba(240, 248, 255, 0.7) !important;
+    transition: background-color 0.3s, color 0.3s; /* Transição suave */
+    padding: 8px; /* Padding dos dias */
+    text-align: center; /* Alinhar o texto dos dias */
+  }
+  
+  /* Efeito de hover sobre os dias */
+  .react-datepicker__day:hover {
+    background-color: rgba(240, 248, 255, 0.7) !important;
+    color: black !important; /* Cor do texto ao passar o mouse */
+  }
+  
+  /* Estilo do dia selecionado */
+  .react-datepicker__day--selected {
+    background-color: rgb(240, 248, 255) !important;
+    color: red !important; /* Cor do texto no dia selecionado */
+    border: solid 1px #1d2125 !important;
+    font-weight: bold;
+  }
+
+  .react-datepicker__day-name {
+    color: rgba(240, 248, 255, 0.7) !important;
+    font-weight: bold; /* Deixar os nomes dos dias em negrito */
+  }
+  

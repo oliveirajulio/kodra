@@ -115,6 +115,7 @@ function Home() {
                                 ))}
                             </ul>
                         </div>
+                        <button className="add-issue">+ Create issue</button>
                     </details>
                 </div>
             </div>

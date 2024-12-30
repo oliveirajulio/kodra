@@ -117,6 +117,7 @@ function Home() {
                         </div>
                         <button className="add-issue">+ Create issue</button>
                     </details>
+                    <div className="modal-issue"></div>
                 </div>
             </div>
         </div>

@@ -116,7 +116,7 @@ function Home() {
                             </ul>
                         </div>
                     </details>
-                </div>
+                </div> 
             </div>
         </div>
     )

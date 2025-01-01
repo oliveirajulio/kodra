@@ -5,8 +5,23 @@
   width: 100vw;
   height: 100vh;
   background-color: var(--color_1);
-
+  filter: none; 
+  transition: filter 0.3s ease; 
 }
+
+.container-blur{
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color_1);
+  filter: blur(2px); 
+  transition: filter 0.3s ease;
+  overflow: hidden;
+  z-index: 10;
+}
+
 .header {
   display: fixed;
   top: 0;
@@ -199,7 +214,12 @@ summary {
 }
 
 .modal-issue {
-  background-color: red;
-  height: 20vh;
-  width: 20vw;
+  position: absolute;
+  z-index: 1000;
+  left: -5vw;
+  top: -25vh;
+  height: 90vh;
+  width: 70vw;
+  background-color: rgb(40, 44, 48);
+  filter: none;
 }

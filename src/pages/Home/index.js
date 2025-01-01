@@ -18,6 +18,7 @@ function Home() {
     const [open, setopen] = useState(false)
     const [open2, setopen2] = useState(false)
     const [tasks, setTasks] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
 
     useEffect(() => {
@@ -57,6 +58,10 @@ function Home() {
         const SHW = () => {
             setShowCalendar(!showCalendar);
             setShowIcon(!showIcon);
+        }
+
+        const MOD = () => {
+            setShowModal(!showModal)
         }
 
     return (
@@ -115,9 +120,11 @@ function Home() {
                                 ))}
                             </ul>
                         </div>
-                        <button className="add-issue">+ Create issue</button>
+                        <button onClick={MOD} className="add-issue">+ Create issue</button>
                     </details>
-                    <div className="modal-issue"></div>
+                    <div className={showModal ? "container-blur" : " "} >
+                        <div className={showModal ? "modal-issue" : " "} show={showModal}></div>
+                    </div>    
                 </div>
             </div>
         </div>

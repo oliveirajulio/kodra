@@ -19,7 +19,14 @@ function Home() {
     const [open2, setopen2] = useState(false)
     const [tasks, setTasks] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [dayOfWeek, setDayOfWeek] = useState("");
+    const [formattedDate, setFormattedDate] = useState("");
 
+
+
+    const openModal = () => setShowModal(true);
+    const closeModal = () => setShowModal(false);
+  
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -42,6 +49,7 @@ function Home() {
         const day = date.getDate();
         const month = date.toLocaleDateString("en-US", { month: "long" });
         const year = date.getFullYear();
+        ;
     
         const getDayWithSuffix = (day) => {
           if (day % 10 === 1 && day !== 11) return `${day}ˢᵗ`; 
@@ -53,15 +61,25 @@ function Home() {
         return `${month} ${getDayWithSuffix(day)}, ${year}`;
       };
 
+      const weekday = (date) => {
+        if (date instanceof Date && !isNaN(date)) {
+            // Atualiza a data selecionada
+            setSelectedDate(date);
+    
+            // Formata o dia da semana
+            const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+            setDayOfWeek(dayName);
+        }
+      };
+
+      
+        
     
 
-        const SHW = () => {
+        const SHW = (date) => {
             setShowCalendar(!showCalendar);
             setShowIcon(!showIcon);
-        }
-
-        const MOD = () => {
-            setShowModal(!showModal)
+            setDayOfWeek(weekday(date));
         }
 
     return (
@@ -73,8 +91,8 @@ function Home() {
                     </ul>
                 </nav>
             </div>
-            <div className="sidebar"></div>
-            <div className="home">
+            <div className={`sidebar ${showModal ? "container-blur" : " "}`}></div>
+            <div className={`home ${showModal ? "container-blur" : " "}`}>
                 <div className="info-day">
                     <h3>{getFormattedDate(selectedDate)}</h3>
                 </div>
@@ -82,7 +100,12 @@ function Home() {
                     <input 
                     className="input"
                     type="text"
-                    onClick={() => setShowCalendar(true)} />
+                    value={dayOfWeek}
+                    onClick={() => setShowCalendar(true)} 
+                    onChange={(date) => {
+                        weekday(date)
+                    }}/>
+                    
                     {showIcon && (
                         <button 
                         className="calendar"
@@ -97,6 +120,7 @@ function Home() {
                         onChange={(date) => {
                         setSelectedDate(date);
                         SHW();
+                        weekday(date)
                          }}
                             inline
                             className="custom-datepicker"/>  
@@ -112,20 +136,28 @@ function Home() {
                     <details open={open} onToggle={(e) => setopen(e.target.open)}>
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                         <h4 className="title">Work</h4>
+                        <p className={open ? "lenght" : "lenght-off"}>{tasks.length > 1 ? `${tasks.length} issues` : `${tasks.length} issue`}</p>
                         </summary>
                         <div className="list">
                             <ul>
-                                {tasks.map((task) => (
+                                {/* {tasks.map((task) => ( */}
                                 <li></li>
-                                ))}
+                                <li></li>
+                                {/* // ))} */}
                             </ul>
                         </div>
-                        <button onClick={MOD} className="add-issue">+ Create issue</button>
-                    </details>
-                    <div className={showModal ? "container-blur" : " "} >
-                        <div className={showModal ? "modal-issue" : " "} show={showModal}></div>
-                    </div>    
+                        <button onClick={openModal} className="add-issue">+ Create issue</button>
+                    </details>    
                 </div>
+            </div>
+            <div id="modal-root">
+                    <div className={showModal ? "overlay" : ""}>
+                        <h2 className={showModal ? "title-over" : "title-off"}>Create Issue</h2>
+                        <div className={showModal ? "btn-over" : ""}>
+                            <button className={showModal ? "create" : "create-off"}>Create</button>
+                            <button onClick={closeModal} className={showModal ? "cancel" : "cancel-off"}>Cancel</button>
+                        </div>
+                    </div>
             </div>
         </div>
     )

@@ -140,10 +140,9 @@ function Home() {
                         </summary>
                         <div className="list">
                             <ul>
-                                {/* {tasks.map((task) => ( */}
+                                {tasks.map((task) => ( 
                                 <li></li>
-                                <li></li>
-                                {/* // ))} */}
+                             ))} 
                             </ul>
                         </div>
                         <button onClick={openModal} className="add-issue">+ Create issue</button>

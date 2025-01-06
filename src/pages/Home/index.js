@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
+import select from "react-select"
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -71,6 +72,13 @@ function Home() {
             setDayOfWeek(dayName);
         }
       };
+
+      const options = [
+        {value: "AAA", label: "AAA"},
+        {value: "BBB", label: "BBB"},
+        {value: "CCC", label: "CCC"},
+
+      ]
 
       
         
@@ -152,6 +160,9 @@ function Home() {
             <div id="modal-root">
                     <div className={showModal ? "overlay" : ""}>
                         <h2 className={showModal ? "title-over" : "title-off"}>Create Issue</h2>
+                        <div className="select">
+                            <select options={options} placeholder="Project"/>
+                        </div>
                         <div className={showModal ? "btn-over" : ""}>
                             <button className={showModal ? "create" : "create-off"}>Create</button>
                             <button onClick={closeModal} className={showModal ? "cancel" : "cancel-off"}>Cancel</button>

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
-import select from "react-select"
+import Select from "react-select"
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -77,8 +77,11 @@ function Home() {
         {value: "AAA", label: "AAA"},
         {value: "BBB", label: "BBB"},
         {value: "CCC", label: "CCC"},
-
       ]
+
+      const change = (selectedoption) => {
+        console.log(selectedoption)
+      }
 
       
         
@@ -99,7 +102,20 @@ function Home() {
                     </ul>
                 </nav>
             </div>
-            <div className={`sidebar ${showModal ? "container-blur" : " "}`}></div>
+            <div className={`sidebar ${showModal ? "container-blur" : " "}`}>
+                <div className="main-title">
+                    <h4 className="title-area">Area Test</h4>
+                    <h5 className="subtitle-area">subtitle test</h5>
+                </div>
+                <div className="plan-menu">
+                    <p className="intro">PLANNING</p>
+                    <div className="buttons">
+                        <button>Board</button>
+                        <button>Reports</button>
+                        <button>issues</button>
+                    </div>
+                </div>
+            </div>
             <div className={`home ${showModal ? "container-blur" : " "}`}>
                 <div className="info-day">
                     <h3>{getFormattedDate(selectedDate)}</h3>
@@ -157,11 +173,12 @@ function Home() {
                     </details>    
                 </div>
             </div>
-            <div id="modal-root">
+            <div id={showModal ? "modal-root" : ""}>
                     <div className={showModal ? "overlay" : ""}>
                         <h2 className={showModal ? "title-over" : "title-off"}>Create Issue</h2>
-                        <div className="select">
-                            <select options={options} placeholder="Project"/>
+                        <div className={showModal ? "select-options" : "select-off"}>
+                            <label className="lab">Project</label>
+                            <Select className="custom-select" classNamePrefix="custom" options={options} onChange={change} placeholder="Select one"/>
                         </div>
                         <div className={showModal ? "btn-over" : ""}>
                             <button className={showModal ? "create" : "create-off"}>Create</button>

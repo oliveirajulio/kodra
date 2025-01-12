@@ -3,12 +3,18 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
+import addTask from "../../services/service-addtask";
 import Select from "react-select"
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import SearchIcon from '@mui/icons-material/Search';
+import { create } from "@mui/material/styles/createTransitions";
 
 
 function Home() {
@@ -22,8 +28,9 @@ function Home() {
     const [showModal, setShowModal] = useState(false);
     const [dayOfWeek, setDayOfWeek] = useState("");
     const [formattedDate, setFormattedDate] = useState("");
-
-
+    const [selectedOption, setselectOption] = useState("");
+    const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(false); 
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -41,8 +48,23 @@ function Home() {
     
         fetchTasks();
       }, [selectedDate]);
-    
 
+      useEffect(() => {
+        const dayName = selectedDate.toLocaleDateString("en-US", { weekday: "short" });
+        setDayOfWeek(dayName);
+    }, []);
+
+    
+      const addTasks = async (e) => {
+        e.preventDefault();
+        try {
+          const data = await addTask({ selectedOption});
+          setMessage(data.message);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+        
 
     const getFormattedDate = (date) => {
         if (!date) return "No date selected";
@@ -73,34 +95,67 @@ function Home() {
         }
       };
 
-      const options = [
+    const options = [
         {value: "AAA", label: "AAA"},
         {value: "BBB", label: "BBB"},
         {value: "CCC", label: "CCC"},
-      ]
+    ]
 
-      const change = (selectedoption) => {
-        console.log(selectedoption)
-      }
+    const change = (selectedOption) => {
+        setselectOption(selectedOption);
+        console.log(selectedOption);
+    };
 
-      
-        
+    const addtask = async () => {
+        if (!selectedOption) {
+          alert("Please select a project before creating!");
+          return;
+        }
+    
+        setLoading(true); // Inicia o estado de carregamento
+    
+        try {
+          const newRow = { selectedOption: selectedOption.value }; // Cria o objeto para enviar
+          const response = await addTask(newRow); // Chama a função para adicionar
+          console.log("Row added successfully:", response);
+          setTasks((prevTasks) => [...prevTasks, { id: tasks.length + 1, name: newRow.selectedOption }]);
+          alert("Row added successfully!");
+          closeModal(); // Fecha o modal após a criação
+        } catch (error) {
+          console.error("Error adding row:", error);
+          alert("Failed to add row. Try again.");
+        } finally {
+          setLoading(false); // Finaliza o estado de carregamento
+        }
+      };
     
 
-        const SHW = (date) => {
-            setShowCalendar(!showCalendar);
-            setShowIcon(!showIcon);
-            setDayOfWeek(weekday(date));
-        }
+    const SHW = (date) => {
+        setShowCalendar(!showCalendar);
+        setShowIcon(!showIcon);
+        setDayOfWeek(weekday(date));
+    }
+
 
     return (
         <div className="container">
-            <div className="header">
+            <div className={`header ${showModal ? "container-blur" : " "}`}>
                 <nav>
                     <ul>
                         <li></li>
                     </ul>
                 </nav>
+                <div className="search-input">
+                    <input 
+                        className="search-ipt"
+                        placeholder="Search"
+                        />
+                </div>
+                <div className="btn-header">
+                    <button className="not"><NotificationsIcon className="icon-header" fontSize="medium"/></button>
+                    <button className="set"><SettingsIcon className="icon-header" fontSize="medium"/></button>
+                    <button className="acc"><AccountCircleIcon className="icon-header" fontSize="large"/></button>
+                </div>
             </div>
             <div className={`sidebar ${showModal ? "container-blur" : " "}`}>
                 <div className="main-title">
@@ -164,8 +219,8 @@ function Home() {
                         </summary>
                         <div className="list">
                             <ul>
-                                {tasks.map((task) => ( 
-                                <li></li>
+                                {tasks.map((task, index) => ( 
+                                <li className="tasks" key={index}>{task.name}</li>
                              ))} 
                             </ul>
                         </div>
@@ -178,10 +233,19 @@ function Home() {
                         <h2 className={showModal ? "title-over" : "title-off"}>Create Issue</h2>
                         <div className={showModal ? "select-options" : "select-off"}>
                             <label className="lab">Project</label>
-                            <Select className="custom-select" classNamePrefix="custom" options={options} onChange={change} placeholder="Select one"/>
+                            <Select className="custom-select"
+                             classNamePrefix="custom" 
+                             options={options} 
+                             onChange={change} 
+                             placeholder="Select one"/>
                         </div>
                         <div className={showModal ? "btn-over" : ""}>
-                            <button className={showModal ? "create" : "create-off"}>Create</button>
+                            <button 
+                                onClick={addtask}
+                                disabled={!selectedOption}
+                                className={showModal ? "create" : "create-off"}>
+                                Create
+                            </button>
                             <button onClick={closeModal} className={showModal ? "cancel" : "cancel-off"}>Cancel</button>
                         </div>
                     </div>

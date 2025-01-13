@@ -56,7 +56,7 @@
   position: absolute;
   display: inline-flex;
   right: 2vw;
-  top: 0.5vh;
+  margin-top: -1vh;
 }
 
 .acc {
@@ -144,6 +144,7 @@
   position: fixed;
   top: 8vh;
   left: 17vw;
+  margin-left: 2vw;
   height: 92vh;
   width: 85vw;
 

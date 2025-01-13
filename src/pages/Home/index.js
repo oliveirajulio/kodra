@@ -238,6 +238,12 @@ function Home() {
                              options={options} 
                              onChange={change} 
                              placeholder="Select one"/>
+                             <label className="lab2">Type Issue</label>
+                            <Select className="custom-select"
+                             classNamePrefix="custom" 
+                             options={options} 
+                             onChange={change} 
+                             placeholder="Select one"/>
                         </div>
                         <div className={showModal ? "btn-over" : ""}>
                             <button 

@@ -29,6 +29,7 @@ function Home() {
     const [dayOfWeek, setDayOfWeek] = useState("");
     const [formattedDate, setFormattedDate] = useState("");
     const [selectedOption, setselectOption] = useState("");
+    const [taskname, settaskname] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false); 
 
@@ -54,16 +55,6 @@ function Home() {
         setDayOfWeek(dayName);
     }, []);
 
-    
-      const addTasks = async (e) => {
-        e.preventDefault();
-        try {
-          const data = await addTask({ selectedOption});
-          setMessage(data.message);
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      };
         
 
     const getFormattedDate = (date) => {
@@ -115,12 +106,15 @@ function Home() {
         setLoading(true); // Inicia o estado de carregamento
     
         try {
-          const newRow = { selectedOption: selectedOption.value }; // Cria o objeto para enviar
+          const newRow = { 
+            selectedOption: selectedOption.value,
+            taskname: taskname
+        }; // Cria o objeto para enviar
           const response = await addTask(newRow);
           console.log("Response:", response);          // Chama a função para adicionar
           console.log("Row added successfully:", response);
           const newTask = response; // O backend agora retorna um objeto com id e content
-          setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.content }]);
+          setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.content, name: response.name }]);
           alert("Row added successfully!");
           closeModal(); // Fecha o modal após a criação
         } catch (error) {
@@ -222,7 +216,7 @@ function Home() {
                         <div className="list">
                             <ul>
                                 {tasks.map((task, index) => ( 
-                                <li className="tasks" key={index}>{task.id} {task.type}</li>
+                                <li className="tasks" key={index}>{task.id} {task.name } {task.type}</li>
                              ))} 
                             </ul>
                         </div>
@@ -238,6 +232,8 @@ function Home() {
                             <input 
                              className="input-select"
                              type="text"
+                             value={taskname}
+                             onChange={(e) => settaskname(e.target.value)}
                              placeholder="Enter a name"/>
                             <label className="lab">Project</label>
                             <Select className="custom-select"

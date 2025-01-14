@@ -27,7 +27,7 @@
   display: flex;
   top: 0;
   width: 100vw;
-  height: 7vh;
+  height: 7%;
   background-color: var(--color_1);
   border-bottom: solid 0.5px rgba(240, 248, 255, 0.05);
 }
@@ -58,7 +58,7 @@
   position: absolute;
   display: inline-flex;
   right: 2vw;
-  margin-top: 0.7vh;
+  margin-top: 0.5rem;
 }
 
 .acc {
@@ -91,7 +91,7 @@
   left: 0;
   top: 8vh;
   margin: 0;
-  width: 32vh;
+  width: 17%;
   height: 92vh;
   border: solid 0.5px rgba(240, 248, 255, 0.05) ;
   border-top: none;
@@ -146,7 +146,7 @@
   position: fixed;
   top: 8vh;
   left: 17vw;
-  margin-left: 0.1vw;
+  margin-left: 0.5vw;
   height: 92vh;
   width: 85vw;
 
@@ -309,6 +309,10 @@ summary {
   border-bottom: solid 1px rgba(240, 248, 255, 0.1) ;
 }
 
+.task-id {
+  color: rgba(240, 248, 255, 0.4);
+}
+
 .add-issue {
   margin-top: 1vh;
   background-color: transparent;
@@ -371,7 +375,7 @@ summary {
 .input-select {
   margin-top: 0.5vh;
   margin-bottom: 2vh;
-  height: 6vh;
+  height: 2.3rem;
   width: 22vw;
   background-color: var(--color_1);
   border: none;

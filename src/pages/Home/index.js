@@ -96,9 +96,10 @@ function Home() {
       };
 
     const options = [
-        {value: "AAA", label: "AAA"},
-        {value: "BBB", label: "BBB"},
-        {value: "CCC", label: "CCC"},
+        {value: "Urgent", label: "Urgent"},
+        {value: "High priority", label: "High priority"},
+        {value: "Medium priority", label: "Medium priority"},
+        {value: "Low priority", label: "Low priority"},
     ]
 
     const change = (selectedOption) => {
@@ -222,7 +223,7 @@ function Home() {
                         <div className="list">
                             <ul>
                                 {tasks.map((task, index) => ( 
-                                <li className="tasks" key={index}>{task.id} {task.type}</li>
+                                <li className="tasks" key={index}><span className="task-id">{task.id}</span> {task.type}</li>
                              ))} 
                             </ul>
                         </div>
@@ -237,9 +238,8 @@ function Home() {
                             <label className="lab">Task Name</label>
                             <input 
                              className="input-select"
-                             type="text"
-                             placeholder="Enter a name"/>
-                            <label className="lab">Project</label>
+                             type="text"/>
+                            <label className="lab">Priority</label>
                             <Select className="custom-select"
                              classNamePrefix="custom" 
                              options={options} 

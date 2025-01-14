@@ -217,7 +217,7 @@ function Home() {
                         <div className="list">
                             <ul>
                                 {tasks.map((task, index) => ( 
-                                <li className="tasks" key={index}><span className="task-id">{task.id}</span> {task.type}</li>
+                                <li className="tasks" key={index}><span className="task-id">{task.id}</span> {task.name} {task.type}</li>
                              ))} 
                             </ul>
                         </div>
@@ -232,7 +232,10 @@ function Home() {
                             <label className="lab">Task Name</label>
                             <input 
                              className="input-select"
-                             type="text"/>
+                             type="text"
+                             value={taskname} 
+                             onChange={(e) => settaskname(e.target.value)} 
+                             />
                             <label className="lab">Priority</label>
                             <Select className="custom-select"
                              classNamePrefix="custom" 

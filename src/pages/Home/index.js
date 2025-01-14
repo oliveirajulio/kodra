@@ -28,7 +28,7 @@ function Home() {
     const [showModal, setShowModal] = useState(false);
     const [dayOfWeek, setDayOfWeek] = useState("");
     const [formattedDate, setFormattedDate] = useState("");
-    const [selectedOption, setselectOption] = useState("");
+    const [selectedOption, setselectOption] = useState(null);
     const [taskname, settaskname] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false); 
@@ -55,6 +55,35 @@ function Home() {
         setDayOfWeek(dayName);
     }, []);
 
+    const customStyles = {
+        option: (styles, { data }) => ({
+          ...styles,
+          backgroundColor:
+            data.priority === "urgent"
+              ? "#e63946"
+              : data.priority === "high"
+              ? "#f77f00"
+              : data.priority === "medium"
+              ? "#ffcc00"
+              : "#2a9d8f",
+          color: "white",
+          cursor: "pointer",
+        }),
+        singleValue: (styles, { data }) => ({
+          ...styles,
+          backgroundColor:
+            data.priority === "urgent"
+              ? "#e63946"
+              : data.priority === "high"
+              ? "#f77f00"
+              : data.priority === "medium"
+              ? "#ffcc00"
+              : "#2a9d8f",
+          color: "white",
+          padding: "2px 8px",
+          borderRadius: "4px",
+        }),
+      };
         
 
     const getFormattedDate = (date) => {
@@ -86,12 +115,12 @@ function Home() {
         }
       };
 
-    const options = [
-        {value: "Urgent", label: "Urgent"},
-        {value: "High priority", label: "High priority"},
-        {value: "Medium priority", label: "Medium priority"},
-        {value: "Low priority", label: "Low priority"},
-    ]
+      const options = [
+        { value: "Urgent", label: "Urgent", priority: "urgent" },
+        { value: "High priority", label: "High priority", priority: "high" },
+        { value: "Medium priority", label: "Medium priority", priority: "medium" },
+        { value: "Low priority", label: "Low priority", priority: "low" },
+      ];
 
     const change = (selectedOption) => {
         setselectOption(selectedOption);
@@ -241,7 +270,8 @@ function Home() {
                              classNamePrefix="custom" 
                              options={options} 
                              onChange={change} 
-                             placeholder="Select one"/>
+                             placeholder="Select one"
+                             styles={customStyles}/>
                         </div>
                         <div className={showModal ? "btn-over" : ""}>
                             <button 

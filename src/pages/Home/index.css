@@ -299,14 +299,15 @@ summary {
   background-color: #22272b;
   border: solid 1px rgba(240, 248, 255, 0.1) ;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
+  
 } 
 
 .list li {
+  height: 3.5vh;
   margin-left: -3vw;
   margin-top: 0.2rem;
   font-size: 14px;
   list-style: none;
-  height: 4vh;
   border-bottom: solid 1px rgba(240, 248, 255, 0.1) ;
 }
 
@@ -435,6 +436,55 @@ summary {
 
 .custom__option--is-selected {
   color: rgba(240, 248, 255, 0.6);
+}
+
+.react-select__option--urgent {
+  background-color: #e63946 !important ;
+  color: white;
+}
+
+.react-select__option--high {
+  background-color: #f77f00 !important;
+  color: white;
+}
+
+.react-select__option--medium {
+  background-color: #ffcc00 !important;
+  color: black;
+}
+
+.react-select__option--low {
+  background-color: #2a9d8f !important;
+  color: white;
+}
+
+/* Valor selecionado */
+.react-select__single-value--urgent {
+  background-color: #e63946 !important ;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.react-select__single-value--high {
+  background-color: #f77f00 !important;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.react-select__single-value--medium {
+  background-color: #ffcc00 !important;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.react-select__single-value--low {
+  background-color: #2a9d8f !important;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 

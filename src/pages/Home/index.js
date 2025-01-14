@@ -116,9 +116,11 @@ function Home() {
     
         try {
           const newRow = { selectedOption: selectedOption.value }; // Cria o objeto para enviar
-          const response = await addTask(newRow); // Chama a função para adicionar
+          const response = await addTask(newRow);
+          console.log("Response:", response);          // Chama a função para adicionar
           console.log("Row added successfully:", response);
-          setTasks((prevTasks) => [...prevTasks, { id: tasks.length + 1, name: newRow.selectedOption }]);
+          const newTask = response; // O backend agora retorna um objeto com id e content
+          setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.content }]);
           alert("Row added successfully!");
           closeModal(); // Fecha o modal após a criação
         } catch (error) {
@@ -220,7 +222,7 @@ function Home() {
                         <div className="list">
                             <ul>
                                 {tasks.map((task, index) => ( 
-                                <li className="tasks" key={index}>{task.name}</li>
+                                <li className="tasks" key={index}>{task.id} {task.type}</li>
                              ))} 
                             </ul>
                         </div>
@@ -230,15 +232,14 @@ function Home() {
             </div>
             <div id={showModal ? "modal-root" : ""}>
                     <div className={showModal ? "overlay" : ""}>
-                        <h2 className={showModal ? "title-over" : "title-off"}>Create Issue</h2>
+                        <h2 className={showModal ? "title-over" : "title-off"}>Create Task</h2>
                         <div className={showModal ? "select-options" : "select-off"}>
+                            <label className="lab">Task Name</label>
+                            <input 
+                             className="input-select"
+                             type="text"
+                             placeholder="Enter a name"/>
                             <label className="lab">Project</label>
-                            <Select className="custom-select"
-                             classNamePrefix="custom" 
-                             options={options} 
-                             onChange={change} 
-                             placeholder="Select one"/>
-                             <label className="lab2">Type Issue</label>
                             <Select className="custom-select"
                              classNamePrefix="custom" 
                              options={options} 

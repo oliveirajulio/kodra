@@ -56,34 +56,59 @@ function Home() {
     }, []);
 
     const customStyles = {
-        option: (styles, { data }) => ({
-          ...styles,
-          backgroundColor:
-            data.priority === "urgent"
+        option: (styles, { data, isFocused, isSelected }) => {
+          const backgroundColor = isSelected || isFocused
+            ? data.priority === "Urgent"
               ? "#e63946"
-              : data.priority === "high"
+              : data.priority === "High"
               ? "#f77f00"
-              : data.priority === "medium"
-              ? "#ffcc00"
-              : "#2a9d8f",
-          color: "white",
-          cursor: "pointer",
-        }),
+              : data.priority === "Medium"
+              ? "#2986cc "
+              : "#2a9d8f"
+            : styles.backgroundColor;
+      
+          return {
+            ...styles,
+            backgroundColor,
+            color: isSelected || isFocused ? "white" : styles.color, // Ajusta a cor do texto para melhor contraste
+          };
+        },
         singleValue: (styles, { data }) => ({
           ...styles,
           backgroundColor:
-            data.priority === "urgent"
+            data.priority === "Urgent"
               ? "#e63946"
-              : data.priority === "high"
+              : data.priority === "High"
               ? "#f77f00"
-              : data.priority === "medium"
-              ? "#ffcc00"
+              : data.priority === "Medium"
+              ? "#2986cc "
               : "#2a9d8f",
           color: "white",
           padding: "2px 8px",
           borderRadius: "4px",
+          width: "6vw",
         }),
       };
+      
+
+      const getColor = (type) => {
+        console.log(type); // Verifica o valor de 'type' que está chegando
+        switch (type) {
+          case "Urgent":
+            return "#e63946";
+          case "High":
+            return "#f77f00";
+          case "Medium":
+            return "#2986cc ";
+          case "Low":
+            return "#2a9d8f";
+          default:
+            return "transparent";
+        }
+      };
+      
+      
+      
         
 
     const getFormattedDate = (date) => {
@@ -116,10 +141,10 @@ function Home() {
       };
 
       const options = [
-        { value: "Urgent", label: "Urgent", priority: "urgent" },
-        { value: "High priority", label: "High priority", priority: "high" },
-        { value: "Medium priority", label: "Medium priority", priority: "medium" },
-        { value: "Low priority", label: "Low priority", priority: "low" },
+        { value: "Urgent", label: "Urgent", priority: "Urgent" },
+        { value: "High", label: "High", priority: "High" },
+        { value: "Medium", label: "Medium", priority: "Medium" },
+        { value: "Low", label: "Low", priority: "Low" },
       ];
 
     const change = (selectedOption) => {
@@ -144,14 +169,15 @@ function Home() {
           console.log("Response:", response);          // Chama a função para adicionar
           console.log("Row added successfully:", response);
           const newTask = response; // O backend agora retorna um objeto com id e content
-          setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.content, name: response.name }]);
+          setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.type, name: response.name, priority: newTask.priority}]);
           alert("Row added successfully!");
           closeModal(); // Fecha o modal após a criação
         } catch (error) {
           console.error("Error adding row:", error);
           alert("Failed to add row. Try again.");
         } finally {
-          setLoading(false); // Finaliza o estado de carregamento
+          setLoading(false);
+          setselectOption(null)// Finaliza o estado de carregamento
         }
       };
     
@@ -246,7 +272,13 @@ function Home() {
                         <div className="list">
                             <ul>
                                 {tasks.map((task, index) => ( 
-                                <li className="tasks" key={index}><span className="task-id">{task.id}</span> {task.name} {task.type}</li>
+                                <li className="tasks" key={index}>
+                                    <span className="task-id">{task.id}</span> 
+                                    {task.name} 
+                                    <span className="task-type" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}
+                                    >{task.type}
+                                    </span>
+                                </li>
                              ))} 
                             </ul>
                         </div>

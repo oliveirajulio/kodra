@@ -58,11 +58,11 @@ function Home() {
     const customStyles = {
         option: (styles, { data, isFocused, isSelected }) => {
           const backgroundColor = isSelected || isFocused
-            ? data.priority === "Urgent"
+            ? data.priority === "URGENT"
               ? "#e63946"
-              : data.priority === "High"
+              : data.priority === "HIGH"
               ? "#f77f00"
-              : data.priority === "Medium"
+              : data.priority === "MEDIUM"
               ? "#2986cc "
               : "#2a9d8f"
             : styles.backgroundColor;
@@ -76,11 +76,11 @@ function Home() {
         singleValue: (styles, { data }) => ({
           ...styles,
           backgroundColor:
-            data.priority === "Urgent"
+            data.priority === "URGENT"
               ? "#e63946"
-              : data.priority === "High"
+              : data.priority === "HIGH"
               ? "#f77f00"
-              : data.priority === "Medium"
+              : data.priority === "MEDIUM"
               ? "#2986cc "
               : "#2a9d8f",
           color: "white",
@@ -94,13 +94,13 @@ function Home() {
       const getColor = (type) => {
         console.log(type); // Verifica o valor de 'type' que está chegando
         switch (type) {
-          case "Urgent":
+          case "URGENT":
             return "#e63946";
-          case "High":
+          case "HIGH":
             return "#f77f00";
-          case "Medium":
+          case "MEDIUM":
             return "#2986cc ";
-          case "Low":
+          case "LOW":
             return "#2a9d8f";
           default:
             return "transparent";
@@ -141,10 +141,10 @@ function Home() {
       };
 
       const options = [
-        { value: "Urgent", label: "Urgent", priority: "Urgent" },
-        { value: "High", label: "High", priority: "High" },
-        { value: "Medium", label: "Medium", priority: "Medium" },
-        { value: "Low", label: "Low", priority: "Low" },
+        { value: "URGENT", label: "Urgent", priority: "URGENT" },
+        { value: "HIGH", label: "High", priority: "HIGH" },
+        { value: "MEDIUM", label: "Medium", priority: "MEDIUM" },
+        { value: "LOW", label: "Low", priority: "LOW" },
       ];
 
     const change = (selectedOption) => {

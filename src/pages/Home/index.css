@@ -313,7 +313,7 @@ summary {
 
 .task-type {
   color: var(--color_1);
-  font-weight: 700;
+  font-weight: 600;
 }
 .task-id {
   color: rgba(240, 248, 255, 0.4);

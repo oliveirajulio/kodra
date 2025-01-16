@@ -8,8 +8,10 @@ function deleteTask(taskId) {
     service
       .delete(`/tasks/${taskId}`)  // Passando apenas o taskId como string
       .then((response) => resolve(response.data))
-      .catch((error) => reject(error));
+      .catch((error) => {
+        console.error("Erro ao deletar:", error.response?.data || error.message);
+        reject(error);
+      });
   });
 }
-
 export default deleteTask;

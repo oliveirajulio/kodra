@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
 import Select from "react-select"
+import deleteTask from "../../services/service-deletetask"
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -13,6 +14,8 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import { create } from "@mui/material/styles/createTransitions";
 
@@ -180,6 +183,27 @@ function Home() {
           setselectOption(null)// Finaliza o estado de carregamento
         }
       };
+
+      const deletetask = async (taskId) => {
+        setLoading(true); // Ativa o estado de carregamento
+        try {
+          const response = await deleteTask(taskId); // Chama a função de deletar passando o taskId
+          console.log("Task deleted successfully:", response);
+          
+          // Atualiza a lista de tarefas no estado, removendo a tarefa com o taskId deletado
+          setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+          
+          alert("Task deleted successfully!"); // Exibe uma mensagem de sucesso
+        } catch (error) {
+          console.error("Error deleting task:", error);
+          alert("Failed to delete task. Try again."); // Exibe uma mensagem de erro
+        } finally {
+          setLoading(false); // Desativa o estado de carregamento
+        }
+      };
+      
+      
+      
     
 
     const SHW = (date) => {
@@ -278,6 +302,13 @@ function Home() {
                                     <span className="task-type" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}
                                     >{task.type}
                                     </span>
+                                    <div className="man-btn">
+                                      <button id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
+                                      <button onClick={() => deletetask(task.id)} id="delete">
+                                        <DeleteIcon className="icon-man" fontSize="medium" />
+                                      </button>
+
+                                    </div>
                                 </li>
                              ))} 
                             </ul>

@@ -28,6 +28,7 @@ function Home() {
     const [open, setopen] = useState(false)
     const [open2, setopen2] = useState(false)
     const [tasks, setTasks] = useState([]);
+    const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
     const [showModal, setShowModal] = useState(false);
     const [dayOfWeek, setDayOfWeek] = useState("");
     const [formattedDate, setFormattedDate] = useState("");
@@ -156,33 +157,33 @@ function Home() {
     };
 
     const addtask = async () => {
-        if (!selectedOption) {
-          alert("Please select a project before creating!");
-          return;
-        }
+      console.log("Task Name:", taskname);
+      console.log("Selected Option:", selectedOption);
     
-        setLoading(true); // Inicia o estado de carregamento
+      if (!taskname || !selectedOption) {
+        alert("Preencha todos os campos antes de criar a tarefa.");
+        return;
+      }
     
-        try {
-          const newRow = { 
-            selectedOption: selectedOption.value,
-            taskname: taskname
-        }; // Cria o objeto para enviar
-          const response = await addTask(newRow);
-          console.log("Response:", response);          // Chama a função para adicionar
-          console.log("Row added successfully:", response);
-          const newTask = response; // O backend agora retorna um objeto com id e content
-          setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.type, name: response.name, priority: newTask.priority}]);
-          alert("Row added successfully!");
-          closeModal(); // Fecha o modal após a criação
-        } catch (error) {
-          console.error("Error adding row:", error);
-          alert("Failed to add row. Try again.");
-        } finally {
-          setLoading(false);
-          setselectOption(null)// Finaliza o estado de carregamento
-        }
+      const newTask = {
+        id: `ID-${Date.now()}`, // Gerando um ID único para exemplo
+        name: taskname,
+        type: selectedOption.value,
       };
+    
+      try {
+        const addedTask = await addTask(newTask);
+        setTasks((prevTasks) => [...prevTasks, addedTask]);
+        closeModal();
+        settaskname('');
+        setselectOption(null);
+        alert("Tarefa criada com sucesso!");
+      } catch (error) {
+        console.error("Erro ao adicionar tarefa:", error.response?.data || error.message);
+        alert("Falha ao adicionar a tarefa.");
+      }
+    };
+    
 
       const deletetask = async (taskId) => {
         setLoading(true); // Ativa o estado de carregamento

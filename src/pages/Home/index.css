@@ -321,24 +321,33 @@ summary {
 }
 
 .man-btn {
-  position: inherit;
+  position: fixed;
   width: 4%;
   display: inline-flex;
-  margin-left: 46.5rem;
+  left: 78rem;
   color: transparent;
+
 }
 
 .icon-man {
   position: relative;
-  top: 0.3rem;
+  top: 0.4rem;
   margin-top: -1rem;
-  margin-left: 0.5rem;
 }
 
 .man-btn:hover {
   cursor: pointer;
-  position: relative;
-  color: rgba(240, 248, 255, 0.6);
+  display: inline-flex;
+}
+
+#edit, #delete {
+  background-color: transparent;
+  border: none;
+  color: transparent;
+}
+
+#edit {
+  margin-right: -0.8rem;
 }
 
 .man-btn #edit:hover {

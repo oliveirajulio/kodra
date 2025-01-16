@@ -320,6 +320,36 @@ summary {
   margin-right: 0.7vw;
 }
 
+.man-btn {
+  position: inherit;
+  width: 4%;
+  display: inline-flex;
+  margin-left: 46.5rem;
+  color: transparent;
+}
+
+.icon-man {
+  position: relative;
+  top: 0.3rem;
+  margin-top: -1rem;
+  margin-left: 0.5rem;
+}
+
+.man-btn:hover {
+  cursor: pointer;
+  position: relative;
+  color: rgba(240, 248, 255, 0.6);
+}
+
+.man-btn #edit:hover {
+  color: rgba(240, 248, 255, 0.8);
+}
+
+.man-btn #delete:hover {
+  color: rgba(240, 248, 255, 0.8);
+}
+
+
 .add-issue {
   margin-top: 1vh;
   background-color: transparent;

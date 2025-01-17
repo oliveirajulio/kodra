@@ -35,28 +35,29 @@ function Home() {
     const [taskname, settaskname] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false); 
+    
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
   
 
     useEffect(() => {
-        const fetchTasks = async () => {
-          try {
-            const fetchedTasks = await getTask(selectedDate);
-            setTasks(fetchedTasks);
-          } catch (error) {
-            console.error(error);
-          }
-        };
+      const fetchTasks = async () => {
+        const formattedDateBackend = getFormattedDateBackend(selectedDate); // Formata para "YYYY-MM-DD"
+        console.log("Fetching tasks for date:", formattedDateBackend); // Verifique o valor da data formatada
     
-        fetchTasks();
-      }, [selectedDate]);
-
-      useEffect(() => {
-        const dayName = selectedDate.toLocaleDateString("en-US", { weekday: "short" });
-        setDayOfWeek(dayName);
-    }, []);
+        try {
+          const fetchedTasks = await getTask(formattedDateBackend); // Passa a data formatada para o backend
+          console.log("Fetched tasks:", fetchedTasks); // Log para verificar o que veio do backend
+          setTasks(fetchedTasks);
+        } catch (error) {
+          console.error("Error fetching tasks:", error);
+        }
+      };
+    
+      fetchTasks();
+    }, [selectedDate]);
+    
 
     const customStyles = {
         option: (styles, { data, isFocused, isSelected }) => {
@@ -112,25 +113,28 @@ function Home() {
       
       
       
-        
-
-    const getFormattedDate = (date) => {
-        if (!date) return "No date selected";
-    
-        const day = date.getDate();
-        const month = date.toLocaleDateString("en-US", { month: "long" });
+      const getFormattedDateBackend = (date) => {
         const year = date.getFullYear();
-        ;
-    
-        const getDayWithSuffix = (day) => {
-          if (day % 10 === 1 && day !== 11) return `${day}ˢᵗ`; 
-          if (day % 10 === 2 && day !== 12) return `${day}ⁿᵈ`;
-          if (day % 10 === 3 && day !== 13) return `${day}ʳᵈ`;
-          return `${day}ᵗʰ`; 
-        };
-    
-        return `${month} ${getDayWithSuffix(day)}, ${year}`;
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda
+        const day = String(date.getDate()).padStart(2, '0'); // Adiciona zero à esquerda
+      
+        return `${year}-${month}-${day}`; // Formato "YYYY-MM-DD"
       };
+
+   const getFormattedDate = (date) => {
+  const day = date.getDate();
+  const month = date.toLocaleDateString("en-US", { month: "long" });
+  const year = date.getFullYear();
+
+  const getDayWithSuffix = (day) => {
+    if (day % 10 === 1 && day !== 11) return `${day}ˢᵗ`; 
+    if (day % 10 === 2 && day !== 12) return `${day}ⁿᵈ`;
+    if (day % 10 === 3 && day !== 13) return `${day}ʳᵈ`;
+    return `${day}ᵗʰ`; 
+  };
+
+  return `${month} ${getDayWithSuffix(day)}, ${year}`;
+};
 
       const weekday = (date) => {
         if (date instanceof Date && !isNaN(date)) {
@@ -155,24 +159,38 @@ function Home() {
         console.log(selectedOption);
     };
 
+
+  
+
     const addtask = async () => {
       if (!selectedOption) {
         alert("Please select a project before creating!");
         return;
       }
-  
+    
       setLoading(true); // Inicia o estado de carregamento
-  
+    
       try {
         const newRow = { 
-          selectedOption: selectedOption.value,
-          taskname: taskname
-      }; // Cria o objeto para enviar
-        const response = await addTask(newRow);
-        console.log("Response:", response);          // Chama a função para adicionar
-        console.log("Row added successfully:", response);
-        const newTask = response; // O backend agora retorna um objeto com id e content
-        setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.type, name: response.name, priority: newTask.priority}]);
+          selectedOption: selectedOption.value, // Tipo de tarefa
+          taskname: taskname, // Nome da tarefa
+          date: selectedDate, // Certifique-se de enviar a data aqui
+        };
+    
+        const response = await addTask(newRow); // Faz a requisição para o backend
+        console.log("Response:", response);
+    
+        // Atualiza a lista de tarefas com o novo item retornado pelo backend
+        setTasks((prevTasks) => [
+          ...prevTasks,
+          {
+            id: response.id,       // ID retornado pelo backend
+            type: response.type,   // Tipo de tarefa
+            name: response.name,   // Nome da tarefa
+            priority: response.priority || "Low", // Opcional, depende do backend
+          },
+        ]);
+    
         alert("Row added successfully!");
         closeModal(); // Fecha o modal após a criação
       } catch (error) {
@@ -180,18 +198,18 @@ function Home() {
         alert("Failed to add row. Try again.");
       } finally {
         setLoading(false);
-        setselectOption(null)// Finaliza o estado de carregamento
+        setselectOption(null); // Finaliza o estado de carregamento
       }
     };
 
     
 
 
-      
-      
-      
+    const DateChange = (date) => {
+      setSelectedDate(date);
+      setFormattedDate(getFormattedDate(date)); // Atualiza a data humanizada para exibição
+    };
     
-
     const SHW = (date) => {
         setShowCalendar(!showCalendar);
         setShowIcon(!showIcon);
@@ -257,14 +275,16 @@ function Home() {
                     )}
                     {showCalendar && (
                     <DatePicker
-                        selected={selectedDate}
-                        onChange={(date) => {
-                        setSelectedDate(date);
-                        SHW();
-                        weekday(date)
-                         }}
-                            inline
-                            className="custom-datepicker"/>  
+                    selected={selectedDate}
+                    onChange={(date) => {
+                      setSelectedDate(date);
+                      SHW();  // Chama a função SHW
+                      weekday(date);  // Chama a função weekday
+                    }}
+                    inline
+                    className="custom-datepicker"
+                    dateFormat="yyyy-MM-dd"  // Mantém o formato de data do DatePicker
+                  /> 
                             
                         )}
                 <div className='insights'>

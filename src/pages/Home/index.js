@@ -298,7 +298,7 @@ function Home() {
                     <details open={open} onToggle={(e) => setopen(e.target.open)}>
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                         <h4 className="title">Work</h4>
-                        <p className={open ? "lenght" : "lenght-off"}>{tasks.length > 1 ? `${tasks.length} issues` : `${tasks.length} issue`}</p>
+                        <p className="lenght">{tasks.length > 1 ? `${tasks.length} issues` : `${tasks.length} issue`}</p>
                         </summary>
                         <div className="list">
                             <ul>

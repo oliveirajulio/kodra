@@ -1,12 +1,11 @@
 import service from './service';
 
-function addTask(newTask) {
+function addTask(newRow) {
   return new Promise((resolve, reject) => {
-    service.post('/tasks', newTask) // Endpoint para adicionar a tarefa
-      .then((response) => resolve(response.data)) // Resolve com os dados da resposta
-      .catch((error) => reject(error)); // Rejeita com o erro
+    service.post("/tasks/rows", newRow)
+      .then((response) => resolve(response.data))
+      .catch((error) => reject(error));
   });
 }
 
 export default addTask;
-

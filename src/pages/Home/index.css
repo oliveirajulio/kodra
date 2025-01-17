@@ -303,7 +303,7 @@ summary {
 } 
 
 .list li {
-  height: 1.85rem;
+  height: 1.75rem;
   margin-left: -3vw;
   margin-top: 0.2rem;
   font-size: 14px;
@@ -324,7 +324,7 @@ summary {
   position: fixed;
   width: 4%;
   display: inline-flex;
-  left: 78rem;
+  left: 92%;
   color: transparent;
 
 }

@@ -157,51 +157,37 @@ function Home() {
     };
 
     const addtask = async () => {
-      console.log("Task Name:", taskname);
-      console.log("Selected Option:", selectedOption);
-    
-      if (!taskname || !selectedOption) {
-        alert("Preencha todos os campos antes de criar a tarefa.");
+      if (!selectedOption) {
+        alert("Please select a project before creating!");
         return;
       }
-    
-      const newTask = {
-        id: `ID-${Date.now()}`, // Gerando um ID único para exemplo
-        name: taskname,
-        type: selectedOption.value,
-      };
-    
+  
+      setLoading(true); // Inicia o estado de carregamento
+  
       try {
-        const addedTask = await addTask(newTask);
-        setTasks((prevTasks) => [...prevTasks, addedTask]);
-        closeModal();
-        settaskname('');
-        setselectOption(null);
-        alert("Tarefa criada com sucesso!");
+        const newRow = { 
+          selectedOption: selectedOption.value,
+          taskname: taskname
+      }; // Cria o objeto para enviar
+        const response = await addTask(newRow);
+        console.log("Response:", response);          // Chama a função para adicionar
+        console.log("Row added successfully:", response);
+        const newTask = response; // O backend agora retorna um objeto com id e content
+        setTasks((prevTasks) => [...prevTasks, { id: response.id, type: newTask.type, name: response.name, priority: newTask.priority}]);
+        alert("Row added successfully!");
+        closeModal(); // Fecha o modal após a criação
       } catch (error) {
-        console.error("Erro ao adicionar tarefa:", error.response?.data || error.message);
-        alert("Falha ao adicionar a tarefa.");
+        console.error("Error adding row:", error);
+        alert("Failed to add row. Try again.");
+      } finally {
+        setLoading(false);
+        setselectOption(null)// Finaliza o estado de carregamento
       }
     };
+
     
 
-      const deletetask = async (taskId) => {
-        setLoading(true); // Ativa o estado de carregamento
-        try {
-          const response = await deleteTask(taskId); // Chama a função de deletar passando o taskId
-          console.log("Task deleted successfully:", response);
-          
-          // Atualiza a lista de tarefas no estado, removendo a tarefa com o taskId deletado
-          setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-          
-          alert("Task deleted successfully!"); // Exibe uma mensagem de sucesso
-        } catch (error) {
-          console.error("Error deleting task:", error);
-          alert("Failed to delete task. Try again."); // Exibe uma mensagem de erro
-        } finally {
-          setLoading(false); // Desativa o estado de carregamento
-        }
-      };
+
       
       
       
@@ -305,7 +291,7 @@ function Home() {
                                     </span>
                                     <div className="man-btn">
                                       <button id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
-                                      <button onClick={() => deletetask(task.id)} id="delete">
+                                      <button id="delete">
                                         <DeleteIcon className="icon-man" fontSize="medium" />
                                       </button>
 

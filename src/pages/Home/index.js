@@ -208,6 +208,7 @@ function Home() {
     const DateChange = (date) => {
       setSelectedDate(date);
       setFormattedDate(getFormattedDate(date)); // Atualiza a data humanizada para exibição
+      console.log("Selected Date:", date);
     };
     
     const SHW = (date) => {

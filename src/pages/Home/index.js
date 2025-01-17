@@ -5,7 +5,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
 import Select from "react-select"
-import deleteTask from "../../services/service-deletetask"
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';

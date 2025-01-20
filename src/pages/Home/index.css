@@ -418,9 +418,15 @@ summary {
   font-size: 12px;
 }
 
+.labsu {
+  margin-top: 4vh;
+  color: rgba(240, 248, 255, 0.6);
+  font-size: 12px;
+}
+
 .input-select {
   margin-top: 0.5vh;
-  margin-bottom: 2vh;
+  margin-bottom: 4vh;
   height: 2.3rem;
   width: 22vw;
   background-color: var(--color_1);
@@ -429,7 +435,28 @@ summary {
   ;
 }
 
+
 .input-select::placeholder {
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 0.5vw;
+  color: rgba(240, 248, 255, 0.4)
+}
+
+
+.input-summary {
+  margin-top: 0.5vh;
+  margin-bottom: 2vh;
+  height: 2.3rem;
+  width: 64vw;
+  background-color: var(--color_1);
+  border: none;
+  color: rgba(240, 248, 255, 0.6);
+  ;
+}
+
+
+.input-summary::placeholder {
   font-size: 14px;
   font-weight: 400;
   padding-left: 0.5vw;
@@ -477,6 +504,7 @@ summary {
 .custom__option:hover {
   cursor: pointer !important;
 }
+
 
 .custom__option--is-selected {
   color: rgba(240, 248, 255, 0.6);
@@ -529,6 +557,19 @@ summary {
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
+}
+
+.custom-quill {
+  width: 64vw;
+}
+
+.custom-quill .ql-toolbar {
+  margin-top: 4vh;
+  width: 100% !important;
+  border-bottom: none; /* Remove borda inferior */
+  border-radius: 8px 8px 0 0; /* Arredondado só no topo */
+  background-color: var(--color_1) !important;
+  
 }
 
 

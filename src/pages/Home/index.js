@@ -4,7 +4,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
+import deleteTask from "../../services/service-deletetask";
 import Select from "react-select"
+import Swal from 'sweetalert2';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -41,22 +46,6 @@ function Home() {
     const closeModal = () => setShowModal(false);
   
 
-    useEffect(() => {
-      const fetchTasks = async () => {
-        const formattedDateBackend = getFormattedDateBackend(selectedDate); // Formata para "YYYY-MM-DD"
-        console.log("Fetching tasks for date:", formattedDateBackend); // Verifique o valor da data formatada
-    
-        try {
-          const fetchedTasks = await getTask(formattedDateBackend); // Passa a data formatada para o backend
-          console.log("Fetched tasks:", fetchedTasks); // Log para verificar o que veio do backend
-          setTasks(fetchedTasks);
-        } catch (error) {
-          console.error("Error fetching tasks:", error);
-        }
-      };
-    
-      fetchTasks();
-    }, [selectedDate]);
     
 
     const customStyles = {
@@ -154,12 +143,35 @@ function Home() {
         { value: "LOW", label: "Low", priority: "LOW" },
       ];
 
+    const clearmodal = () => {
+        settaskname(""); // Limpa o nome da tarefa
+        setselectOption(null); // Limpa a prioridade selecionada
+    };
+    
+
     const change = (selectedOption) => {
         setselectOption(selectedOption);
         console.log(selectedOption);
     };
 
-
+    const fetchTasks = async () => {
+      const formattedDateBackend = getFormattedDateBackend(selectedDate); // Formata para "YYYY-MM-DD"
+      console.log("Fetching tasks for date:", formattedDateBackend);
+  
+      try {
+        const fetchedTasks = await getTask(formattedDateBackend);
+        console.log("Fetched tasks:", fetchedTasks);
+        setTasks(fetchedTasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+  
+    // Chama fetchTasks quando o componente é montado ou selectedDate muda
+    useEffect(() => {
+      fetchTasks();
+    }, [selectedDate]);
+  
   
 
     const addtask = async () => {
@@ -191,7 +203,22 @@ function Home() {
           },
         ]);
     
-        alert("Row added successfully!");
+        Swal.fire({
+          position: 'bottom', // A posição do "snackbar"
+          icon: 'success', // O ícone (use 'success' ou outro)
+          title: 'Task created sucessfully!', // O título da notificação
+          showConfirmButton: false, // Remove o botão de confirmação
+          timer: 2000, // O tempo em milissegundos (3 segundos) antes de desaparecer
+          toast: true, // Habilita o modo "toast" para parecer um snackbar
+          background: '#4CAF50', // Cor de fundo, por exemplo, verde para sucesso
+          color: '#fff', // Cor do texto
+          padding: '3px 6px', // Padding para o conteúdo
+          customClass: {
+            popup: 'snackbar-popup', // Você pode adicionar uma classe customizada para o estilo
+          },
+        });
+
+        clearmodal()
         closeModal(); // Fecha o modal após a criação
       } catch (error) {
         console.error("Error adding row:", error);
@@ -200,6 +227,30 @@ function Home() {
         setLoading(false);
         setselectOption(null); // Finaliza o estado de carregamento
       }
+    };
+
+    const deletetask = (taskId) => {
+      deleteTask(taskId)
+        .then(() => {
+          Swal.fire({
+            position: 'bottom', // Posição na tela
+            icon: 'warning', // Ícone de alerta (pode ser 'error' ou 'warning')
+            title: 'Task deleted sucessfully!', // Mensagem da notificação
+            showConfirmButton: false, // Remover o botão de confirmação
+            timer: 2000, // Duração do alerta (3 segundos)
+            toast: true, // Habilita o formato toast (pop-up)
+            background: '#d32f2f', // Cor de fundo vermelha (estilo MUI erro)
+            color: '#fff', // Cor do texto (branco)
+            padding: '10px 20px', // Padding interno do toast
+            customClass: {
+              popup: 'snackbar-popup', // Classe personalizada se necessário
+            },
+          });
+          fetchTasks(); // Atualiza a lista de tarefas
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     };
 
     
@@ -311,7 +362,7 @@ function Home() {
                                     </span>
                                     <div className="man-btn">
                                       <button id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
-                                      <button id="delete">
+                                      <button onClick={() => deletetask(task.id)} id="delete">
                                         <DeleteIcon className="icon-man" fontSize="medium" />
                                       </button>
 
@@ -329,7 +380,8 @@ function Home() {
                         <h2 className={showModal ? "title-over" : "title-off"}>Create Task</h2>
                         <div className={showModal ? "select-options" : "select-off"}>
                             <label className="lab">Task Name</label>
-                            <input 
+                            <input
+                              placeholder="Ex: Steal the moon"
                              className="input-select"
                              type="text"
                              value={taskname} 
@@ -340,8 +392,21 @@ function Home() {
                              classNamePrefix="custom" 
                              options={options} 
                              onChange={change} 
-                             placeholder="Select one"
-                             styles={customStyles}/>
+                             placeholder="Select priority"
+                            styles={customStyles}
+                            value={selectedOption} // Garante que o valor selecionado seja controlado
+                            isClearable={true} // Adiciona a opção de limpar o valor manualmente
+                            />
+                            <label className="labsu">Summary</label>
+                            <input
+                             className="input-summary"
+                             type="text"
+                             />
+                            <div className="custom-quill">
+                                <ReactQuill
+                                placeholder="Digite algo..."
+                                />
+                             </div> 
                         </div>
                         <div className={showModal ? "btn-over" : ""}>
                             <button 

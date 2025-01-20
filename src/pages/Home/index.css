@@ -562,9 +562,11 @@ summary {
 .custom-quill {
   margin-top: 2vh;
   width: 64vw;
+  
 }
 
 .custom-quill .ql-container {
+  border: 1px solid rgba(240, 248, 255, 0.1) !important;
   background-color: var(--color_1); /* Cor de fundo */
   font-size: 16px; /* Tamanho do texto */
   color: rgba(240, 248, 255, 0.8) !important;
@@ -572,10 +574,9 @@ summary {
 }
 
 .custom-quill .ql-toolbar {
+  border: 1px solid rgba(240, 248, 255, 0.1) !important;
   margin-top: 0.5vh;
-  background-color: var(--color_1); /* Fundo da barra */
-  color: rgba(240, 248, 255, 0.8) !important;
-  
+  background-color: var(--color_1); /* Fundo da barra */  
 }
 
 .custom-quill .ql-toolbar button {

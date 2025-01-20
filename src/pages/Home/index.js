@@ -403,8 +403,8 @@ function Home() {
                              type="text"
                              />
                             <div className="custom-quill">
+                                <label className="lab">Description</label>
                                 <ReactQuill
-                                placeholder="Digite algo..."
                                 />
                              </div> 
                         </div>

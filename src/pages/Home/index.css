@@ -560,16 +560,33 @@ summary {
 }
 
 .custom-quill {
+  margin-top: 2vh;
   width: 64vw;
 }
 
+.custom-quill .ql-container {
+  background-color: var(--color_1); /* Cor de fundo */
+  font-size: 16px; /* Tamanho do texto */
+  color: rgba(240, 248, 255, 0.8) !important;
+
+}
+
 .custom-quill .ql-toolbar {
-  margin-top: 4vh;
-  width: 100% !important;
-  border-bottom: none; /* Remove borda inferior */
-  border-radius: 8px 8px 0 0; /* Arredondado só no topo */
-  background-color: var(--color_1) !important;
+  margin-top: 0.5vh;
+  background-color: var(--color_1); /* Fundo da barra */
+  color: rgba(240, 248, 255, 0.8) !important;
   
+}
+
+.custom-quill .ql-toolbar button {
+  color: rgba(240, 248, 255, 0.8) !important;
+}
+
+.custom-quill .ql-editor {
+  min-height: 22vh; /* Altura mínima */
+  padding: 15px; /* Espaçamento interno */
+  color: rgba(240, 248, 255, 0.8) !important;
+
 }
 
 
@@ -584,8 +601,8 @@ summary {
 .btn-over {
   position: absolute;
   display: inline-flex;
-  bottom: 5vh;
-  right: 3vw;
+  bottom: 2vh;
+  right: 1vw;
 }
 
 .btn-over .create {

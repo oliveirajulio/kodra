@@ -329,6 +329,10 @@ summary {
 
 }
 
+.span-name {
+  cursor: pointer;
+}
+
 .icon-man {
   position: relative;
   top: 0.4rem;
@@ -344,6 +348,7 @@ summary {
   background-color: transparent;
   border: none;
   color: transparent;
+  z-index: 999;
 }
 
 #edit {

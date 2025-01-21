@@ -253,7 +253,7 @@ function Home() {
           });
           fetchTasks(); // Atualiza a lista de tarefas
           setModalTask(false)
-          setShowModal(false)
+          closeModal()
         })
         .catch((error) => {
           console.error(error);
@@ -361,9 +361,9 @@ function Home() {
                         <div className="list">
                             <ul>
                                 {tasks.map((task, index) => ( 
-                                <li onClick={openModalTask} className="tasks" key={index}>
+                                <li className="tasks" key={index}>
                                     <span className="task-id">{task.id}</span> 
-                                    {task.name} 
+                                     <span onClick={openModalTask} className="span-name">{task.name}</span>
                                     <span className="task-type" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}
                                     >{task.type}
                                     </span>

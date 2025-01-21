@@ -34,6 +34,7 @@ function Home() {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
     const [showModal, setShowModal] = useState(false);
+    const [modalTask, setModalTask] = useState(false)
     const [dayOfWeek, setDayOfWeek] = useState("");
     const [formattedDate, setFormattedDate] = useState("");
     const [selectedOption, setselectOption] = useState(null);
@@ -44,6 +45,10 @@ function Home() {
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
+    const openModalTask = () => {
+      setModalTask(true)
+      setShowModal(true)
+    }
   
 
     
@@ -247,6 +252,8 @@ function Home() {
             },
           });
           fetchTasks(); // Atualiza a lista de tarefas
+          setModalTask(false)
+          setShowModal(false)
         })
         .catch((error) => {
           console.error(error);
@@ -354,14 +361,14 @@ function Home() {
                         <div className="list">
                             <ul>
                                 {tasks.map((task, index) => ( 
-                                <li className="tasks" key={index}>
+                                <li onClick={openModalTask} className="tasks" key={index}>
                                     <span className="task-id">{task.id}</span> 
                                     {task.name} 
                                     <span className="task-type" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}
                                     >{task.type}
                                     </span>
                                     <div className="man-btn">
-                                      <button id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
+                                      <button onClick={openModalTask} id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
                                       <button onClick={() => deletetask(task.id)} id="delete">
                                         <DeleteIcon className="icon-man" fontSize="medium" />
                                       </button>
@@ -418,6 +425,11 @@ function Home() {
                             <button onClick={closeModal} className={showModal ? "cancel" : "cancel-off"}>Cancel</button>
                         </div>
                     </div>
+            </div>
+            <div id={modalTask ? "modal-task" : ""}>
+              <div className={modalTask ? "overlay-task" : ""}>
+
+              </div>
             </div>
         </div>
     )

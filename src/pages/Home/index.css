@@ -389,7 +389,27 @@ summary {
   z-index: 1000;
 }
 
+#modal-task {
+  position: absolute;
+  top: 8vh;
+  height: 92vh;
+  width: 100vw;
+  z-index: 1000;
+}
+
 .overlay {
+  position: fixed;
+  left: 15vw;
+  top: 5vh;
+  height: 90vh;
+  width: 70vw;
+  background: rgb(40, 44, 48);
+  filter: none;
+  padding-top: 3vh;
+  padding-left: 3vw;
+}
+
+.overlay-task {
   position: fixed;
   left: 15vw;
   top: 5vh;

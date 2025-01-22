@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-
+import CloseIcon from '@mui/icons-material/Close';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -24,31 +24,39 @@ import SearchIcon from '@mui/icons-material/Search';
 import { create } from "@mui/material/styles/createTransitions";
 
 
+
 function Home() {
 
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [showCalendar, setShowCalendar] = useState(false);
-    const [showIcon, setShowIcon] = useState(true);
-    const [open, setopen] = useState(false)
-    const [open2, setopen2] = useState(false)
-    const [tasks, setTasks] = useState([]);
-    const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
-    const [showModal, setShowModal] = useState(false);
-    const [modalTask, setModalTask] = useState(false)
-    const [dayOfWeek, setDayOfWeek] = useState("");
-    const [formattedDate, setFormattedDate] = useState("");
-    const [selectedOption, setselectOption] = useState(null);
-    const [taskname, settaskname] = useState("");
-    const [message, setMessage] = useState("");
-    const [loading, setLoading] = useState(false); 
     
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showIcon, setShowIcon] = useState(true);
+  const [open, setopen] = useState(false)
+  const [open2, setopen2] = useState(false)
+  const [tasks, setTasks] = useState([]);
+  const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
+  const [showModal, setShowModal] = useState(false);
+  const [modalTask, setModalTask] = useState(false)
+  const [dayOfWeek, setDayOfWeek] = useState("");
+  const [formattedDate, setFormattedDate] = useState("");
+  const [selectedOption, setselectOption] = useState(null);
+  const [taskname, settaskname] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); 
+  const [selectedTask, setSelectedTask] = useState(null); // Tarefa 
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
-    const openModalTask = () => {
+    const openModalTask = (task) => {
+      setSelectedTask(task)
       setModalTask(true)
       setShowModal(true)
     }
+    const closeModalTask = () => {
+      setModalTask(false);
+      setShowModal(false)
+    } 
+
   
 
     
@@ -363,7 +371,7 @@ function Home() {
                                 {tasks.map((task, index) => ( 
                                 <li className="tasks" key={index}>
                                     <span className="task-id">{task.id}</span> 
-                                     <span onClick={openModalTask} className="span-name">{task.name}</span>
+                                     <span onClick={() => openModalTask(task)} className="span-name">{task.name}</span>
                                     <span className="task-type" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}
                                     >{task.type}
                                     </span>
@@ -372,7 +380,6 @@ function Home() {
                                       <button onClick={() => deletetask(task.id)} id="delete">
                                         <DeleteIcon className="icon-man" fontSize="medium" />
                                       </button>
-
                                     </div>
                                 </li>
                              ))} 
@@ -428,7 +435,14 @@ function Home() {
             </div>
             <div id={modalTask ? "modal-task" : ""}>
               <div className={modalTask ? "overlay-task" : ""}>
-
+               <div className={modalTask ? "navi-btn" : "navi-off"}>
+                <button onClick={closeModalTask} className="cancel-mt"><CloseIcon className="ic-mt"/></button>
+               </div>
+               <div className={modalTask ? "ctn-task" : " " } >
+                <div className="info-task">
+                  <h2 className={modalTask ? "modaltask-title" : "modalTask-off"}>{selectedTask?.name}</h2>
+                </div>
+               </div>
               </div>
             </div>
         </div>

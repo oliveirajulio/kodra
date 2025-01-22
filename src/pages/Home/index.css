@@ -349,6 +349,7 @@ summary {
   border: none;
   color: transparent;
   z-index: 999;
+  cursor: pointer;
 }
 
 #edit {
@@ -416,14 +417,14 @@ summary {
 
 .overlay-task {
   position: fixed;
-  left: 15vw;
+  left: 5vw;
   top: 5vh;
   height: 90vh;
-  width: 70vw;
+  width: 90vw;
   background: rgb(40, 44, 48);
   filter: none;
   padding-top: 3vh;
-  padding-left: 3vw;
+  padding-left: 1vw;
 }
 
 .title-over {
@@ -616,7 +617,7 @@ summary {
 }
 
 
-.create-off, .cancel-off, .title-off, .select-off {
+.create-off, .cancel-off, .title-off, .select-off, .navi-off, .modalTask-off {
   display: none;
 }
 
@@ -667,3 +668,24 @@ summary {
   padding-left: 1vw;
   color: rgba(240, 248, 255, 0.6);
 }
+
+.navi-btn {
+  position: absolute;
+  right: 1vw;
+  top: 2vh
+}
+
+.cancel-mt {
+  background-color: transparent;
+  border: none;
+  color: rgba(240, 248, 255, 0.7);
+  cursor: pointer;
+}
+
+
+
+.modaltask-title {
+  margin-top: 3vh;
+  color: rgba(240, 248, 255, 0.7);
+}
+

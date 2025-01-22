@@ -617,7 +617,7 @@ summary {
 }
 
 
-.create-off, .cancel-off, .title-off, .select-off, .navi-off, .modalTask-off {
+.create-off, .cancel-off, .title-off, .select-off, .navi-off, .modalTask-off, .state-off {
   display: none;
 }
 
@@ -682,10 +682,18 @@ summary {
   cursor: pointer;
 }
 
+.ctn-task {
+  display: inline-flex;
+}
 
+.info-task {
+  width: 70vw;
+}
 
 .modaltask-title {
   margin-top: 3vh;
   color: rgba(240, 248, 255, 0.7);
 }
 
+.state-task {
+}

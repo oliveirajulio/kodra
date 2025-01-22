@@ -439,8 +439,13 @@ function Home() {
                 <button onClick={closeModalTask} className="cancel-mt"><CloseIcon className="ic-mt"/></button>
                </div>
                <div className={modalTask ? "ctn-task" : " " } >
-                <div className="info-task">
+                <div className={modalTask ? "info-task" : " "}>
                   <h2 className={modalTask ? "modaltask-title" : "modalTask-off"}>{selectedTask?.name}</h2>
+                </div>
+                <div className={modalTask ? "state-task" : " state-off"}>
+                 <div className="">
+                  <h1>aAAAAAa</h1>
+                </div>        
                 </div>
                </div>
               </div>

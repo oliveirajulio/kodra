@@ -186,12 +186,15 @@ function Home() {
       try {
         const fetchedTasks = await getTask(formattedDateBackend);
         console.log("Fetched tasks:", fetchedTasks);
+        console.log(tasks);
+
         setTasks(fetchedTasks);
       } catch (error) {
         console.error("Error fetching tasks:", error);
       }
     };
   
+      console.log(tasks);
     // Chama fetchTasks quando o componente é montado ou selectedDate muda
     useEffect(() => {
       fetchTasks();
@@ -380,7 +383,7 @@ function Home() {
                     <details open={open} onToggle={(e) => setopen(e.target.open)}>
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                         <h4 className="title">Work</h4>
-                        <p className="lenght">{tasks.length > 1 ? `${tasks.length} issues` : `${tasks.length} issue`}</p>
+                        <p className="lenght">{tasks.length > 1 ? `${tasks.length} tasks` : `${tasks.length} task`}</p>
                         </summary>
                         <div className="list">
                             <ul>
@@ -401,7 +404,7 @@ function Home() {
                              ))} 
                             </ul>
                         </div>
-                        <button onClick={openModal} className="add-issue">+ Create issue</button>
+                        <button onClick={openModal} className="add-issue">+ Create task</button>
                     </details>    
                 </div>
             </div>

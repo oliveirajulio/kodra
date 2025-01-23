@@ -41,6 +41,7 @@ function Home() {
   const [formattedDate, setFormattedDate] = useState("");
   const [selectedOption, setselectOption] = useState(null);
   const [taskname, settaskname] = useState("");
+  const [description, setdescription] = useState("")
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false); 
   const [selectedTask, setSelectedTask] = useState(null); // Tarefa 
@@ -116,27 +117,37 @@ function Home() {
       
       
       const getFormattedDateBackend = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda
-        const day = String(date.getDate()).padStart(2, '0'); // Adiciona zero à esquerda
+        // Ajusta a data para o fuso horário do Brasil
+        const localDate = new Date(date.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+      
+        const year = localDate.getFullYear();
+        const month = String(localDate.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda
+        const day = String(localDate.getDate()).padStart(2, '0'); // Adiciona zero à esquerda
       
         return `${year}-${month}-${day}`; // Formato "YYYY-MM-DD"
       };
+      
 
-   const getFormattedDate = (date) => {
-  const day = date.getDate();
-  const month = date.toLocaleDateString("en-US", { month: "long" });
-  const year = date.getFullYear();
-
-  const getDayWithSuffix = (day) => {
-    if (day % 10 === 1 && day !== 11) return `${day}ˢᵗ`; 
-    if (day % 10 === 2 && day !== 12) return `${day}ⁿᵈ`;
-    if (day % 10 === 3 && day !== 13) return `${day}ʳᵈ`;
-    return `${day}ᵗʰ`; 
-  };
-
-  return `${month} ${getDayWithSuffix(day)}, ${year}`;
-};
+      const getFormattedDate = (date) => {
+        // Usa o fuso horário local do Brasil
+        const options = { month: "long", day: "numeric", year: "numeric", timeZone: "America/Sao_Paulo" };
+        const formattedDate = date.toLocaleDateString("en-US", options);
+      
+        const day = date.getDate();
+        const month = formattedDate.split(' ')[0]; // "January", etc.
+        const year = date.getFullYear();
+      
+        // Função para adicionar o sufixo ao dia
+        const getDayWithSuffix = (day) => {
+          if (day % 10 === 1 && day !== 11) return `${day}ˢᵗ`; 
+          if (day % 10 === 2 && day !== 12) return `${day}ⁿᵈ`;
+          if (day % 10 === 3 && day !== 13) return `${day}ʳᵈ`;
+          return `${day}ᵗʰ`; 
+        };
+      
+        return `${month} ${getDayWithSuffix(day)}, ${year}`;
+      };
+      
 
       const weekday = (date) => {
         if (date instanceof Date && !isNaN(date)) {
@@ -158,7 +169,8 @@ function Home() {
 
     const clearmodal = () => {
         settaskname(""); // Limpa o nome da tarefa
-        setselectOption(null); // Limpa a prioridade selecionada
+        setselectOption(null); // Limpa a prioridade 
+        setdescription("")
     };
     
 
@@ -199,7 +211,8 @@ function Home() {
         const newRow = { 
           selectedOption: selectedOption.value, // Tipo de tarefa
           taskname: taskname, // Nome da tarefa
-          date: selectedDate, // Certifique-se de enviar a data aqui
+          date: getFormattedDateBackend(new Date()), // Aqui você usa a função de formatação
+          description: description, // Certifique-se de enviar a data aqui
         };
     
         const response = await addTask(newRow); // Faz a requisição para o backend
@@ -213,6 +226,8 @@ function Home() {
             type: response.type,   // Tipo de tarefa
             name: response.name,   // Nome da tarefa
             priority: response.priority || "Low", // Opcional, depende do backend
+            description: response.description, // Adicionando a descrição da tarefa
+
           },
         ]);
     
@@ -238,7 +253,8 @@ function Home() {
         alert("Failed to add row. Try again.");
       } finally {
         setLoading(false);
-        setselectOption(null); // Finaliza o estado de carregamento
+        setselectOption(null); // Finaliza o estado de 
+        console.log('Selected Task Description:', newTask?.description);
       }
     };
 
@@ -419,6 +435,8 @@ function Home() {
                             <div className="custom-quill">
                                 <label className="lab">Description</label>
                                 <ReactQuill
+                                value={description} 
+                                onChange={setdescription} 
                                 />
                              </div> 
                         </div>
@@ -441,10 +459,24 @@ function Home() {
                <div className={modalTask ? "ctn-task" : " " } >
                 <div className={modalTask ? "info-task" : " "}>
                   <h2 className={modalTask ? "modaltask-title" : "modalTask-off"}>{selectedTask?.name}</h2>
+                  <label className={modalTask ? "labss" : "off"}>Description</label>
+                  <div className={ modalTask ? "description-content" : "off"}>
+                  {selectedTask?.description ? (
+                    <div dangerouslySetInnerHTML={{ __html: selectedTask?.description }} />
+                  ) : (
+                    <p>No description available.</p>
+                  )}
+                </div>
                 </div>
                 <div className={modalTask ? "state-task" : " state-off"}>
-                 <div className="">
-                  <h1>aAAAAAa</h1>
+                 <div className={modalTask ? "action-task" : "off"}>
+                  <Select 
+                  className={modalTask ? "select-state" : "off"}
+                  classNamePrefix="state"
+                  placeholder="Task state"
+                  
+                  />
+                    
                 </div>        
                 </div>
                </div>

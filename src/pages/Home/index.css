@@ -450,6 +450,12 @@ summary {
   font-size: 12px;
 }
 
+.labss {
+  font-size: 14px;
+  color: rgba(240, 248, 255, 0.8);
+}
+
+
 .input-select {
   margin-top: 0.5vh;
   margin-bottom: 4vh;
@@ -617,7 +623,7 @@ summary {
 }
 
 
-.create-off, .cancel-off, .title-off, .select-off, .navi-off, .modalTask-off, .state-off {
+.create-off, .cancel-off, .title-off, .select-off, .navi-off, .modalTask-off, .state-off, .off {
   display: none;
 }
 
@@ -687,13 +693,69 @@ summary {
 }
 
 .info-task {
-  width: 70vw;
+  width: 55vw;
 }
 
 .modaltask-title {
   margin-top: 3vh;
+  margin-bottom: 6vh;
   color: rgba(240, 248, 255, 0.7);
 }
 
 .state-task {
+  margin-top: 3vh;
+}
+
+.select-state {
+  height: 0.5vh;
+}
+
+.description-content {
+  margin-top: 0.5vh;
+  color: rgba(240, 248, 255, 0.6);
+  font-size: 12px;
+}
+
+.state__control {
+  margin-top: 0.5vh;
+  background-color: var(--color_1) !important; /* Cor de fundo */
+  border: none !important; /* Borda */
+  height: 0.5vh; /* Altura */
+  box-shadow: none !important; /* Remove sombra */
+  cursor: pointer!important;
+}
+
+.state__placeholder {
+  color: rgba(240, 248, 255, 0.4) !important;
+  font-size: 14px; /* Estilo em itálico */
+}
+
+.state__single-value	{
+  color: rgba(24, 24, 24, 0.9) !important;
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+.state__menu {
+  background-color: var(--color_1) !important; /* Cor de fundo */
+  color: rgba(240, 248, 255, 0.4);
+  margin-top: 0.5vh;
+  z-index: 9999;
+  font-size: 14px; /* Estilo em itálico */
+
+}
+.state__option {
+  background-color: var(--color_1); /* Cor de fundo */
+  cursor: pointer !important; /* Cursor de clique */
+}
+
+.state__option:hover {
+  cursor: pointer !important;
+}
+
+
+.state__option--is-selected {
+  color: rgba(240, 248, 255, 0.6);
 }

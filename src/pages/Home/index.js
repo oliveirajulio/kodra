@@ -295,6 +295,7 @@ function Home() {
             name: response.name,   // Nome da tarefa
             priority: response.priority || "Low", // Opcional, depende do backend
             description: response.description, // Adicionando a descrição da tarefa
+            state: response.state || "Not done", // Certifique-se de que o estado esteja correto
 
           },
         ]);
@@ -352,22 +353,34 @@ function Home() {
         });
     };
 
-    const StateChange = (taskId, newState) => {
-      // Atualiza o estado apenas da tarefa específica
+    function StateChange(taskId, newState) {
+      // Atualize o estado local para refletir a mudança da tarefa específica
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.id === taskId
-            ? { ...task, state: newState } // Atualiza somente a tarefa com o ID correspondente
-            : task // Retorna as outras tarefas inalteradas
+            ? { ...task, state: newState } // Atualiza o estado da tarefa específica
+            : task // Deixa as outras tarefas inalteradas
         )
       );
     
-      // Opcional: envie a atualização para o backend
-      updateTaskState(taskId, newState).catch((err) => {
-        console.error("Error updating task state:", err);
-      });
-    };
+      // Atualize no backend
+      updateTaskState(taskId, newState)
+        .then((response) => {
+          console.log("Estado atualizado com sucesso:", response.state);
+        })
+        .catch((error) => {
+          console.error("Erro ao atualizar estado:", error);
     
+          // Opcional: Reverte a mudança local em caso de erro
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task.id === taskId
+                ? { ...task, state: task.state } // Reverte para o valor original
+                : task
+            )
+          );
+        });
+    }
     
 
 
@@ -555,16 +568,32 @@ function Home() {
                 <div className={modalTask ? "state-task" : " state-off"}>
                  <div className={modalTask ? "action-task" : "off"}>
                  <Select
-                  className={modalTask ? "select-state" : "off"}
-                  classNamePrefix="state"
-                  placeholder="State"
-                  options={statesOptions}
-                  styles={StateStyles}
-                  defaultValue={{
-                    value: selectedTask?.state,
-                    label: selectedTask?.state,
-                  }}
-                  onChange={(option) => StateChange(selectedTask?.id, option?.value)}
+                    className={modalTask ? "select-state" : "off"}
+                    classNamePrefix="state"
+                    placeholder="State"
+                    options={statesOptions} // Opções de estado: Not Done, Doing, Done
+                    styles={StateStyles}
+                    value={{
+                      value: selectedTask?.state, // Pega o estado da tarefa específica
+                      label: selectedTask?.state,
+                    }}
+                    onChange={(option) => {
+                      // Atualiza o estado local temporariamente ao selecionar uma opção
+                      setTasks((prevTasks) =>
+                        prevTasks.map((task) =>
+                          task.id === selectedTask?.id
+                            ? { ...task, state: option?.value } // Atualiza apenas a tarefa atual
+                            : task
+                        )
+                      );
+                    }}
+                    onMenuClose={() => {
+                      // Ao fechar o menu, salva no backend
+                      const task = tasks.find((t) => t.id === selectedTask?.id);
+                      if (task) {
+                        StateChange(task.id, task.state); // Chama a função que atualiza no backend
+                      }
+                    }}
                   />
                 </div>        
                 </div>

@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
 import deleteTask from "../../services/service-deletetask";
+import updateTaskState from "../../services/servoce-state";
 import Select from "react-select"
 import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
@@ -279,6 +280,7 @@ function Home() {
           taskname: taskname, // Nome da tarefa
           date: getFormattedDateBackend(new Date()), // Aqui você usa a função de formatação
           description: description, // Certifique-se de enviar a data aqui
+          state: "Not Done", // Valor inicial do estado
         };
     
         const response = await addTask(newRow); // Faz a requisição para o backend
@@ -350,6 +352,22 @@ function Home() {
         });
     };
 
+    const StateChange = (taskId, newState) => {
+      // Atualiza o estado apenas da tarefa específica
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId
+            ? { ...task, state: newState } // Atualiza somente a tarefa com o ID correspondente
+            : task // Retorna as outras tarefas inalteradas
+        )
+      );
+    
+      // Opcional: envie a atualização para o backend
+      updateTaskState(taskId, newState).catch((err) => {
+        console.error("Error updating task state:", err);
+      });
+    };
+    
     
 
 
@@ -536,14 +554,18 @@ function Home() {
                 </div>
                 <div className={modalTask ? "state-task" : " state-off"}>
                  <div className={modalTask ? "action-task" : "off"}>
-                  <Select 
+                 <Select
                   className={modalTask ? "select-state" : "off"}
                   classNamePrefix="state"
                   placeholder="State"
                   options={statesOptions}
                   styles={StateStyles}
+                  defaultValue={{
+                    value: selectedTask?.state,
+                    label: selectedTask?.state,
+                  }}
+                  onChange={(option) => StateChange(selectedTask?.id, option?.value)}
                   />
-                    
                 </div>        
                 </div>
                </div>

@@ -708,6 +708,7 @@ summary {
 
 .select-state {
   height: 0.5vh;
+  width: 9vw;
 }
 
 .description-content {
@@ -717,8 +718,7 @@ summary {
 }
 
 .state__control {
-  margin-top: 0.5vh;
-  background-color: var(--color_1) !important; /* Cor de fundo */
+  background-color: var(--color_1); /* Cor de fundo */
   border: none !important; /* Borda */
   height: 0.5vh; /* Altura */
   box-shadow: none !important; /* Remove sombra */
@@ -731,17 +731,17 @@ summary {
 }
 
 .state__single-value	{
-  color: rgba(24, 24, 24, 0.9) !important;
+  color: rgba(240, 248, 255, 0.8) !important;
   font-weight: 500;
   font-size: 14px;
-  text-align: center;
+  text-align: start;
 }
 
 
 .state__menu {
+  margin-top: 5.4vh !important;
   background-color: var(--color_1) !important; /* Cor de fundo */
   color: rgba(240, 248, 255, 0.4);
-  margin-top: 0.5vh;
   z-index: 9999;
   font-size: 14px; /* Estilo em itálico */
 

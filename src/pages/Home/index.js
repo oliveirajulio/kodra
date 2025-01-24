@@ -96,7 +96,64 @@ function Home() {
           width: "6vw",
         }),
       };
+
+      const StateStyles = {
+        control: (styles, { data, selectProps }) => ({
+          ...styles,
+          backgroundColor:
+           selectProps.value?.value === "Done"
+              ? "#4CAF50" // Verde para "Done"
+              : selectProps.value?.value === "Doing"
+              ? "#2196F3" 
+              : selectProps.value?.value === "Not done"// Azul para "Doing"
+              ? "#F44336"
+             : "#1d2125", 
+          color: "white",
+          border: "none",
+          boxShadow: "none"
+        }),
       
+        singleValue: (styles, { data }) => ({
+          ...styles,
+          color: "white", // Contraste do texto
+        }),
+      
+        option: (styles, { data, isFocused, isSelected }) => {
+          const backgroundColor =
+            isSelected
+              ? data.value === "Done"
+                ? "#4CAF50" // Verde
+                : data.value === "Doing"
+                ? "#2196F3" // Azul
+                : data.value === "Not done"
+                ? "#F44336"
+                : "#1d2125" 
+                : isFocused
+                ? "#2a2f34" // Cor de hover para todas as opções
+                : styles.backgroundColor;
+      
+          return {
+            ...styles,
+            backgroundColor,
+            color: isSelected ? "white" : styles.color,
+            cursor: "pointer",
+          };
+        },
+
+        dropdownIndicator: (styles) => ({
+          ...styles,
+          color: "#ddd", // Cor da setinha
+          "&:hover": {
+            color: "#ddd", // Cor da setinha ao passar o mouse
+          },
+        }),
+      
+        indicatorSeparator: () => ({
+          display: "none", // Remove o traço vertical
+        }),
+
+      };
+            
 
       const getColor = (type) => {
         console.log(type); // Verifica o valor de 'type' que está chegando
@@ -165,6 +222,12 @@ function Home() {
         { value: "HIGH", label: "High", priority: "HIGH" },
         { value: "MEDIUM", label: "Medium", priority: "MEDIUM" },
         { value: "LOW", label: "Low", priority: "LOW" },
+      ];
+
+      const statesOptions = [
+        { value: "Done", label: "Done"},
+        { value: "Doing", label: "Doing" },
+        { value: "Not done", label: "Not done"},
       ];
 
     const clearmodal = () => {
@@ -476,8 +539,9 @@ function Home() {
                   <Select 
                   className={modalTask ? "select-state" : "off"}
                   classNamePrefix="state"
-                  placeholder="Task state"
-                  
+                  placeholder="State"
+                  options={statesOptions}
+                  styles={StateStyles}
                   />
                     
                 </div>        

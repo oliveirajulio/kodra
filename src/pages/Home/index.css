@@ -338,6 +338,11 @@ summary {
   cursor: pointer;
 }
 
+.span-name:hover{
+  color: rgba(240, 248, 255, 0.8);
+ 
+}
+
 .task-state-icon {
   position: relative;
   top: 0.1vh  ;

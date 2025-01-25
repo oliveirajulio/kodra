@@ -23,7 +23,10 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import { create } from "@mui/material/styles/createTransitions";
-
+import CheckIcon from '@mui/icons-material/Check';
+import TurnedInNotOutlinedIcon from '@mui/icons-material/TurnedInNotOutlined';
+import CropSquareOutlinedIcon from '@mui/icons-material/CropSquareOutlined';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 
 function Home() {
@@ -46,11 +49,14 @@ function Home() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false); 
   const [selectedTask, setSelectedTask] = useState(null); // Tarefa 
+  const [tempState, setTempState] = useState(selectedTask?.state || "Not done"); // Armazenar temporariamente o estado selecionado
+
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
     const openModalTask = (task) => {
       setSelectedTask(task)
+      setTempState(task.state)
       setModalTask(true)
       setShowModal(true)
     }
@@ -67,7 +73,7 @@ function Home() {
         option: (styles, { data, isFocused, isSelected }) => {
           const backgroundColor = isSelected || isFocused
             ? data.priority === "URGENT"
-              ? "#e63946"
+              ? "#6600cc"
               : data.priority === "HIGH"
               ? "#f77f00"
               : data.priority === "MEDIUM"
@@ -85,7 +91,7 @@ function Home() {
           ...styles,
           backgroundColor:
             data.priority === "URGENT"
-              ? "#e63946"
+              ? "#6600cc"
               : data.priority === "HIGH"
               ? "#f77f00"
               : data.priority === "MEDIUM"
@@ -103,7 +109,7 @@ function Home() {
           ...styles,
           backgroundColor:
            selectProps.value?.value === "Done"
-              ? "#4CAF50" // Verde para "Done"
+              ? "#2ac082" // Verde para "Done"
               : selectProps.value?.value === "Doing"
               ? "#2196F3" 
               : selectProps.value?.value === "Not done"// Azul para "Doing"
@@ -116,14 +122,14 @@ function Home() {
       
         singleValue: (styles, { data }) => ({
           ...styles,
-          color: "white", // Contraste do texto
+          color: "282c30", // Contraste do texto
         }),
       
         option: (styles, { data, isFocused, isSelected }) => {
           const backgroundColor =
             isSelected
               ? data.value === "Done"
-                ? "#4CAF50" // Verde
+                ? "#2ac082" // Verde
                 : data.value === "Doing"
                 ? "#2196F3" // Azul
                 : data.value === "Not done"
@@ -136,16 +142,16 @@ function Home() {
           return {
             ...styles,
             backgroundColor,
-            color: isSelected ? "white" : styles.color,
+            color: isSelected ? "282c30" : styles.color,
             cursor: "pointer",
           };
         },
 
         dropdownIndicator: (styles) => ({
           ...styles,
-          color: "#ddd", // Cor da setinha
+          color: "#282c30", // Cor da setinha
           "&:hover": {
-            color: "#ddd", // Cor da setinha ao passar o mouse
+            color: "#282c30", // Cor da setinha ao passar o mouse
           },
         }),
       
@@ -160,7 +166,7 @@ function Home() {
         console.log(type); // Verifica o valor de 'type' que está chegando
         switch (type) {
           case "URGENT":
-            return "#e63946";
+            return "#6600cc";
           case "HIGH":
             return "#f77f00";
           case "MEDIUM":
@@ -278,7 +284,7 @@ function Home() {
         const newRow = { 
           selectedOption: selectedOption.value, // Tipo de tarefa
           taskname: taskname, // Nome da tarefa
-          date: getFormattedDateBackend(new Date()), // Aqui você usa a função de formatação
+          date: selectedDate ? getFormattedDateBackend(selectedDate) : null, // Usa a data selecionada
           description: description, // Certifique-se de enviar a data aqui
           state: "Not Done", // Valor inicial do estado
         };
@@ -483,6 +489,13 @@ function Home() {
                             <ul>
                                 {tasks.map((task, index) => ( 
                                 <li className="tasks" key={index}>
+                                  <span
+                                      className={`task-state-icon ${task.state.replace(" ", "-").toLowerCase()}`}
+                                    >
+                                      {task.state === "Done" && <TurnedInNotOutlinedIcon fontSize="small"/>}
+                                      {task.state === "Doing" && <CropSquareOutlinedIcon fontSize="small"/> }
+                                      {task.state === "Not done"&& <FiberManualRecordIcon fontSize="small"/>}
+                                    </span>
                                     <span className="task-id">{task.id}</span> 
                                      <span onClick={() => openModalTask(task)} className="span-name">{task.name}</span>
                                     <span className="task-type" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}
@@ -548,58 +561,73 @@ function Home() {
                         </div>
                     </div>
             </div>
-            <div id={modalTask ? "modal-task" : ""}>
-              <div className={modalTask ? "overlay-task" : ""}>
-               <div className={modalTask ? "navi-btn" : "navi-off"}>
-                <button onClick={closeModalTask} className="cancel-mt"><CloseIcon className="ic-mt"/></button>
-               </div>
-               <div className={modalTask ? "ctn-task" : " " } >
-                <div className={modalTask ? "info-task" : " "}>
-                  <h2 className={modalTask ? "modaltask-title" : "modalTask-off"}>{selectedTask?.name}</h2>
-                  <label className={modalTask ? "labss" : "off"}>Description</label>
-                  <div className={ modalTask ? "description-content" : "off"}>
-                  {selectedTask?.description ? (
-                    <div dangerouslySetInnerHTML={{ __html: selectedTask?.description }} />
-                  ) : (
-                    <p>No description available.</p>
-                  )}
-                </div>
-                </div>
-                <div className={modalTask ? "state-task" : " state-off"}>
-                 <div className={modalTask ? "action-task" : "off"}>
-                 <Select
-                    className={modalTask ? "select-state" : "off"}
-                    classNamePrefix="state"
-                    placeholder="State"
-                    options={statesOptions} // Opções de estado: Not Done, Doing, Done
-                    styles={StateStyles}
-                    value={{
-                      value: selectedTask?.state, // Pega o estado da tarefa específica
-                      label: selectedTask?.state,
-                    }}
-                    onChange={(option) => {
-                      // Atualiza o estado local temporariamente ao selecionar uma opção
+            {modalTask && (
+  <div id="modal-task">
+    <div className="overlay-task">
+      <div className="navi-btn">
+        <button onClick={closeModalTask} className="cancel-mt">
+          <CloseIcon className="ic-mt" />
+        </button>
+      </div>
+      <div className="ctn-task">
+        <div className="info-task">
+          <h2 className="modaltask-title">{selectedTask?.name}</h2>
+          <label className="labss">Description</label>
+          <div className="description-content">
+            {selectedTask?.description ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: selectedTask?.description,
+                }}
+              />
+            ) : (
+              <p>No description available.</p>
+            )}
+          </div>
+        </div>
+        <div className="state-task">
+          <div className="action-task">
+          <Select
+            className={modalTask ? "select-state" : "off"}
+            classNamePrefix="state"
+            placeholder="State"
+            options={statesOptions}
+            styles={StateStyles}
+            value={{
+              value: tempState, // Usa o estado temporário
+              label: tempState,
+            }}
+            onChange={(option) => {
+              setTempState(option?.value); // Atualiza o estado temporário com a nova opção
+            }}
+          />
+
+          
+          <button className={modalTask ? "btn-send" : "off"}
+                  onClick={() => {
+                    if (selectedTask?.id) {
+                      // Atualiza o estado local e também no backend
                       setTasks((prevTasks) =>
                         prevTasks.map((task) =>
-                          task.id === selectedTask?.id
-                            ? { ...task, state: option?.value } // Atualiza apenas a tarefa atual
+                          task.id === selectedTask.id
+                            ? { ...task, state: tempState } // Atualiza a tarefa no estado local
                             : task
                         )
                       );
-                    }}
-                    onMenuClose={() => {
-                      // Ao fechar o menu, salva no backend
-                      const task = tasks.find((t) => t.id === selectedTask?.id);
-                      if (task) {
-                        StateChange(task.id, task.state); // Chama a função que atualiza no backend
-                      }
-                    }}
-                  />
-                </div>        
-                </div>
-               </div>
-              </div>
-            </div>
+                      StateChange(selectedTask.id, tempState); // Envia a alteração para o backend
+                    }
+                  }}
+              >
+
+            <CheckIcon fontSize="small" className="ic-state" />Confirm
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
         </div>
     )
 }

@@ -303,7 +303,7 @@ summary {
 } 
 
 .list li {
-  height: 1.75rem;
+  height: 4vh;
   margin-left: -3vw;
   font-size: 14px;
   list-style: none;
@@ -312,13 +312,13 @@ summary {
 
 .task-type {
   position: relative;
-  top: -0.25rem;
+  top: -5%;
   color: var(--color_1);
   font-weight: 600;
 }
 .task-id {
   position: relative;
-  top: -0.25rem;
+  top: -5%;
   color: rgba(240, 248, 255, 0.4);
   margin-right: 0.7vw;
 }
@@ -334,7 +334,7 @@ summary {
 
 .span-name {
   position: relative;
-  top: -0.25rem;
+  top: -5%;
   cursor: pointer;
 }
 
@@ -382,6 +382,11 @@ summary {
 .man-btn:hover {
   cursor: pointer;
   display: inline-flex;
+}
+
+.ic-state {
+  font-size: 14px !important;
+  font-weight: 900 !important;
 }
 
 
@@ -493,9 +498,47 @@ summary {
 }
 
 .labss {
+  display: flex;
+  margin-top: 6vh !important;
   font-size: 14px;
   color: rgba(240, 248, 255, 0.8);
 }
+
+.list-btn-mt {
+  gap: 0.5vw;
+  list-style: none;
+  left: -2.5rem;
+  margin-top: 0.3rem;
+  position: relative;
+  display: inline-flex;
+}
+
+.list-btn-mt button {
+  background-color: transparent;
+  color: rgba(240, 248, 255, 0.8);
+  border: none;
+  border-radius: 10vw;
+  padding: 0.4rem;
+  padding-left: 0.7rem;
+  padding-right: 0.9rem;
+  padding-bottom: 0.6rem;
+ cursor: pointer;
+  font-size: 13px !important;
+
+}
+
+.list-btn-mt button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+
+}
+
+.ic-mt-list { 
+  position: relative;
+  top: 0.2rem;
+  font-size: 17px !important;
+}
+
+
 
 
 .input-select {
@@ -730,6 +773,20 @@ summary {
   cursor: pointer;
 }
 
+.more-mt {
+  background-color: transparent;
+  border: none;
+  color: rgba(240, 248, 255, 0.7);
+  cursor: pointer;
+}
+
+.share-mt {
+  background-color: transparent;
+  border: none;
+  color: rgba(240, 248, 255, 0.7);
+  cursor: pointer;
+}
+
 .ctn-task {
   display: inline-flex;
 }
@@ -740,7 +797,6 @@ summary {
 
 .modaltask-title {
   margin-top: 3vh;
-  margin-bottom: 6vh;
   color: rgba(240, 248, 255, 0.7);
 }
 
@@ -758,11 +814,11 @@ summary {
   width: 9vw;
 }
 
-.ic-state {
+.ic-confirm {
   position: relative;
-  top: 0.8vh;
-  left: -0.2vw;
-  color:#2a9d8f;
+  top: 0.5vh;
+  right: -0.3vw;
+  color: transparent;
 }
 
 .btn-send {
@@ -774,6 +830,10 @@ summary {
   color: rgba(240, 248, 255, 0.7);
   font-weight: 500;
   cursor: pointer;
+}
+
+.btn-send:hover{
+  color: rgba(240, 248, 255, 0.8);
 }
 
 
@@ -826,3 +886,25 @@ summary {
   color: var(--color_1);
   font-weight: 600;
 }
+
+.custom-alert {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 5vh !important;
+  width: 17vw !important;
+  box-shadow: none !important;
+  text-align: center !important;
+  padding: 0 !important;
+}
+
+.custom-alert .swal2-icon {
+  background-color:#1ed760 !important;
+  box-shadow: none !important;
+  font-size: 13px !important; /* Reduz o tamanho do ícone */
+  margin: 0; /* Remove margens */
+  
+}
+

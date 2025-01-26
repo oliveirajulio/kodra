@@ -1,0 +1,119 @@
+.container-signup {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color_1);
+}
+
+.intro-signup {
+    height: 100%;
+    width: 50%;
+    background-color: var(--color_1);
+}
+
+.register {
+    height: 100%;
+    width: 50%;
+    background-color: #ffffff;
+    padding: 5.5rem;
+}
+
+.invite-signup {
+    color: var(--color_1);
+    font-weight: 500;
+}
+
+.lab-email {
+    position: relative;
+    display: flex;
+    margin-top: 4vh;
+}
+
+.email {
+    margin-top: 0.5vw;
+    display: flex;
+    width: 95%;
+    height: 6vh;
+    border: solid 1px rgb(220, 228, 230) ;
+    border-radius: 0.5vw;
+    padding-left: 1vw;
+    font-size: 14px;
+}
+
+.lab-pass {
+    position: relative;
+    display: flex;
+    margin-top: 4vh;
+}
+
+.pass {
+    margin-top: 0.5vw;
+    display: flex;
+    width: 95%;
+    height: 6vh;
+    border: solid 1px rgb(220, 228, 230) ;
+    border-radius: 0.5vw;
+    padding-left: 1vw;
+    font-size: 14px;
+} 
+
+.warn-pass {
+    position: relative;
+    margin-top: 0.5vh;
+    font-size: 12px !important;
+    color: #1d212598;
+    font-weight: 500;
+}
+
+.lab-username {
+    position: relative;
+    display: flex;
+    margin-top: 4vh;
+}
+
+.username {
+    margin-top: 0.5vw;
+    display: flex;
+    width: 95%;
+    height: 6vh;
+    border: solid 1px rgb(220, 228, 230) ;
+    border-radius: 0.5vw;
+    padding-left: 1vw;
+    font-size: 14px;
+} 
+
+.btn-signup {
+    margin-top: 2.5vh;
+    width: 100%;
+    height: 8vh;
+    background-color: var(--color_1);
+    color: rgb(240, 248, 255);
+    font-size: 18px;
+    border-radius: 0.5vw;
+    border: none;
+}
+
+.register-alert {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 5vh !important;
+    width: 20vw !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    padding: 0 !important;
+  }
+  
+  .register-alert .swal2-icon {
+    background-color:#1ed760 !important;
+    box-shadow: none !important;
+    font-size: 13px !important; /* Reduz o tamanho do ícone */
+    margin: 0; /* Remove margens */
+    
+  }
+  

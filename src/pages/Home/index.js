@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
 import deleteTask from "../../services/service-deletetask";
-import updateTaskState from "../../services/servoce-state";
+import updateTaskState from "../../services/service-state";
 import Select from "react-select"
 import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
@@ -27,6 +27,11 @@ import CheckIcon from '@mui/icons-material/Check';
 import TurnedInNotOutlinedIcon from '@mui/icons-material/TurnedInNotOutlined';
 import CropSquareOutlinedIcon from '@mui/icons-material/CropSquareOutlined';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ShareIcon from '@mui/icons-material/Share';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import LibraryAddCheckOutlinedIcon from '@mui/icons-material/LibraryAddCheckOutlined';
+import AddLinkIcon from '@mui/icons-material/AddLink';
 
 
 function Home() {
@@ -50,7 +55,7 @@ function Home() {
   const [loading, setLoading] = useState(false); 
   const [selectedTask, setSelectedTask] = useState(null); // Tarefa 
   const [tempState, setTempState] = useState(selectedTask?.state || "Not done"); // Armazenar temporariamente o estado selecionado
-
+  const [btnClick, setBtnClick] = useState(false)
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -307,18 +312,17 @@ function Home() {
         ]);
     
         Swal.fire({
-          position: 'bottom', // A posição do "snackbar"
-          icon: 'success', // O ícone (use 'success' ou outro)
-          title: 'Task created sucessfully!', // O título da notificação
-          showConfirmButton: false, // Remove o botão de confirmação
-          timer: 2000, // O tempo em milissegundos (3 segundos) antes de desaparecer
-          toast: true, // Habilita o modo "toast" para parecer um snackbar
-          background: '#4CAF50', // Cor de fundo, por exemplo, verde para sucesso
-          color: '#fff', // Cor do texto
-          padding: '3px 6px', // Padding para o conteúdo
+          position: 'bottom',
+          title: 'Task created successfully!', // O título da notificação
+          showConfirmButton: false,
+          timer: 2000,
+          toast: true,
+          background: '#1ed760',
+          color: '#fff',
           customClass: {
-            popup: 'snackbar-popup', // Você pode adicionar uma classe customizada para o estilo
+            popup: 'custom-alert', // Classe customizada para o estilo
           },
+          padding: '1px', // Adiciona padding para ajustar o espaçamento interno
         });
 
         clearmodal()
@@ -337,18 +341,17 @@ function Home() {
       deleteTask(taskId)
         .then(() => {
           Swal.fire({
-            position: 'bottom', // Posição na tela
-            icon: 'warning', // Ícone de alerta (pode ser 'error' ou 'warning')
-            title: 'Task deleted sucessfully!', // Mensagem da notificação
-            showConfirmButton: false, // Remover o botão de confirmação
-            timer: 2000, // Duração do alerta (3 segundos)
-            toast: true, // Habilita o formato toast (pop-up)
-            background: '#d32f2f', // Cor de fundo vermelha (estilo MUI erro)
-            color: '#fff', // Cor do texto (branco)
-            padding: '10px 20px', // Padding interno do toast
+            position: 'bottom',
+            title: 'Task deleted successfully!', // O título da notificação
+            showConfirmButton: false,
+            timer: 2000,
+            toast: true,
+            background: '#d32f2f',
+            color: '#fff',
             customClass: {
-              popup: 'snackbar-popup', // Classe personalizada se necessário
+              popup: 'custom-alert', // Classe customizada para o estilo
             },
+            padding: '1px', // Adiciona padding para ajustar o espaçamento interno
           });
           fetchTasks(); // Atualiza a lista de tarefas
           setModalTask(false)
@@ -373,6 +376,24 @@ function Home() {
       updateTaskState(taskId, newState)
         .then((response) => {
           console.log("Estado atualizado com sucesso:", response.state);
+    
+          // Mostra o alerta com SweetAlert2
+          Swal.fire({
+            position: 'top-right', // Posição no canto inferior direito
+            icon: 'success', // Ícone de sucesso
+            showConfirmButton: false, // Remove o botão de confirmação
+            timer: 1500, // Duração do alerta (em milissegundos)
+            toast: true,
+            background: 'transparent', // Remove o fundo
+            border: 'none',
+            customClass: {
+              popup: 'custom-alert', // Classe customizada para efeito
+            },
+            didOpen: () => {
+              // Remove qualquer margem padrão
+              document.querySelector('.custom-alert').style.margin = '0';
+            },
+          });
         })
         .catch((error) => {
           console.error("Erro ao atualizar estado:", error);
@@ -385,8 +406,19 @@ function Home() {
                 : task
             )
           );
+    
+          // Alerta de erro
+          Swal.fire({
+            position: 'bottom-right',
+            icon: 'error',
+            title: 'Failed to update state!',
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true,
+          });
         });
     }
+    
     
 
 
@@ -492,9 +524,9 @@ function Home() {
                                   <span
                                       className={`task-state-icon ${task.state.replace(" ", "-").toLowerCase()}`}
                                     >
-                                      {task.state === "Done" && <TurnedInNotOutlinedIcon fontSize="small"/>}
-                                      {task.state === "Doing" && <CropSquareOutlinedIcon fontSize="small"/> }
-                                      {task.state === "Not done"&& <FiberManualRecordIcon fontSize="small"/>}
+                                      {task.state === "Done" && <CheckIcon className="ic-state" fontSize="small"/>}
+                                      {task.state === "Doing" && <CropSquareOutlinedIcon className="ic-state" fontSize="small"/> }
+                                      {task.state === "Not done"&& <FiberManualRecordIcon className="ic-state" fontSize="small"/>}
                                     </span>
                                     <span className="task-id">{task.id}</span> 
                                      <span onClick={() => openModalTask(task)} className="span-name">{task.name}</span>
@@ -565,6 +597,8 @@ function Home() {
   <div id="modal-task">
     <div className="overlay-task">
       <div className="navi-btn">
+        <button className="share-mt"><ShareIcon className="ic-mt"/></button>
+        <button className="more-mt"><MoreHorizIcon className="ic-mt"/></button>
         <button onClick={closeModalTask} className="cancel-mt">
           <CloseIcon className="ic-mt" />
         </button>
@@ -572,6 +606,11 @@ function Home() {
       <div className="ctn-task">
         <div className="info-task">
           <h2 className="modaltask-title">{selectedTask?.name}</h2>
+          <ul className="list-btn-mt">
+            <button className="attach"><AttachFileIcon className="ic-mt-list"/>Attach</button>
+            <button className="subtask"><LibraryAddCheckOutlinedIcon className="ic-mt-list"/> Create subtask</button>
+            <button className="link"><AddLinkIcon className="ic-mt-list"/> Link issue</button>
+          </ul>
           <label className="labss">Description</label>
           <div className="description-content">
             {selectedTask?.description ? (
@@ -619,7 +658,7 @@ function Home() {
                   }}
               >
 
-            <CheckIcon fontSize="small" className="ic-state" />Confirm
+            Confirm <CheckIcon fontSize="small" className="ic-confirm" />
           </button>
           </div>
         </div>

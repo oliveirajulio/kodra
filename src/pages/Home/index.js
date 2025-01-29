@@ -381,17 +381,18 @@ function Home() {
           Swal.fire({
             position: 'top-right', // Posição no canto inferior direito
             icon: 'success', // Ícone de sucesso
-            showConfirmButton: false, // Remove o botão de confirmação
+            showConfirmButton: false,
+            title: "Confirmed!", // Remove o botão de confirmação
             timer: 1500, // Duração do alerta (em milissegundos)
             toast: true,
             background: 'transparent', // Remove o fundo
             border: 'none',
             customClass: {
-              popup: 'custom-alert', // Classe customizada para efeito
+              popup: 'custom-confirm', // Classe customizada para efeito
             },
             didOpen: () => {
               // Remove qualquer margem padrão
-              document.querySelector('.custom-alert').style.margin = '0';
+              document.querySelector('.custom-confirm').style.margin = '0';
             },
           });
         })

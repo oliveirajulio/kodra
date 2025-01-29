@@ -8,6 +8,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 const isAuthenticated = localStorage.getItem('token'); // Verifica se o usuário está autenticado
 
 function Router() {
+
+    const isAuthenticated = localStorage.getItem('token');
+
     return (
         <BrowserRouter>
             <Routes>

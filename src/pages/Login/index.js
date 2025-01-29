@@ -35,6 +35,10 @@ function Login() {
       });
   }
 
+    function NewAcc () {
+      window.location.href = '/signup'
+    }
+
   return (
     <div className="container-login">
       <div className="intro-login">
@@ -64,6 +68,12 @@ function Login() {
         <button onClick={() => LoginBtn(email, password)} className="signin">
           Sign in
         </button>
+      </div>
+      <div className="box-more">
+        <a className="passkey">Sign with a passkey</a>
+        <span className="sp-qst">New to? 
+          <a onClick={NewAcc}>Create an account</a>
+        </span>
       </div>
     </div>
   );

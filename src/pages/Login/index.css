@@ -13,7 +13,7 @@
   .box-login {
     margin-top: 2vh;
     width: 20%;
-    height: 13.5rem;
+    height: auto;
     border: solid 1px rgba(240, 248, 255, 0.1) ;
     padding: 1rem;
   }
@@ -38,6 +38,12 @@
     padding-left: 0.5vw;
     color: rgba(240, 248, 255, 0.8);
   }
+
+  .iptlog-email:focus, .iptlog-pass:focus {
+    border: solid 2px #29903b ;
+  }
+
+  
   
   .pass-row {
     margin-top: 2.5vh;
@@ -99,3 +105,33 @@
     
   }
   
+  .box-more {
+    margin-top: 2vh;
+    width: 20%;
+    height: auto;
+    border: solid 1px rgba(240, 248, 255, 0.1) ;
+    padding: 1rem;
+    color: #29903b;
+    text-align: center;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .passkey { 
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .sp-qst {
+    position: relative;
+    margin-top: 1vh;
+    color: rgba(240, 248, 255, 0.8);    
+  }
+
+  .sp-qst a {
+    cursor: pointer;
+    margin-top: 1vh;
+    margin-left: 0.3vw;
+    color: #29903b;
+  }

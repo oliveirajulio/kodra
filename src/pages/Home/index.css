@@ -929,3 +929,11 @@ summary {
   margin: 0; /* Remove margens */
   
 }
+
+.menu-user {
+  position: inherit;
+  width: 15vw;
+  height: 10vh;
+  background-color: red;
+  z-index: 1001;
+}

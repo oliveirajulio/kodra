@@ -55,7 +55,8 @@ function Home() {
   const [loading, setLoading] = useState(false); 
   const [selectedTask, setSelectedTask] = useState(null); // Tarefa 
   const [tempState, setTempState] = useState(selectedTask?.state || "Not done"); // Armazenar temporariamente o estado selecionado
-  const [btnClick, setBtnClick] = useState(false)
+  const [btnClick, setBtnClick] = useState(false);
+  const [menuUser, setmenuUser] = useState(false)
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -435,6 +436,10 @@ function Home() {
         setDayOfWeek(weekday(date));
     }
 
+    const MenuUser = () => {
+      setmenuUser(true)
+    }
+
 
     return (
         <div className="container">
@@ -453,7 +458,7 @@ function Home() {
                 <div className="btn-header">
                     <button className="not"><NotificationsIcon className="icon-header" fontSize="medium"/></button>
                     <button className="set"><SettingsIcon className="icon-header" fontSize="medium"/></button>
-                    <button className="acc"><AccountCircleIcon className="icon-header" fontSize="large"/></button>
+                    <button onClick={MenuUser }className="acc"><AccountCircleIcon className="icon-header" fontSize="large"/></button>
                 </div>
             </div>
             <div className={`sidebar ${showModal ? "container-blur" : " "}`}>
@@ -471,6 +476,7 @@ function Home() {
                 </div>
             </div>
             <div className={`home ${showModal ? "container-blur" : " "}`}>
+               <div className={menuUser ? "menu-user" : " "}></div>
                 <div className="info-day">
                     <h3>{getFormattedDate(selectedDate)}</h3>
                 </div>

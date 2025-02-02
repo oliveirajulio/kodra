@@ -2,6 +2,7 @@ import "./index.css"
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import getUser from "../../services/service-getuser";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
 import deleteTask from "../../services/service-deletetask";
@@ -32,17 +33,19 @@ import ShareIcon from '@mui/icons-material/Share';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import LibraryAddCheckOutlinedIcon from '@mui/icons-material/LibraryAddCheckOutlined';
 import AddLinkIcon from '@mui/icons-material/AddLink';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 
 function Home() {
 
     
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [open, setopen] = useState(false)
   const [open2, setopen2] = useState(false)
   const [tasks, setTasks] = useState([]);
+  const [user, setuser] = useState(false)
   const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
   const [showModal, setShowModal] = useState(false);
   const [modalTask, setModalTask] = useState(false)
@@ -57,6 +60,8 @@ function Home() {
   const [tempState, setTempState] = useState(selectedTask?.state || "Not done"); // Armazenar temporariamente o estado selecionado
   const [btnClick, setBtnClick] = useState(false);
   const [menuUser, setmenuUser] = useState(false)
+  const [placeholder, setPlaceholder] = useState("Planeje seu dia de forma eficaz. Comece selecionando uma data:");  // Adiciona um estado para a frase
+
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -225,7 +230,7 @@ function Home() {
             setSelectedDate(date);
     
             // Formata o dia da semana
-            const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+            const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
             setDayOfWeek(dayName);
         }
       };
@@ -256,26 +261,36 @@ function Home() {
     };
 
     const fetchTasks = async () => {
+      // Verifique se selectedDate é válido antes de chamar getFormattedDateBackend
+      if (!selectedDate || !(selectedDate instanceof Date) || isNaN(selectedDate)) {
+        console.log("Data inválida, não foi possível buscar as tarefas.");
+        return; // Não tenta buscar as tarefas se a data for inválida
+      }
+    
       const formattedDateBackend = getFormattedDateBackend(selectedDate); // Formata para "YYYY-MM-DD"
-      console.log("Fetching tasks for date:", formattedDateBackend);
-  
+      console.log("Fetching tasks and user for date:", formattedDateBackend);
+    
       try {
-        const fetchedTasks = await getTask(formattedDateBackend);
+        // Buscar tasks e user ao mesmo tempo
+        const [fetchedTasks, fetchedUser] = await Promise.all([
+          getTask(formattedDateBackend),
+          getUser(),
+        ]);
+    
         console.log("Fetched tasks:", fetchedTasks);
-        console.log(tasks);
-
+        console.log("Fetched user:", fetchedUser);
+    
         setTasks(fetchedTasks);
+        setuser(fetchedUser);
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error("Error fetching tasks or user:", error);
       }
     };
-  
-      console.log(tasks);
-    // Chama fetchTasks quando o componente é montado ou selectedDate muda
+    
     useEffect(() => {
       fetchTasks();
-    }, [selectedDate]);
-  
+    }, [selectedDate]); // Isso só será chamado se selectedDate for válido
+    
   
 
     const addtask = async () => {
@@ -420,6 +435,12 @@ function Home() {
           });
         });
     }
+    const SignOut = () => {
+      localStorage.removeItem("token");     
+      localStorage.removeItem("authToken"); 
+      window.location.href = "/login";      
+    };
+  
     
     
 
@@ -431,13 +452,20 @@ function Home() {
     };
     
     const SHW = (date) => {
-        setShowCalendar(!showCalendar);
-        setShowIcon(!showIcon);
-        setDayOfWeek(weekday(date));
-    }
+      setShowCalendar(!showCalendar);
+      setShowIcon(!showIcon);
+      setDayOfWeek(weekday(date));
+    
+      // Atualize a data somente quando o usuário selecionar uma data
+      if (date instanceof Date && !isNaN(date)) {
+        setSelectedDate(date);  // Atualiza com a data correta
+        setPlaceholder(getFormattedDate(date));  // Atualiza a frase para a data formatada
+      }
+    };
+    
 
     const MenuUser = () => {
-      setmenuUser(true)
+      setmenuUser(!menuUser)
     }
 
 
@@ -469,16 +497,31 @@ function Home() {
                 <div className="plan-menu">
                     <p className="intro">PLANNING</p>
                     <div className="buttons">
-                        <button>Board</button>
+                      <div className="board-btn">
+                        <h5>Board</h5>
+                        <details>
+                          <summary className="arrow-board">{open ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
+                        </details>
+                      </div>
+                        <button>Binder</button>
+                        <button>Calendar</button>
                         <button>Reports</button>
-                        <button>issues</button>
                     </div>
                 </div>
             </div>
             <div className={`home ${showModal ? "container-blur" : " "}`}>
-               <div className={menuUser ? "menu-user" : " "}></div>
+               <div className={menuUser ? "menu-user" : "off"}>
+                <div className="user">
+                  <span><AccountCircleIcon className="icon-user"/></span>
+                  <span className="user-name">{user?.username}</span>
+                </div>
+                <div className="btn-menu">
+                  <button className="darkmode">Dark Mode</button>
+                  <button onClick={SignOut} className={menuUser ? "signout" : "off"}>Sign Out <PowerSettingsNewIcon className="ic-user"/></button>
+                </div>
+               </div>
                 <div className="info-day">
-                    <h3>{getFormattedDate(selectedDate)}</h3>
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}</h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -495,7 +538,7 @@ function Home() {
                         className="calendar"
                         onClick={SHW}>
                             <CalendarMonthIcon 
-                            className="icon"/>
+                            className="icon-calendar"/>
                         </button>
                     )}
                     {showCalendar && (
@@ -665,7 +708,7 @@ function Home() {
                   }}
               >
 
-            Confirm <CheckIcon fontSize="small" className="ic-confirm" />
+            Save <CheckIcon fontSize="small" className="ic-confirm" />
           </button>
           </div>
         </div>

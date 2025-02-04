@@ -129,28 +129,29 @@
   padding: 0.5vw;
 }
 
-.board-btn {
-  display: inline-flex;
-  background-color: var(--color_1);
-  border: none;
-  margin-top: 0.5vh;
-  margin-left: 1vw ;
-  padding: 0.5vw;
-  padding-top: 1.5vh;
-  height: 6vh;
-  border-radius: 5px;
+.info-view {
+  position: relative;
+  display: flex;
+  left: -7.8rem;
+  top: 0.1rem;
   text-align: start;
-  color: rgba(240, 248, 255, 0.6);
+  font-size: 13px;
+  margin-bottom: 2vh;
 }
 
-.board-btn:hover {
-  background: rgb(40, 44, 48);
+.btn-view {
+  display: flex; /* Oculta quando o details está fechado */
+  flex-direction: column; /* Faz os botões ficarem um abaixo do outro */
+}
+
+.btn-details {
+  color: rgba(240, 248, 255, 0.6);
 }
 
 .arrow-board {
   position: relative;
   display: flex;
-  margin-left: 6rem;
+  margin-left: 9rem;
 }
 
 .icon-board {
@@ -475,15 +476,21 @@ summary {
   cursor: pointer;
 }
 
-.lenght {
+.length {
   font-size: 13px;
-  color: rgba(240, 248, 255, 0.4);
+  color: #f0f8ff66;
   margin-top: 0.9vh;
   margin-left: 0.6vw;
 }
 
 .lenght-off {
   display: none;
+}
+
+.loading-icon {
+  position: relative;
+  margin-left: -0.1rem;
+  top: 0.1rem;
 }
 
 #modal-root {

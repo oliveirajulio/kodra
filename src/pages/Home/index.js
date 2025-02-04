@@ -11,6 +11,8 @@ import Select from "react-select"
 import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import loadingIcon from "./loading.svg";
+
 
 import CloseIcon from '@mui/icons-material/Close';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -43,7 +45,7 @@ function Home() {
   const [showCalendar, setShowCalendar] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [open, setopen] = useState(false)
-  const [open2, setopen2] = useState(false)
+  const [openboard, setopenboard] = useState(false)
   const [tasks, setTasks] = useState([]);
   const [user, setuser] = useState(false)
   const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
@@ -56,6 +58,7 @@ function Home() {
   const [description, setdescription] = useState("")
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false); 
+  const [loadingtask, setLoadingTask] = useState(false); 
   const [selectedTask, setSelectedTask] = useState(null); // Tarefa 
   const [tempState, setTempState] = useState(selectedTask?.state || "Not done"); // Armazenar temporariamente o estado selecionado
   const [btnClick, setBtnClick] = useState(false);
@@ -270,6 +273,8 @@ function Home() {
       const formattedDateBackend = getFormattedDateBackend(selectedDate); // Formata para "YYYY-MM-DD"
       console.log("Fetching tasks and user for date:", formattedDateBackend);
     
+      setLoadingTask(true); // Começa o carregamento
+
       try {
         // Buscar tasks e user ao mesmo tempo
         const [fetchedTasks, fetchedUser] = await Promise.all([
@@ -284,6 +289,8 @@ function Home() {
         setuser(fetchedUser);
       } catch (error) {
         console.error("Error fetching tasks or user:", error);
+      } finally {
+        setLoadingTask(false); // Finaliza o carregamento
       }
     };
     
@@ -497,12 +504,13 @@ function Home() {
                 <div className="plan-menu">
                     <p className="intro">PLANNING</p>
                     <div className="buttons">
-                      <div className="board-btn">
-                        <h5>Board</h5>
-                        <details>
-                          <summary className="arrow-board">{open ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
+                        <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
+                          <summary className="arrow-board"><span className="info-view">Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
+                            <div className="btn-view">
+                              <button>Kanban</button>
+                              <button>Scrum</button>
+                            </div>
                         </details>
-                      </div>
                         <button>Binder</button>
                         <button>Calendar</button>
                         <button>Reports</button>
@@ -565,7 +573,12 @@ function Home() {
                     <details open={open} onToggle={(e) => setopen(e.target.open)}>
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                         <h4 className="title">Work</h4>
-                        <p className="lenght">{tasks.length > 1 ? `${tasks.length} tasks` : `${tasks.length} task`}</p>
+                        <p className="length">
+                          {loadingtask ? "Loading..." : tasks.length > 1 ? `${tasks.length} tasks` : `${tasks.length} task`}
+                        </p>
+                        <span>
+                          {loadingtask && <img src={loadingIcon} alt="Carregando..." className="loading-icon" />}
+                        </span>
                         </summary>
                         <div className="list">
                             <ul>

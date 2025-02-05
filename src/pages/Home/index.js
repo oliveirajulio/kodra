@@ -506,7 +506,7 @@ function Home() {
                     <div className="buttons">
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
                           <summary className="arrow-board"><span className="info-view">Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
-                            <div className="btn-view">
+                            <div className={openboard ? "btn-view-enable" : "btn-view"}>
                               <button>Kanban</button>
                               <button>Scrum</button>
                             </div>

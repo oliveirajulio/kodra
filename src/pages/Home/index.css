@@ -144,6 +144,21 @@
   flex-direction: column; /* Faz os botões ficarem um abaixo do outro */
 }
 
+.btn-view-enable button {
+  display: flex;
+  flex-direction: column;
+  color: #88bcff !important;
+  background-color: #132e54 !important;
+  border: none;
+  margin-top: 0.5vh;
+  margin-left: 1vw ;
+  margin-right: 1vw;
+  height: 6vh;
+  border-radius: 5px;
+  text-align: start;
+  color: rgba(240, 248, 255, 0.6);
+}
+
 .btn-details {
   color: rgba(240, 248, 255, 0.6);
 }
@@ -176,6 +191,8 @@
   border: none;
   margin-top: 0.5vh;
   margin-left: 1vw ;
+  margin-right: 1vw ;
+
   height: 6vh;
   border-radius: 5px;
   text-align: start;
@@ -197,6 +214,23 @@
 
 }
 
+.btn-view-enable button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: #88bcff !important;
+  background-color: #132e54 !important;
+  border: none;
+  margin-top: 0.5vh;
+  margin-left: 1vw ;
+  margin-right: 1vw;
+  padding-top: 2vh;
+  width: 87%;
+  height: 6vh;
+  border-radius: 5px;
+  text-align: start;
+  color: rgba(240, 248, 255, 0.6);
+}
 .info-day h3 {
   margin : 2%;
   margin-left: 3%;

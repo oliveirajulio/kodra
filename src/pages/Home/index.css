@@ -322,6 +322,53 @@ margin-left: -15vw;
   height: 3vh;
 }
 
+
+
+.nav-section button {
+  position: relative;
+  height: 4.5vh;
+  padding-right: 1vw;
+  padding-left: 1vw;
+  border: solid 2px rgba(240, 248, 255, 0.1) ;
+  border-radius: 20px;
+  margin-right: 0.2rem;
+  text-align: center;
+  background-color: var(--color_1);
+  color: rgba(240, 248, 255, 0.7);
+  background-color: #22272b;
+  font-weight: 300;
+
+}
+
+.nav-section button:hover {
+  outline: none; /* Remove o contorno padrão do foco */
+  background-color: #22272b;
+  background: linear-gradient(100deg, #d1d1d1, #ffffff, #a8a8a8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600 !important;
+}
+
+.nav-section button:focus {
+  outline: none; /* Remove o contorno padrão do foco */
+  background-color: #22272b;
+  background: linear-gradient(100deg, #d1d1d1, #ffffff, #a8a8a8);
+  -webkit-background-clip: text;
+  border: solid 2px rgba(240, 248, 255, 0.6) ;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600 !important;
+}
+
+.info-btn {
+  position: relative;
+}
+
+.ic-section {
+  position: inherit;
+  font-size:14px !important;
+  top: 0.2rem;
+}
+
 .insights {
   position: absolute;
   right: 5vw;

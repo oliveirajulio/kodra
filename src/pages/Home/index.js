@@ -14,6 +14,8 @@ import 'react-quill/dist/quill.snow.css';
 import loadingIcon from "./loading.svg";
 
 
+
+
 import CloseIcon from '@mui/icons-material/Close';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -36,6 +38,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import LibraryAddCheckOutlinedIcon from '@mui/icons-material/LibraryAddCheckOutlined';
 import AddLinkIcon from '@mui/icons-material/AddLink';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+import AddIcon from '@mui/icons-material/Add';
 
 
 function Home() {
@@ -560,9 +563,20 @@ function Home() {
                     inline
                     className="custom-datepicker"
                     dateFormat="yyyy-MM-dd"  // Mantém o formato de data do DatePicker
-                  /> 
-                            
+                  />                             
                         )}
+                
+                <div className="task-section">
+                  <nav className="nav-section">
+                    <ul>
+                      <button>Area 1</button>
+                      <button>Area 2</button>
+                      <button>Area 3 </button>
+                      <button><AddIcon className="ic-section"/>Filter</button>
+                    </ul>
+                  </nav>
+                </div>
+                
                 <div className='insights'>
                     <TrendingUpIcon className="icon-insight"/>
                     <button className="insights-btn">Insights</button>

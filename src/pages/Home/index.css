@@ -322,7 +322,21 @@ margin-left: -15vw;
   height: 3vh;
 }
 
+.nav-section div {
+  position: relative;
+  height: 4.5vh;
+  padding-right: 1vw;
+  padding-left: 1vw;
+  border: solid 2px rgba(240, 248, 255, 0.1) ;
+  border-radius: 20px;
+  margin-right: 0.2rem;
+  text-align: center;
+  background-color: var(--color_1);
+  color: rgba(240, 248, 255, 0.7);
+  background-color: #22272b;
+  font-weight: 300;
 
+}
 
 .nav-section button {
   position: relative;
@@ -339,6 +353,7 @@ margin-left: -15vw;
   font-weight: 300;
 
 }
+
 
 .nav-section button:hover {
   outline: none; /* Remove o contorno padrão do foco */
@@ -358,6 +373,20 @@ margin-left: -15vw;
   -webkit-text-fill-color: transparent;
   font-weight: 600 !important;
 }
+
+.nav-section ul {
+  display: inline-flex;
+}
+
+.editable-button {
+  direction: ltr !important
+  ; /* Garante que o texto seja inserido da esquerda para a direita */
+  text-align: left !important; /* Alinha o texto à esquerda */
+  padding: 5px !important; /* Adiciona um pouco de padding ao redor do texto */
+  white-space: nowrap !important; /* Impede quebras de linha inesperadas */
+
+}
+
 
 .info-btn {
   position: relative;

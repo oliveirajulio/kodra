@@ -1,7 +1,8 @@
 import "./index.css"
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { createArea, getAreas, deleteArea } from "../../services/service-area";
 import getUser from "../../services/service-getuser";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import loadingIcon from "./loading.svg";
+
 
 
 
@@ -67,6 +69,14 @@ function Home() {
   const [btnClick, setBtnClick] = useState(false);
   const [menuUser, setmenuUser] = useState(false)
   const [placeholder, setPlaceholder] = useState("Planeje seu dia de forma eficaz. Comece selecionando uma data:");  // Adiciona um estado para a frase
+  const [areas, setAreas] = useState([]);
+  const [isEditingArea, setIsEditingArea] = useState(false);
+  const [tempAreaId, setTempAreaId] = useState(null);
+  const [newAreaName, setNewAreaName] = useState(" ");
+  const newAreaRef = useRef(null); 
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+
 
 
     const openModal = () => setShowModal(true);
@@ -296,16 +306,82 @@ function Home() {
         setLoadingTask(false); // Finaliza o carregamento
       }
     };
+
+    useEffect(() => {
+      loadAreas();
+    }, []);
+
     
     useEffect(() => {
       fetchTasks();
     }, [selectedDate]); // Isso só será chamado se selectedDate for válido
     
+    
+    const AddArea = async () => {
+      if (newAreaName.trim()) {
+        try {
+          // Chama a API para criar a nova área
+          const newArea = await createArea(newAreaName);
+    
+          // Atualiza a lista com a resposta da API
+          setAreas([...areas, newArea]);
+    
+          // Limpa os estados de input
+          setNewAreaName("");
+          setIsEditingArea(false);
+        } catch (error) {
+          console.error("Erro ao criar área:", error);
+        }
+      }
+    };
+    
   
+    const startEditing = (area) => {
+      setTempAreaId(area.id);
+      setNewAreaName(area.name);
+
+      setIsEditingArea(true);
+    };
+  
+    // UseEffect para carregar as áreas ao montar o componente
+    useEffect(() => {
+      loadAreas();
+    }, []);
+
+    const cancelEditing = () => {
+      setIsEditingArea(false);
+      setNewAreaName(""); // Limpa o campo de edição
+    };
+  
+    // UseEffect para carregar as áreas ao montar o componente
+    useEffect(() => {
+      loadAreas();
+    }, []);
+  
+
+    const loadAreas = () => {
+      getAreas()
+        .then((data) => {
+          setAreas(data);
+        })
+        .catch((err) => {
+          console.error("Erro ao carregar áreas:", err);
+        });
+    };
+
+    const selectFilter = (area) => {
+      setSelectedFilter(area.id);
+    };
+    
 
     const addtask = async () => {
       if (!selectedOption) {
         alert("Please select a project before creating!");
+        return;
+      }
+
+      if (!selectedArea) { // Verifica se a área foi selecionada
+        alert("Please select an area before creating!");
         return;
       }
     
@@ -318,6 +394,8 @@ function Home() {
           date: selectedDate ? getFormattedDateBackend(selectedDate) : null, // Usa a data selecionada
           description: description, // Certifique-se de enviar a data aqui
           state: "Not Done", // Valor inicial do estado
+          area: selectedArea, // Adiciona a área ao objeto
+
         };
     
         const response = await addTask(newRow); // Faz a requisição para o backend
@@ -332,7 +410,8 @@ function Home() {
             name: response.name,   // Nome da tarefa
             priority: response.priority || "Low", // Opcional, depende do backend
             description: response.description, // Adicionando a descrição da tarefa
-            state: response.state || "Not done", // Certifique-se de que o estado esteja correto
+            state: response.state || "Not done", // Certifique-se de que o estado esteja 
+            area: response.area || "General", // Adicionando a área na tarefa (caso retornada pelo backend)
 
           },
         ]);
@@ -569,13 +648,55 @@ function Home() {
                 <div className="task-section">
                   <nav className="nav-section">
                     <ul>
-                      <button>Area 1</button>
-                      <button>Area 2</button>
-                      <button>Area 3 </button>
-                      <button><AddIcon className="ic-section"/>Filter</button>
+                      {areas.map((area) => (
+                        <li key={area.id}>
+                          <button
+                            onClick={() => selectFilter(area)}
+                            className={selectedFilter === area.id ? "selected" : " "}
+                          >
+                            {area.name}
+                          </button>
+                        </li>
+                      ))}
+
+                      {isEditingArea ? (
+                        <li>
+                          <div
+                            ref={newAreaRef}
+                            contentEditable="true"
+                            suppressContentEditableWarning={true}
+                            className="editable-button"
+                            onBlur={(e) => {
+                              const text = e.currentTarget.textContent.trim();
+                              if (text) {
+                                setNewAreaName(text);
+                                AddArea();
+                              } else {
+                                setIsEditingArea(false); // Cancela se o usuário não digitar nada
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault(); // Impede a quebra de linha
+                                const text = e.currentTarget.textContent.trim();
+                                if (text) {
+                                  setNewAreaName(text);
+                                  AddArea();
+                                }
+                              }
+                            }}
+                            autoFocus
+                          />
+                        </li>
+                      ) : (
+                        <li>
+                          <button onClick={() => setIsEditingArea(true)}><AddIcon className="ic-section"/>Add Filter</button>
+                        </li>
+                      )}
                     </ul>
                   </nav>
                 </div>
+
                 
                 <div className='insights'>
                     <TrendingUpIcon className="icon-insight"/>

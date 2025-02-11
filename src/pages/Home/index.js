@@ -76,8 +76,7 @@ function Home() {
   const newAreaRef = useRef(null); 
   const [selectedArea, setSelectedArea] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(null);
-
-
+  
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -369,79 +368,78 @@ function Home() {
         });
     };
 
-    const selectFilter = (area) => {
-      setSelectedFilter(area.id);
-    };
+    const filteredTasks = selectedFilter 
+  ? tasks.filter(task => task.area_id === selectedFilter) 
+  : tasks;
+
     
 
-    const addtask = async () => {
-      if (!selectedOption) {
-        alert("Please select a project before creating!");
-        return;
-      }
-
-      if (!selectedArea) { // Verifica se a área foi selecionada
-        alert("Please select an area before creating!");
-        return;
-      }
-    
-      setLoading(true); // Inicia o estado de carregamento
-    
-      try {
-        const newRow = { 
-          selectedOption: selectedOption.value, // Tipo de tarefa
-          taskname: taskname, // Nome da tarefa
-          date: selectedDate ? getFormattedDateBackend(selectedDate) : null, // Usa a data selecionada
-          description: description, // Certifique-se de enviar a data aqui
-          state: "Not Done", // Valor inicial do estado
-          area: selectedArea, // Adiciona a área ao objeto
-
-        };
-    
-        const response = await addTask(newRow); // Faz a requisição para o backend
-        console.log("Response:", response);
-    
-        // Atualiza a lista de tarefas com o novo item retornado pelo backend
-        setTasks((prevTasks) => [
-          ...prevTasks,
-          {
-            id: response.id,       // ID retornado pelo backend
-            type: response.type,   // Tipo de tarefa
-            name: response.name,   // Nome da tarefa
-            priority: response.priority || "Low", // Opcional, depende do backend
-            description: response.description, // Adicionando a descrição da tarefa
-            state: response.state || "Not done", // Certifique-se de que o estado esteja 
-            area: response.area || "General", // Adicionando a área na tarefa (caso retornada pelo backend)
-
-          },
-        ]);
-    
-        Swal.fire({
-          position: 'bottom',
-          title: 'Task created successfully!', // O título da notificação
-          showConfirmButton: false,
-          timer: 2000,
-          toast: true,
-          background: '#1ed760',
-          color: '#fff',
-          customClass: {
-            popup: 'custom-alert', // Classe customizada para o estilo
-          },
-          padding: '1px', // Adiciona padding para ajustar o espaçamento interno
-        });
-
-        clearmodal()
-        closeModal(); // Fecha o modal após a criação
-      } catch (error) {
-        console.error("Error adding row:", error);
-        alert("Failed to add row. Try again.");
-      } finally {
-        setLoading(false);
-        setselectOption(null); // Finaliza o estado de 
-        console.log('Selected Task Description:', newTask?.description);
-      }
-    };
-
+  const addtask = async () => {
+    if (!selectedOption) {
+      alert("Please select a project before creating!");
+      return;
+    }
+  
+    if (!selectedFilter) {  // Verifica se a área foi selecionada
+      alert("Please select an area before creating!");
+      return;
+    }
+  
+    setLoading(true); // Inicia o estado de carregamento
+  
+    try {
+      const newRow = { 
+        selectedOption: selectedOption.value, // Tipo de tarefa
+        taskname: taskname, // Nome da tarefa
+        date: selectedDate ? getFormattedDateBackend(selectedDate) : null, // Usa a data selecionada
+        description: description, // Certifique-se de enviar a descrição aqui
+        state: "Not Done", // Valor inicial do estado
+        area_id: selectedFilter, // Passando o ID da área selecionada
+  
+      };
+  
+      const response = await addTask(newRow); // Faz a requisição para o backend
+      console.log("Response:", response);
+  
+      // Atualiza a lista de tarefas com o novo item retornado pelo backend
+      setTasks((prevTasks) => [
+        ...prevTasks,
+        {
+          id: response.id,       // ID retornado pelo backend
+          type: response.type,   // Tipo de tarefa
+          name: response.name,   // Nome da tarefa
+          priority: response.priority || "Low", // Opcional, depende do backend
+          description: response.description, // Adicionando a descrição da tarefa
+          state: response.state || "Not done", // Certifique-se de que o estado esteja 
+          area_id: response.area_id || "General", // Retorna o id da área
+        },
+      ]);
+  
+      Swal.fire({
+        position: 'bottom',
+        title: 'Task created successfully!',
+        showConfirmButton: false,
+        timer: 2000,
+        toast: true,
+        background: '#1ed760',
+        color: '#fff',
+        customClass: {
+          popup: 'custom-alert', // Classe customizada para o estilo
+        },
+        padding: '1px', // Adiciona padding para ajustar o espaçamento interno
+      });
+  
+      clearmodal();
+      closeModal(); // Fecha o modal após a criação
+    } catch (error) {
+      console.error("Error adding row:", error);
+      alert("Failed to add row. Try again.");
+    } finally {
+      setLoading(false);
+      setSelectedFilter(null); // Reseta o filtro selecionado
+      console.log('Selected Task Description:', newTask?.description);
+    }
+  }; 
     const deletetask = (taskId) => {
       deleteTask(taskId)
         .then(() => {
@@ -557,6 +555,12 @@ function Home() {
       setmenuUser(!menuUser)
     }
 
+    const selectFilter = (area) => {
+      // Alterna entre a área selecionada e nenhuma área
+      setSelectedFilter(prevFilter => (prevFilter === area.id ? null : area.id));
+    };
+
+
 
     return (
         <div className="container">
@@ -646,56 +650,60 @@ function Home() {
                         )}
                 
                 <div className="task-section">
-                  <nav className="nav-section">
-                    <ul>
-                      {areas.map((area) => (
-                        <li key={area.id}>
-                          <button
-                            onClick={() => selectFilter(area)}
-                            className={selectedFilter === area.id ? "selected" : " "}
-                          >
-                            {area.name}
-                          </button>
-                        </li>
-                      ))}
+  <nav className="nav-section">
+    <ul>
+      {areas.map((area) => (
+        <li key={area.id}>
+          <button
+            onClick={() =>
+              setSelectedFilter((prev) => (prev === area.id ? null : area.id))
+            }
+            className={selectedFilter === area.id ? "selected" : ""}
+          >
+            {area.name}
+          </button>
+        </li>
+      ))}
 
-                      {isEditingArea ? (
-                        <li>
-                          <div
-                            ref={newAreaRef}
-                            contentEditable="true"
-                            suppressContentEditableWarning={true}
-                            className="editable-button"
-                            onBlur={(e) => {
-                              const text = e.currentTarget.textContent.trim();
-                              if (text) {
-                                setNewAreaName(text);
-                                AddArea();
-                              } else {
-                                setIsEditingArea(false); // Cancela se o usuário não digitar nada
-                              }
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                e.preventDefault(); // Impede a quebra de linha
-                                const text = e.currentTarget.textContent.trim();
-                                if (text) {
-                                  setNewAreaName(text);
-                                  AddArea();
-                                }
-                              }
-                            }}
-                            autoFocus
-                          />
-                        </li>
-                      ) : (
-                        <li>
-                          <button onClick={() => setIsEditingArea(true)}><AddIcon className="ic-section"/>Add Filter</button>
-                        </li>
-                      )}
-                    </ul>
-                  </nav>
-                </div>
+      {isEditingArea ? (
+        <li>
+          <div
+            ref={newAreaRef}
+            contentEditable="true"
+            suppressContentEditableWarning={true}
+            className="editable-button"
+            onBlur={(e) => {
+              const text = e.currentTarget.textContent.trim();
+              if (text) {
+                setNewAreaName(text);
+                AddArea();
+              } else {
+                setIsEditingArea(false); // Cancela se o usuário não digitar nada
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault(); // Impede a quebra de linha
+                const text = e.currentTarget.textContent.trim();
+                if (text) {
+                  setNewAreaName(text);
+                  AddArea();
+                }
+              }
+            }}
+            autoFocus
+          />
+        </li>
+      ) : (
+        <li>
+          <button onClick={() => setIsEditingArea(true)}>
+            <AddIcon className="ic-section" /> Add Filter
+          </button>
+        </li>
+      )}
+    </ul>
+  </nav>
+</div>
 
                 
                 <div className='insights'>
@@ -717,7 +725,7 @@ function Home() {
                         </summary>
                         <div className="list">
                             <ul>
-                                {tasks.map((task, index) => ( 
+                                {filteredTasks.map((task, index) => ( 
                                 <li className="tasks" key={index}>
                                   <span
                                       className={`task-state-icon ${task.state.replace(" ", "-").toLowerCase()}`}

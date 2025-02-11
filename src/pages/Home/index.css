@@ -364,15 +364,6 @@ margin-left: -15vw;
   font-weight: 600 !important;
 }
 
-.nav-section button:focus {
-  outline: none; /* Remove o contorno padrão do foco */
-  background-color: #22272b;
-  background: linear-gradient(100deg, #d1d1d1, #ffffff, #a8a8a8);
-  -webkit-background-clip: text;
-  border: solid 2px rgba(240, 248, 255, 0.6) ;
-  -webkit-text-fill-color: transparent;
-  font-weight: 600 !important;
-}
 
 .nav-section ul {
   display: inline-flex;
@@ -386,6 +377,17 @@ margin-left: -15vw;
   white-space: nowrap !important; /* Impede quebras de linha inesperadas */
 
 }
+
+.nav-section .selected {
+  outline: none; /* Remove o contorno padrão do foco */
+  background-color: #22272b;
+  background: linear-gradient(100deg, #d1d1d1, #ffffff, #a8a8a8);
+  -webkit-background-clip: text;
+  border: solid 2px rgba(240, 248, 255, 0.6) ;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900 !important;
+}
+
 
 
 .info-btn {

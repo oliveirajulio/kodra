@@ -74,9 +74,8 @@ function Home() {
   const [tempAreaId, setTempAreaId] = useState(null);
   const [newAreaName, setNewAreaName] = useState(" ");
   const newAreaRef = useRef(null); 
-  const [selectedArea, setSelectedArea] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);  
   const [selectedFilter, setSelectedFilter] = useState(null);
-  
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -368,52 +367,48 @@ function Home() {
         });
     };
 
-    const filteredTasks = selectedFilter 
-  ? tasks.filter(task => task.area_id === selectedFilter) 
-  : tasks;
+    
 
     
 
-  const addtask = async () => {
-    if (!selectedOption) {
-      alert("Please select a project before creating!");
-      return;
-    }
-  
-    if (!selectedFilter) {  // Verifica se a área foi selecionada
-      alert("Please select an area before creating!");
-      return;
-    }
-  
-    setLoading(true); // Inicia o estado de carregamento
-  
-    try {
-      const newRow = { 
-        selectedOption: selectedOption.value, // Tipo de tarefa
-        taskname: taskname, // Nome da tarefa
-        date: selectedDate ? getFormattedDateBackend(selectedDate) : null, // Usa a data selecionada
-        description: description, // Certifique-se de enviar a descrição aqui
-        state: "Not Done", // Valor inicial do estado
-        area_id: selectedFilter, // Passando o ID da área selecionada
-  
-      };
-  
-      const response = await addTask(newRow); // Faz a requisição para o backend
-      console.log("Response:", response);
-  
-      // Atualiza a lista de tarefas com o novo item retornado pelo backend
-      setTasks((prevTasks) => [
-        ...prevTasks,
-        {
-          id: response.id,       // ID retornado pelo backend
-          type: response.type,   // Tipo de tarefa
-          name: response.name,   // Nome da tarefa
-          priority: response.priority || "Low", // Opcional, depende do backend
-          description: response.description, // Adicionando a descrição da tarefa
-          state: response.state || "Not done", // Certifique-se de que o estado esteja 
-          area_id: response.area_id || "General", // Retorna o id da área
-        },
-      ]);
+    const addtask = async () => {
+      if (!selectedOption) {
+        alert("Please select a project before creating!");
+        return;
+      }
+    
+      if (!selectedFilter) {
+        alert("Please select an area before creating!");
+        return;
+      }
+    
+      setLoading(true);
+    
+      try {
+        const newRow = { 
+          selectedOption: selectedOption.value,
+          taskname: taskname,
+          date: selectedDate ? getFormattedDateBackend(selectedDate) : null,
+          description: description,
+          state: "Not done",
+          area_id: selectedFilter // Certifique-se que este valor está sendo enviado
+        };
+    
+        const response = await addTask(newRow);
+        console.log("Response:", response);
+    
+        // Atualiza a lista de tarefas incluindo o area_id
+        setTasks((prevTasks) => [
+          ...prevTasks,
+          {
+            id: response.id,
+            type: response.type,
+            name: response.name,
+            description: response.description,
+            state: response.state || "Not done",
+            area_id: response.area_id // Certifique-se que está pegando o area_id da resposta
+          },
+        ]);
   
       Swal.fire({
         position: 'bottom',
@@ -436,7 +431,6 @@ function Home() {
       alert("Failed to add row. Try again.");
     } finally {
       setLoading(false);
-      setSelectedFilter(null); // Reseta o filtro selecionado
       console.log('Selected Task Description:', newTask?.description);
     }
   }; 
@@ -555,10 +549,36 @@ function Home() {
       setmenuUser(!menuUser)
     }
 
+    useEffect(() => {
+      if (selectedFilter) {
+        console.log('Selected Filter:', selectedFilter);
+        console.log('Tasks:', tasks);
+        console.log('Task area_ids:', tasks.map(task => task.area_id));
+      }
+    }, [selectedFilter, tasks]);
+    
+    // Update the filteredTasks logic
+    const filteredTasks = selectedFilter
+  ? (tasks || []).filter((task) => {
+      console.log('Task:', task);
+      console.log('Selected Filter:', selectedFilter);
+      console.log('Area ID comparison:', task.area_id, selectedFilter);
+      
+      // Garante que ambos são números para comparação
+      return task.area_id === selectedFilter;
+    })
+  : tasks;
+    
+    // Update the filter selection function
     const selectFilter = (area) => {
-      // Alterna entre a área selecionada e nenhuma área
-      setSelectedFilter(prevFilter => (prevFilter === area.id ? null : area.id));
+      setSelectedFilter((prevFilter) => {
+        const newFilter = prevFilter === area ? null : area;
+        console.log("Selected Area ID:", area);
+        console.log("New Filter Value:", newFilter);
+        return newFilter;
+      });
     };
+
 
 
 
@@ -655,9 +675,7 @@ function Home() {
       {areas.map((area) => (
         <li key={area.id}>
           <button
-            onClick={() =>
-              setSelectedFilter((prev) => (prev === area.id ? null : area.id))
-            }
+            onClick={() => selectFilter(area.id)}
             className={selectedFilter === area.id ? "selected" : ""}
           >
             {area.name}
@@ -725,7 +743,7 @@ function Home() {
                         </summary>
                         <div className="list">
                             <ul>
-                                {filteredTasks.map((task, index) => ( 
+                            {(Array.isArray(filteredTasks) ? filteredTasks : []).map((task, index) => (
                                 <li className="tasks" key={index}>
                                   <span
                                       className={`task-state-icon ${task.state.replace(" ", "-").toLowerCase()}`}

@@ -41,6 +41,8 @@ import LibraryAddCheckOutlinedIcon from '@mui/icons-material/LibraryAddCheckOutl
 import AddLinkIcon from '@mui/icons-material/AddLink';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import AddIcon from '@mui/icons-material/Add';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 
 
 function Home() {
@@ -317,9 +319,9 @@ function Home() {
     }, [selectedDate]); // Isso só será chamado se selectedDate for válido
     
     const Theme = () => {
-      setTheme((prev) => (prev=== "dark" ? "light" : "dark"))
-    }
-
+      setTheme(prevTheme => prevTheme === "dark" ? "light" : "dark");
+    };
+  
     const AddArea = async () => {
       if (newAreaName.trim()) {
         try {
@@ -373,7 +375,12 @@ function Home() {
     };
 
     
-
+    useEffect(() => {
+      // Update localStorage and document class when theme changes
+      localStorage.setItem("theme", theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]);
+  
     
 
     const addtask = async () => {
@@ -627,7 +634,17 @@ function Home() {
                   <span className="user-name">{user?.username}</span>
                 </div>
                 <div className="btn-menu">
-                  <button className="darkmode">Dark Mode</button>
+                <button className="darkmode" onClick={Theme}>
+                  {theme === "dark" ? (
+                    <>
+                      <LightModeOutlinedIcon  className="ic-theme" /> Light Mode
+                    </>
+                  ) : (
+                    <>
+                      <DarkModeOutlinedIcon className="ic-theme" /> Dark Mode
+                    </>
+                  )}
+                </button>
                   <button onClick={SignOut} className={menuUser ? "signout" : "off"}>Sign Out <PowerSettingsNewIcon className="ic-user"/></button>
                 </div>
                </div>

@@ -76,6 +76,8 @@ function Home() {
   const newAreaRef = useRef(null); 
   const [selectedArea, setSelectedArea] = useState(null);  
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -314,7 +316,10 @@ function Home() {
       fetchTasks();
     }, [selectedDate]); // Isso só será chamado se selectedDate for válido
     
-    
+    const Theme = () => {
+      setTheme((prev) => (prev=== "dark" ? "light" : "dark"))
+    }
+
     const AddArea = async () => {
       if (newAreaName.trim()) {
         try {
@@ -548,14 +553,6 @@ function Home() {
     const MenuUser = () => {
       setmenuUser(!menuUser)
     }
-
-    useEffect(() => {
-      if (selectedFilter) {
-        console.log('Selected Filter:', selectedFilter);
-        console.log('Tasks:', tasks);
-        console.log('Task area_ids:', tasks.map(task => task.area_id));
-      }
-    }, [selectedFilter, tasks]);
     
     // Update the filteredTasks logic
     const filteredTasks = selectedFilter
@@ -735,8 +732,17 @@ function Home() {
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                         <h4 className="title">Work</h4>
                         <p className="length">
-                          {loadingtask ? "Loading..." : tasks.length > 1 ? `${tasks.length} tasks` : `${tasks.length} task`}
-                        </p>
+                          {loadingtask 
+                            ? "Loading..." 
+                            : selectedFilter 
+                              ? filteredTasks.length > 1 
+                                ? `${filteredTasks.length} tasks` 
+                                : `${filteredTasks.length} task`
+                              : tasks.length > 1 
+                                ? `${tasks.length} tasks` 
+                                : `${tasks.length} task`
+                          }
+</p>
                         <span>
                           {loadingtask && <img src={loadingIcon} alt="Carregando..." className="loading-icon" />}
                         </span>

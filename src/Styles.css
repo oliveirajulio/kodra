@@ -2,10 +2,16 @@
 
 
 :root {
-    --color_1: #1d2125;
+    --color_1: #e2dEda ;
     --color_2: #f0f8ff;
 
-}    
+} 
+
+[data-theme="dark"] {
+    --color_1: #1d2125;
+    --color_2: #f0f8ff;
+}
+
 * {
     right: 0;
     margin: 0;

@@ -29,7 +29,7 @@
   width: 100vw;
   height: 7%;
   background-color: var(--color_1);
-  border-bottom: solid 0.5px rgba(240, 248, 255, 0.05);
+  border-bottom: solid 0.5px var(--color_13);
 }
 
 .search-input {
@@ -94,7 +94,7 @@
   margin: 0;
   width: 17%;
   height: 92vh;
-  border: solid 0.5px rgba(240, 248, 255, 0.05) ;
+  border: solid 0.5px var(--color_13) ;
   border-top: none;
   border-bottom: none;
   border-left: none;
@@ -109,7 +109,7 @@
 .subtitle-area {
   margin-top: -0.5vh;
   margin-left: 2vw;
-  color: rgba(240, 248, 255, 0.4);
+  color: va;
 }
 
 .intro {
@@ -142,21 +142,6 @@
 .btn-view {
   display: flex; /* Oculta quando o details está fechado */
   flex-direction: column; /* Faz os botões ficarem um abaixo do outro */
-}
-
-.btn-view-enable button {
-  display: flex;
-  flex-direction: column;
-  color: #88bcff !important;
-  background-color: #132e54 !important;
-  border: none;
-  margin-top: 0.5vh;
-  margin-left: 1vw ;
-  margin-right: 1vw;
-  height: 6vh;
-  border-radius: 5px;
-  text-align: start;
-  color: var(--color_3);
 }
 
 .btn-details {
@@ -192,7 +177,6 @@
   margin-top: 0.5vh;
   margin-left: 1vw ;
   margin-right: 1vw ;
-
   height: 6vh;
   border-radius: 5px;
   text-align: start;
@@ -219,7 +203,7 @@
   display: flex;
   flex-direction: column;
   color: #88bcff !important;
-  background-color: #132e54 !important;
+  background-color: rgba(19, 46, 84, 0.65) !important;
   border: none;
   margin-top: 0.5vh;
   margin-left: 1vw ;
@@ -229,8 +213,8 @@
   height: 6vh;
   border-radius: 5px;
   text-align: start;
-  color: var(--color_3);
 }
+
 .info-day h3 {
   margin : 2%;
   margin-left: 3%;
@@ -256,7 +240,7 @@ text-align: center;
 padding-left: 0.5vw;
 color: var(--color_7);
 font-size: 12px;
-border: solid 2px var(--color_) ;
+border: solid 2px var(--color_8) ;
 border-radius: 7px;
 }
 
@@ -274,8 +258,8 @@ border-radius: 7px;
 }
 
 .react-datepicker {
-background-color: #1d2125 !important; /* Cor do cabeçalho */
-border: solid 2px var(--color_) !important ;
+background-color: var(--color_5) !important; /* Cor do cabeçalho */
+border: solid 2px var(--color_8) !important ;
 border-radius: 20px !important;
 margin-top: 5.5vh;
 margin-left: -15vw;
@@ -283,7 +267,7 @@ margin-left: -15vw;
 
 /* Estilizando o cabeçalho do DatePicker */
 .react-datepicker__header {
-  background-color: #1d2125 !important; /* Cor do cabeçalho */
+  background-color: var(--color_5) !important; /* Cor do cabeçalho */
   border-bottom: none !important;    
 
 }
@@ -296,7 +280,7 @@ margin-left: -15vw;
 
 /* Estilizando os dias */
 .react-datepicker__day {
-  background-color: #1d2125 !important; /* Cor de fundo dos dias */
+  background-color: var(--color_5) !important; /* Cor de fundo dos dias */
   color: var(--color_3) !important;
   transition: background-color 0.3s, color 0.3s; /* Transição suave */
   padding: 8px; /* Padding dos dias */
@@ -306,13 +290,13 @@ margin-left: -15vw;
 
 /* Efeito de hover sobre os dias */
 .react-datepicker__day:hover {
-  color: rgb(240, 248, 255) !important; /* Cor do texto ao passar o mouse */
+  color: var(--color_2) !important; /* Cor do texto ao passar o mouse */
 }
 
 /* Estilo do dia selecionado */
 .react-datepicker__day--selected {
   color: red !important; /* Cor do texto no dia selecionado */
-  border: solid 1px #1d2125 !important;
+  border: solid 1px var(--color_5) !important;
   font-weight: bold;
 }
 
@@ -327,7 +311,7 @@ margin-left: -15vw;
   height: 4.5vh;
   padding-right: 1vw;
   padding-left: 1vw;
-  border: solid 2px var(--color_) ;
+  border: solid 2px var(--color_8) ;
   border-radius: 20px;
   margin-right: 0.2rem;
   text-align: center;
@@ -348,7 +332,7 @@ margin-left: -15vw;
   height: 4.5vh;
   padding-right: 1vw;
   padding-left: 1vw;
-  border: solid 2px var(--color_) ;
+  border: solid 2px var(--color_8) ;
   border-radius: 20px;
   margin-right: 0.2rem;
   text-align: center;
@@ -416,7 +400,7 @@ margin-left: -15vw;
 .insights-btn {
   align-items: center;
   background-color: var(--color_5);
-  border: solid 2px var(--color_) ;
+  border: solid 2px var(--color_8) ;
   height: 4.5vh;
   width: 7vw;
   color: var(--color_3);
@@ -436,7 +420,7 @@ margin-left: -15vw;
   margin-top: 3vh;
   height: 72vh;
   width: 22vw;
-  background-color: rgba(240, 248, 255, 0.05);
+  background-color: var(--color_12);
 }
 
 .board {
@@ -466,7 +450,7 @@ summary {
   width: 77vw;
   font-weight: 400;
   background-color: var(--color_5);
-  border: solid 1px var(--color_) ;
+  border: solid 1px var(--color_8) ;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
   
 } 
@@ -477,7 +461,7 @@ summary {
   font-size: 14px;
   font-weight: 400;
   list-style: none;
-  border-bottom: solid 1px var(--color_) ;
+  border-bottom: solid 1px var(--color_8) ;
 }
 
 .task-type {
@@ -733,7 +717,7 @@ summary {
   font-size: 14px;
   font-weight: 400;
   padding-left: 0.5vw;
-  color: rgba(240, 248, 255, 0.4)
+  color: va
 }
 
 
@@ -753,7 +737,7 @@ summary {
   font-size: 14px;
   font-weight: 400;
   padding-left: 0.5vw;
-  color: rgba(240, 248, 255, 0.4);
+  color: va;
 
 }
 
@@ -769,7 +753,7 @@ summary {
 }
 
 .custom__placeholder {
-  color: rgba(240, 248, 255, 0.4) !important;
+  color: var(--color_12);
   font-size: 14px; /* Estilo em itálico */
 }
 
@@ -783,14 +767,14 @@ summary {
 
 .custom__menu {
   background-color: var(--color_1) !important; /* Cor de fundo */
-  color: rgba(240, 248, 255, 0.4);
+  color: va;
   margin-top: 0.5vh;
   z-index: 9999;
   font-size: 14px; /* Estilo em itálico */
 
 }
 .custom__option {
-  background-color: var(--color_1); /* Cor de fundo */
+  background-color: var(--color_1) !important; /* Cor de fundo */
   cursor: pointer !important; /* Cursor de clique */
 }
 
@@ -859,7 +843,7 @@ summary {
 }
 
 .custom-quill .ql-container {
-  border: 1px solid var(--color_) !important;
+  border: 1px solid var(--color_13) !important;
   background-color: var(--color_1); /* Cor de fundo */
   font-size: 16px; /* Tamanho do texto */
   color: var(--color_4) !important;
@@ -867,7 +851,7 @@ summary {
 }
 
 .custom-quill .ql-toolbar {
-  border: 1px solid var(--color_) !important;
+  border: 1px solid var(--color_13) !important;
   margin-top: 0.5vh;
   background-color: var(--color_1); /* Fundo da barra */  
 }
@@ -903,7 +887,8 @@ summary {
   cursor: pointer;
   height: 4.5vh;
   width: 5vw;
-  background-color: #132e54;
+  color: #88bcff !important;
+  background-color: rgba(19, 46, 84, 0.7) !important;
   border: none;
   color: #88bcff;
   font-size: 16px;
@@ -926,7 +911,7 @@ summary {
 }
 
 .btn-over .cancel:hover {
-  color: rgb(240, 248, 255);
+  color: rgb(252, 148, 148);
 }
 
 .tasks {
@@ -1028,7 +1013,7 @@ summary {
 }
 
 .state__placeholder {
-  color: rgba(240, 248, 255, 0.4) !important;
+  color: var(--color_12) !important;
   font-size: 14px; /* Estilo em itálico */
 }
 
@@ -1043,17 +1028,19 @@ summary {
 .state__menu {
   margin-top: 5.4vh !important;
   background-color: var(--color_1) !important; /* Cor de fundo */
-  color: rgba(240, 248, 255, 0.4);
+  color: va;
   z-index: 9999;
   font-size: 14px; /* Estilo em itálico */
-
 }
+
+
 .state__option {
   background-color: var(--color_1); /* Cor de fundo */
   cursor: pointer !important; /* Cursor de clique */
 }
 
 .state__option:hover {
+  background-color: var(--color_1); /* Cor de fundo */
   cursor: pointer !important;
 }
 
@@ -1115,7 +1102,7 @@ summary {
   padding: 0.7vw;
   margin-right: 0.5vw;
   background-color: var(--color_1);
-  border: solid 1px var(--color_) ;
+  border: solid 1px var(--color_8) ;
   border-radius: 7px;
   z-index: 1001;
 }

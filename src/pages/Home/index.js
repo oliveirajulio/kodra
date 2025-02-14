@@ -43,7 +43,12 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import AddIcon from '@mui/icons-material/Add';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import CalendarViewWeekIcon from '@mui/icons-material/CalendarViewWeek';
+import ViewArrayIcon from '@mui/icons-material/ViewArray';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 function Home() {
 
@@ -261,9 +266,9 @@ function Home() {
       ];
 
       const statesOptions = [
-        { value: "Done", label: "Done"},
-        { value: "Doing", label: "Doing" },
-        { value: "Not done", label: "Not done"},
+        { value: "Done", label: "Done", className: "react-select__option--done" },
+        { value: "Doing", label: "Doing", className: "react-select__option--doing" },
+        { value: "Not done", label: "Not done", className: "react-select__option--not-done" }
       ];
 
     const clearmodal = () => {
@@ -279,33 +284,34 @@ function Home() {
     };
 
     const fetchTasks = async () => {
-      // Verifique se selectedDate é válido antes de chamar getFormattedDateBackend
       if (!selectedDate || !(selectedDate instanceof Date) || isNaN(selectedDate)) {
         console.log("Data inválida, não foi possível buscar as tarefas.");
-        return; // Não tenta buscar as tarefas se a data for inválida
+        return;
       }
     
-      const formattedDateBackend = getFormattedDateBackend(selectedDate); // Formata para "YYYY-MM-DD"
-      console.log("Fetching tasks and user for date:", formattedDateBackend);
+      const formattedDateBackend = getFormattedDateBackend(selectedDate);
+      console.log("Fetching tasks for date:", formattedDateBackend);
     
-      setLoadingTask(true); // Começa o carregamento
-
+      setLoadingTask(true);
+    
       try {
-        // Buscar tasks e user ao mesmo tempo
-        const [fetchedTasks, fetchedUser] = await Promise.all([
-          getTask(formattedDateBackend),
-          getUser(),
-        ]);
-    
+        const fetchedTasks = await getTask(formattedDateBackend);
         console.log("Fetched tasks:", fetchedTasks);
-        console.log("Fetched user:", fetchedUser);
-    
         setTasks(fetchedTasks);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      } finally {
+        setLoadingTask(false);
+      }
+    };
+
+    const fetchUser = async () => {
+      try {
+        const fetchedUser = await getUser();
+        console.log("Fetched user:", fetchedUser);
         setuser(fetchedUser);
       } catch (error) {
-        console.error("Error fetching tasks or user:", error);
-      } finally {
-        setLoadingTask(false); // Finaliza o carregamento
+        console.error("Error fetching user:", error);
       }
     };
 
@@ -317,6 +323,10 @@ function Home() {
     useEffect(() => {
       fetchTasks();
     }, [selectedDate]); // Isso só será chamado se selectedDate for válido
+
+    useEffect(() => {
+      fetchUser();
+    }, []);
     
     const Theme = () => {
       setTheme(prevTheme => prevTheme === "dark" ? "light" : "dark");
@@ -615,15 +625,15 @@ function Home() {
                     <p className="intro">PLANNING</p>
                     <div className="buttons">
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
-                          <summary className="arrow-board"><span className="info-view">Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
+                          <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
-                              <button>Kanban</button>
-                              <button>Scrum</button>
+                              <button><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
+                              <button><ViewArrayIcon className="ic-board"/>Scrum</button>
                             </div>
                         </details>
-                        <button>Binder</button>
-                        <button>Calendar</button>
-                        <button>Reports</button>
+                        <button><MenuBookIcon className="ic-boardbtn"/>Binder</button>
+                        <button><EditCalendarIcon className="ic-boardbtn"/>Calendar</button>
+                        <button><EditCalendarIcon className="ic-boardbtn"/>Reports</button>
                     </div>
                 </div>
             </div>
@@ -793,6 +803,9 @@ function Home() {
                         <button onClick={openModal} className="add-issue">+ Create task</button>
                     </details>    
                 </div>
+            </div>
+            <div className="kbn-view">
+                             
             </div>
             <div id={showModal ? "modal-root" : ""}>
                     <div className={showModal ? "overlay" : ""}>

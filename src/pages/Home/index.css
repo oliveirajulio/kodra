@@ -157,6 +157,22 @@
 .icon-board {
   position: relative;
   font-size: 20px !important;
+  margin-left: -2vw;
+}
+
+.ic-board {
+  position: relative;
+  display: inline-flex;
+  margin-right: 0.5rem;
+  font-size: 18px !important;
+}
+
+.ic-boardbtn {
+  position: relative;
+  display: inline-flex;
+  margin-right: 0.5rem;
+  top: 0.2rem;
+  font-size: 18px !important;
 }
 
 .buttons select {
@@ -172,6 +188,7 @@
 }
 
 .buttons button {
+  position: relative;
   background-color: var(--color_1);
   border: none;
   margin-top: 0.5vh;
@@ -201,7 +218,6 @@
 .btn-view-enable button {
   position: relative;
   display: flex;
-  flex-direction: column;
   color: #88bcff !important;
   background-color: rgba(19, 46, 84, 0.65) !important;
   border: none;
@@ -717,7 +733,7 @@ summary {
   font-size: 14px;
   font-weight: 400;
   padding-left: 0.5vw;
-  color: va
+  color: var(--color_12)
 }
 
 
@@ -737,7 +753,7 @@ summary {
   font-size: 14px;
   font-weight: 400;
   padding-left: 0.5vw;
-  color: va;
+  color: var(--color_12);
 
 }
 
@@ -753,12 +769,12 @@ summary {
 }
 
 .custom__placeholder {
-  color: var(--color_12);
+  color: var(--color_12) !important;
   font-size: 14px; /* Estilo em itálico */
 }
 
 .custom__single-value	{
-  color: rgba(24, 24, 24, 0.9) !important;
+  color: var(--color_1) !important;
   font-weight: 500;
   font-size: 14px;
   text-align: center;
@@ -767,14 +783,14 @@ summary {
 
 .custom__menu {
   background-color: var(--color_1) !important; /* Cor de fundo */
-  color: va;
+  color: var(--color_12);
   margin-top: 0.5vh;
   z-index: 9999;
   font-size: 14px; /* Estilo em itálico */
 
 }
 .custom__option {
-  background-color: var(--color_1) !important; /* Cor de fundo */
+  background-color: var(--color_1); /* Cor de fundo */
   cursor: pointer !important; /* Cursor de clique */
 }
 
@@ -843,7 +859,7 @@ summary {
 }
 
 .custom-quill .ql-container {
-  border: 1px solid var(--color_13) !important;
+  border: 1px solid var(--color_8) !important;
   background-color: var(--color_1); /* Cor de fundo */
   font-size: 16px; /* Tamanho do texto */
   color: var(--color_4) !important;
@@ -851,7 +867,7 @@ summary {
 }
 
 .custom-quill .ql-toolbar {
-  border: 1px solid var(--color_13) !important;
+  border: 1px solid var(--color_8) !important;
   margin-top: 0.5vh;
   background-color: var(--color_1); /* Fundo da barra */  
 }
@@ -1097,7 +1113,7 @@ summary {
   position: inherit;
   display: flex;
   flex-direction: column;
-  width: 16.5vw;
+  width: 17vw;
   height: auto;
   padding: 0.7vw;
   margin-right: 0.5vw;

@@ -49,6 +49,7 @@ import ViewArrayIcon from '@mui/icons-material/ViewArray';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 
 function Home() {
 
@@ -629,11 +630,12 @@ function Home() {
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
                               <button><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
                               <button><ViewArrayIcon className="ic-board"/>Scrum</button>
+                              <button><ScheduleIcon className="ic-board"/>Schedule</button>
                             </div>
                         </details>
                         <button><MenuBookIcon className="ic-boardbtn"/>Binder</button>
                         <button><EditCalendarIcon className="ic-boardbtn"/>Calendar</button>
-                        <button><EditCalendarIcon className="ic-boardbtn"/>Reports</button>
+                        <button><AssessmentIcon className="ic-boardbtn"/>Reports</button>
                     </div>
                 </div>
             </div>

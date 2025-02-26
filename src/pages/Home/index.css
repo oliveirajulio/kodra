@@ -144,6 +144,14 @@
   flex-direction: column; /* Faz os botões ficarem um abaixo do outro */
 }
 
+.btn-view-enable {
+  position: relative;
+  padding-top: 0.5vw;
+  height: 22.2vh;
+  background-color: rgba(19, 46, 84, 0.3) !important;
+  border-radius: 1vw;
+}
+
 .btn-details {
   color: var(--color_3);
 }

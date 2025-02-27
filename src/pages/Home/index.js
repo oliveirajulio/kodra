@@ -611,6 +611,16 @@ function Home() {
                         placeholder="Search"
                         />
                 </div>
+                  <nav className="nav-header">
+                      <ul>
+                        <li>Option 1</li>
+                        <li>Option 2</li>
+                        <li>Option 3</li>
+                        <li>Option 4</li>
+                        <li>Option 5</li>
+                        <li>Option 6</li>
+                      </ul>
+                    </nav>
                 <div className="btn-header">
                     <button className="not"><NotificationsIcon className="icon-header" fontSize="medium"/></button>
                     <button className="set"><SettingsIcon className="icon-header" fontSize="medium"/></button>
@@ -661,7 +671,7 @@ function Home() {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}</h3>
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button className="direct-today">TODAY</button></h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -793,6 +803,7 @@ function Home() {
                                     >{task.type}
                                     </span>
                                     <div className="man-btn">
+                                      <button className="markdone">Mark as done</button>
                                       <button onClick={openModalTask} id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
                                       <button onClick={() => deletetask(task.id)} id="delete">
                                         <DeleteIcon className="icon-man" fontSize="medium" />

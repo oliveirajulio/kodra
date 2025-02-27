@@ -32,6 +32,21 @@
   border-bottom: solid 0.5px var(--color_13);
 }
 
+.nav-header {
+  font-size: 13px !important;
+  position: relative;
+  padding-top: 0.5rem;
+  left: 4rem;
+  color: var(--color_3);
+}
+
+.nav-header ul {
+  display: inline-flex;
+  gap: 2rem;
+  list-style: none;
+
+}
+
 .search-input {
   position: absolute;
   right: 12vw;
@@ -131,7 +146,6 @@
 
 .info-view {
   position: relative;
-  display: flex;
   left: -7.8rem;
   top: 0.1rem;
   text-align: start;
@@ -206,6 +220,8 @@
   border-radius: 5px;
   text-align: start;
   color: var(--color_3);
+  cursor: pointer;
+
 }
 
 
@@ -237,6 +253,17 @@
   height: 6vh;
   border-radius: 5px;
   text-align: start;
+}
+
+.direct-today {
+  position: relative;
+  margin-left: 1rem;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--color_4);
+  color: var(--color_1);
+  font-size: 15px !important;
+  font-weight: 700;
 }
 
 .info-day h3 {
@@ -503,9 +530,9 @@ summary {
 
 .man-btn {
   position: fixed;
-  width: 4%;
+  width: 20%;
   display: inline-flex;
-  left: 92%;
+  left: 85%;
   color: transparent;
 
 }
@@ -567,12 +594,18 @@ summary {
   font-weight: 900 !important;
 }
 
-
+.markdone {
+  width: 6rem;
+  background-color: transparent;
+  border: none;
+  color: var(--color_8);
+  cursor: pointer;
+}
 
 #edit, #delete {
   background-color: transparent;
   border: none;
-  color: transparent;
+  color: var(--color_8);
   z-index: 999;
   cursor: pointer;
 }

@@ -6,8 +6,11 @@ import { createArea, getAreas, deleteArea } from "../../services/service-area";
 import getUser from "../../services/service-getuser";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
+import editTask from "../../services/servoce-edittask";
 import deleteTask from "../../services/service-deletetask";
 import updateTaskState from "../../services/service-state";
+import useCalendar from "../../components/Calendar";
+import { format, isSameDay } from 'date-fns';
 import Select from "react-select"
 import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
@@ -50,6 +53,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import { FastForward } from "@mui/icons-material";
 
 function Home() {
 
@@ -85,10 +89,32 @@ function Home() {
   const [selectedArea, setSelectedArea] = useState(null);  
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [KbnView, setKbnView] = useState(false)
+  const [ScrView, setScrView] = useState(false)
+  const [ScheduleView, setScheduleView] = useState(false)
+  const [CalendarView, setCalendarView] = useState(false)
+  const { currentDate, changeMonth, getDaysInMonth } = useCalendar();
+
+
+
+
 
 
     const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
+    const openModaledit = (task) => {
+      setSelectedTask(task);
+      setTempState(task.state);
+      settaskname(task.name);
+      setdescription(task.description);
+      setselectOption({ value: task.type, label: task.type, priority: task.type });
+      setSelectedFilter(task.area_id);
+      setShowModal(true);
+    }; 
+    const closeModal = () => {
+      setShowModal(false);
+      setSelectedTask(null); // Limpa a tarefa selecionada
+      clearmodal();
+    };
     const openModalTask = (task) => {
       setSelectedTask(task)
       setTempState(task.state)
@@ -99,6 +125,33 @@ function Home() {
       setModalTask(false);
       setShowModal(false)
     } 
+    const OpenKbnView = () => {
+      setKbnView(prevState => !prevState);
+      setScrView(false)
+      setScheduleView(false)
+      setCalendarView(false)
+
+    }
+    const OpenScrView = () => {
+      setScrView(prevState => !prevState); 
+      setKbnView(false)
+      setScheduleView(false)
+      setCalendarView(false)
+
+    }
+    const OpenScheduleView = () => {
+      setScheduleView(prevState => !prevState); 
+      setKbnView(false)
+      setScrView(false)
+      setCalendarView(false)
+    }
+    const OpenCalendarView = () => {
+      setCalendarView(prevState => !prevState);
+      setKbnView(false)
+      setScrView(false)
+      setScheduleView(false)
+    }
+    
 
   
 
@@ -257,6 +310,21 @@ function Home() {
             const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
             setDayOfWeek(dayName);
         }
+      };
+
+      const goToToday = () => {
+        const today = new Date();
+        setSelectedDate(today);
+        setFormattedDate(getFormattedDate(today));
+        setDayOfWeek(today.toLocaleDateString("en-US", { weekday: "long" }));
+        
+        // If the calendar is closed, we should update the placeholder
+        if (!showCalendar) {
+          setPlaceholder(getFormattedDate(today));
+        }
+        
+        // This will trigger the useEffect that fetches tasks for the selected date
+        // No need to call fetchTasks() explicitly
       };
 
       const options = [
@@ -457,6 +525,91 @@ function Home() {
       console.log('Selected Task Description:', newTask?.description);
     }
   }; 
+   
+  const edittask = async () => {
+    if (!selectedTask) {
+      alert("No task selected for editing!");
+      return;
+    }
+  
+    if (!selectedOption) {
+      alert("Please select a priority before updating!");
+      return;
+    }
+  
+    if (!selectedFilter) {
+      alert("Please select an area before updating!");
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
+      const updatedTaskData = { 
+        selectedOption: selectedOption.value,
+        taskname: taskname,
+        date: selectedDate ? getFormattedDateBackend(selectedDate) : null,
+        description: description,
+        state: tempState || selectedTask.state,
+        area_id: selectedFilter
+      };
+  
+      const response = await editTask(selectedTask.id, updatedTaskData);
+      console.log("Edit Response:", response);
+  
+      // Update the task in the local state
+      setTasks((prevTasks) => 
+        prevTasks.map(task => 
+          task.id === selectedTask.id 
+            ? {
+                ...task,
+                type: response.type,
+                name: response.name,
+                description: response.description,
+                state: response.state,
+                area_id: response.area_id
+              }
+            : task
+        )
+      );
+  
+      Swal.fire({
+        position: 'bottom',
+        title: 'Task updated successfully!',
+        showConfirmButton: false,
+        timer: 2000,
+        toast: true,
+        background: '#1e88e5', // Blue color for update
+        color: '#fff',
+        customClass: {
+          popup: 'custom-alert',
+        },
+        padding: '1px',
+      });
+  
+      clearmodal();
+      closeModal(); // Close the modal after updating
+    } catch (error) {
+      console.error("Error updating task:", error);
+      Swal.fire({
+        position: 'bottom',
+        title: 'Failed to update task!',
+        showConfirmButton: false,
+        timer: 2000,
+        toast: true,
+        background: '#d32f2f', // Red color for error
+        color: '#fff',
+        customClass: {
+          popup: 'custom-alert',
+        },
+        padding: '1px',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+    
     const deletetask = (taskId) => {
       deleteTask(taskId)
         .then(() => {
@@ -499,13 +652,12 @@ function Home() {
     
           // Mostra o alerta com SweetAlert2
           Swal.fire({
-            position: 'top-right', // Posição no canto inferior direito
-            icon: 'success', // Ícone de sucesso
+            position: 'bottom', // Posição no canto inferior direito
             showConfirmButton: false,
-            title: "Confirmed!", // Remove o botão de confirmação
-            timer: 1500, // Duração do alerta (em milissegundos)
+            title: "Saved!", // Remove o botão de confirmação
+            timer: 1000, // Duração do alerta (em milissegundos)
             toast: true,
-            background: 'transparent', // Remove o fundo
+            background: '#1ed760',
             border: 'none',
             customClass: {
               popup: 'custom-confirm', // Classe customizada para efeito
@@ -569,7 +721,7 @@ function Home() {
     
 
     const MenuUser = () => {
-      setmenuUser(!menuUser)
+        setmenuUser(prevState => !prevState); 
     }
     
     // Update the filteredTasks logic
@@ -638,13 +790,13 @@ function Home() {
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
                           <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
-                              <button><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
-                              <button><ViewArrayIcon className="ic-board"/>Scrum</button>
-                              <button><ScheduleIcon className="ic-board"/>Schedule</button>
+                              <button onClick={OpenKbnView}><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
+                              <button onClick={OpenScrView}><ViewArrayIcon className="ic-board"/>Scrum</button>
+                              <button onClick={OpenScheduleView}><ScheduleIcon className="ic-board"/>Schedule</button>
                             </div>
                         </details>
                         <button><MenuBookIcon className="ic-boardbtn"/>Binder</button>
-                        <button><EditCalendarIcon className="ic-boardbtn"/>Calendar</button>
+                        <button onClick={OpenCalendarView}><EditCalendarIcon className="ic-boardbtn"/>Calendar</button>
                         <button><AssessmentIcon className="ic-boardbtn"/>Reports</button>
                     </div>
                 </div>
@@ -671,7 +823,7 @@ function Home() {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button className="direct-today">TODAY</button></h3>
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -706,60 +858,60 @@ function Home() {
                         )}
                 
                 <div className="task-section">
-  <nav className="nav-section">
-    <ul>
-      {areas.map((area) => (
-        <li key={area.id}>
-          <button
-            onClick={() => selectFilter(area.id)}
-            className={selectedFilter === area.id ? "selected" : ""}
-          >
-            {area.name}
-          </button>
-        </li>
-      ))}
+                  <nav className="nav-section">
+                    <ul>
+                      {areas.map((area) => (
+                        <li key={area.id}>
+                          <button
+                            onClick={() => selectFilter(area.id)}
+                            className={selectedFilter === area.id ? "selected" : ""}
+                          >
+                            {area.name}
+                          </button>
+                        </li>
+                      ))}
 
-      {isEditingArea ? (
-        <li>
-          <div
-            ref={newAreaRef}
-            contentEditable="true"
-            suppressContentEditableWarning={true}
-            className="editable-button"
-            onBlur={(e) => {
-              const text = e.currentTarget.textContent.trim();
-              if (text) {
-                setNewAreaName(text);
-                AddArea();
-              } else {
-                setIsEditingArea(false); // Cancela se o usuário não digitar nada
-              }
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault(); // Impede a quebra de linha
-                const text = e.currentTarget.textContent.trim();
-                if (text) {
-                  setNewAreaName(text);
-                  AddArea();
-                }
-              }
-            }}
-            autoFocus
-          />
-        </li>
-      ) : (
-        <li>
-          <button onClick={() => setIsEditingArea(true)}>
-            <AddIcon className="ic-section" /> Add Filter
-          </button>
-        </li>
-      )}
-    </ul>
-  </nav>
-</div>
+                      {isEditingArea ? (
+                        <li>
+                          <div
+                            ref={newAreaRef}
+                            contentEditable="true"
+                            suppressContentEditableWarning={true}
+                            className="editable-button"
+                            onBlur={(e) => {
+                              const text = e.currentTarget.textContent.trim();
+                              if (text) {
+                                setNewAreaName(text);
+                                AddArea();
+                              } else {
+                                setIsEditingArea(false); // Cancela se o usuário não digitar nada
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault(); // Impede a quebra de linha
+                                const text = e.currentTarget.textContent.trim();
+                                if (text) {
+                                  setNewAreaName(text);
+                                  AddArea();
+                                }
+                              }
+                            }}
+                            autoFocus
+                          />
+                        </li>
+                      ) : (
+                        <li>
+                          <button onClick={() => setIsEditingArea(true)}>
+                            <AddIcon className="ic-section" /> Add Filter
+                          </button>
+                        </li>
+                      )}
+                    </ul>
+                  </nav>
+                </div>
 
-                
+                                
                 <div className='insights'>
                     <TrendingUpIcon className="icon-insight"/>
                     <button className="insights-btn">Insights</button>
@@ -804,7 +956,7 @@ function Home() {
                                     </span>
                                     <div className="man-btn">
                                       <button className="markdone">Mark as done</button>
-                                      <button onClick={openModalTask} id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
+                                      <button onClick={() => openModaledit(task)}  id="edit"><EditRoundedIcon className="icon-man" fontSize="medium" /></button>
                                       <button onClick={() => deletetask(task.id)} id="delete">
                                         <DeleteIcon className="icon-man" fontSize="medium" />
                                       </button>
@@ -817,8 +969,220 @@ function Home() {
                     </details>    
                 </div>
             </div>
-            <div className="kbn-view">
-                             
+            <div className={KbnView ? "kbn-view" : "kbn-view-hidden"}>
+              <div className={menuUser ? "menu-user" : "off"}>
+                <div className="user">
+                  <span><AccountCircleIcon className="icon-user"/></span>
+                  <span className="user-name">{user?.username}</span>
+                </div>
+                <div className="btn-menu">
+                <button className="darkmode" onClick={Theme}>
+                  {theme === "dark" ? (
+                    <>
+                      <LightModeOutlinedIcon  className="ic-theme" /> Light Mode
+                    </>
+                  ) : (
+                    <>
+                      <DarkModeOutlinedIcon className="ic-theme" /> Dark Mode
+                    </>
+                  )}
+                </button>
+                  <button onClick={SignOut} className={menuUser ? "signout" : "off"}>Sign Out <PowerSettingsNewIcon className="ic-user"/></button>
+                </div>
+               </div>
+                <div className="info-day">
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
+                </div>
+                <div className="slc">
+                    <input 
+                    className="input"
+                    type="text"
+                    value={dayOfWeek}
+                    onClick={() => setShowCalendar(true)} 
+                    onChange={(date) => {
+                        weekday(date)
+                    }}/>
+                    
+                    {showIcon && (
+                        <button 
+                        className="calendar"
+                        onClick={SHW}>
+                            <CalendarMonthIcon 
+                            className="icon-calendar"/>
+                        </button>
+                    )}
+                    {showCalendar && (
+                    <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => {
+                      setSelectedDate(date);
+                      SHW();  // Chama a função SHW
+                      weekday(date);  // Chama a função weekday
+                    }}
+                    inline
+                    className="custom-datepicker"
+                    dateFormat="yyyy-MM-dd"  // Mantém o formato de data do DatePicker
+                  />                             
+                        )}
+                        
+                <div className="task-section">
+                  <nav className="nav-section">
+                    <ul>
+                      {areas.map((area) => (
+                        <li key={area.id}>
+                          <button
+                            onClick={() => selectFilter(area.id)}
+                            className={selectedFilter === area.id ? "selected" : ""}
+                          >
+                            {area.name}
+                          </button>
+                        </li>
+                      ))}
+
+                      {isEditingArea ? (
+                        <li>
+                          <div
+                            ref={newAreaRef}
+                            contentEditable="true"
+                            suppressContentEditableWarning={true}
+                            className="editable-button"
+                            onBlur={(e) => {
+                              const text = e.currentTarget.textContent.trim();
+                              if (text) {
+                                setNewAreaName(text);
+                                AddArea();
+                              } else {
+                                setIsEditingArea(false); // Cancela se o usuário não digitar nada
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault(); // Impede a quebra de linha
+                                const text = e.currentTarget.textContent.trim();
+                                if (text) {
+                                  setNewAreaName(text);
+                                  AddArea();
+                                }
+                              }
+                            }}
+                            autoFocus
+                          />
+                        </li>
+                      ) : (
+                        <li>
+                          <button onClick={() => setIsEditingArea(true)}>
+                            <AddIcon className="ic-section" /> Add Filter
+                          </button>
+                        </li>
+                      )}
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+                <div className="kbn-board">
+                    <div className="todo-kbn">
+                      <span className="state-kbn">TO-DO</span>
+                      <div className="list-kbn">
+                        <ul>
+                        {(Array.isArray(filteredTasks) ? filteredTasks : [])
+                          .filter(task => task.state === "Not done")
+                          .map((task, index) => (
+                        <li key={index} className="tasks-kbn">
+                          <span onClick={() => openModalTask(task)} className="span-name-kbn">{task.name}</span>
+                          <span className="task-type-kbn" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}>
+                            {task.type}
+                          </span>
+                          <div className="infos-kbn">
+                            <span className="task-state-icon-kbn not-done">
+                              <FiberManualRecordIcon className="ic-state" fontSize="small"/>
+                            </span>
+                            <span className="task-id-kbn">{task.id}</span> 
+                          </div>
+                        </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="doing-kbn">
+                      <span className="state-kbn">IN PROGRESS</span>
+                      <div className="list-kbn">
+                      <ul>
+                        {(Array.isArray(filteredTasks) ? filteredTasks : [])
+                          .filter(task => task.state === "Doing")
+                          .map((task, index) => (
+                        <li key={index} className="tasks-kbn">
+                          <span onClick={() => openModalTask(task)} className="span-name-kbn">{task.name}</span>
+                          <span className="task-type-kbn" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}>
+                            {task.type}
+                          </span>
+                          <div className="infos-kbn">
+                            <span className="task-state-icon-kbn doing">
+                              <CropSquareOutlinedIcon className="ic-state" fontSize="small"/>
+                            </span>
+                            <span className="task-id-kbn">{task.id}</span> 
+                          </div>
+                        </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="done-kbn">
+                     <span className="state-kbn">DONE</span>
+                     <div className="list-kbn">
+                     <ul>
+                        {(Array.isArray(filteredTasks) ? filteredTasks : [])
+                          .filter(task => task.state === "Done")
+                          .map((task, index) => (
+                        <li key={index} className="tasks-kbn">
+                          <span onClick={() => openModalTask(task)} className="span-name-kbn">{task.name}</span>
+                          <span className="task-type-kbn" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}>
+                            {task.type}
+                          </span>
+                          <div className="infos-kbn">
+                            <span className="task-state-icon-kbn done">
+                              <CheckIcon className="ic-state" fontSize="small"/>
+                            </span>
+                            <span className="task-id-kbn">{task.id}</span> 
+                          </div>
+                        </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <div className={ScrView ? "scrum-view" : "scrum-view-hidden"}></div>
+            <div className={ScheduleView ? "schedule-view" : "schedule-view-hidden"}></div>
+            <div className={CalendarView ? "calendar-view" : "calendar-view-hidden"}>
+              <div className="calendar-container">
+                <div className="calendar-header">
+                  <button onClick={() => changeMonth(-1)}>Previous</button>
+                  <h2>{format(currentDate, 'MMMM yyyy')}</h2>
+                  <button onClick={() => changeMonth(1)}>Next</button>
+                </div>
+                
+                <div className="calendar-weekdays">
+                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                    <div key={day} className="weekday">{day}</div>
+                  ))}
+                </div>
+                
+                <div className="calendar-days">
+                  {getDaysInMonth().map((day, index) => (
+                    <div 
+                      key={index} 
+                      className={`calendar-day ${day.isCurrentMonth ? '' : 'other-month'} ${
+                        isSameDay(day.date, new Date()) ? 'today' : ''
+                      }`}
+                    >
+                      <div className="day-number">{format(day.date, 'd')}</div>
+                      <div className="day-events">
+                        {/* Events would go here */}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
             <div id={showModal ? "modal-root" : ""}>
                     <div className={showModal ? "overlay" : ""}>
@@ -856,14 +1220,24 @@ function Home() {
                              </div> 
                         </div>
                         <div className={showModal ? "btn-over" : ""}>
-                            <button 
-                                onClick={addtask}
-                                disabled={!selectedOption}
-                                className={showModal ? "create" : "create-off"}>
-                                Create
+                          {selectedTask ? (
+                            <button
+                              onClick={edittask}
+                              disabled={!selectedOption}
+                              className={showModal ? "create" : "create-off"}>
+                              Update
                             </button>
-                            <button onClick={closeModal} className={showModal ? "cancel" : "cancel-off"}>Cancel</button>
+                          ) : (
+                            <button 
+                              onClick={addtask}
+                              disabled={!selectedOption}
+                              className={showModal ? "create" : "create-off"}>
+                              Create
+                            </button>
+                          )}
+                          <button onClick={closeModal} className={showModal ? "cancel" : "cancel-off"}>Cancel</button>
                         </div>
+
                     </div>
             </div>
             {modalTask && (

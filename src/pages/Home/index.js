@@ -55,6 +55,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { FastForward } from "@mui/icons-material";
 
+
 function Home() {
 
     
@@ -776,7 +777,7 @@ function Home() {
                 <div className="btn-header">
                     <button className="not"><NotificationsIcon className="icon-header" fontSize="medium"/></button>
                     <button className="set"><SettingsIcon className="icon-header" fontSize="medium"/></button>
-                    <button onClick={MenuUser }className="acc"><AccountCircleIcon className="icon-header" fontSize="large"/></button>
+                    <button onClick={MenuUser }className="acc"><PersonIcon className="icon-header" fontSize="large"/></button>
                 </div>
             </div>
             <div className={`sidebar ${showModal ? "container-blur" : " "}`}>

@@ -54,6 +54,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { FastForward } from "@mui/icons-material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 
 function Home() {
@@ -766,12 +767,11 @@ function Home() {
                 </div>
                   <nav className="nav-header">
                       <ul>
-                        <li>Option 1</li>
-                        <li>Option 2</li>
-                        <li>Option 3</li>
-                        <li>Option 4</li>
-                        <li>Option 5</li>
-                        <li>Option 6</li>
+                        <li>Dashboard</li>
+                        <li>Projects</li>
+                        <li>My tasks</li>
+                        <li>Teams</li>
+                        <li>Help</li>
                       </ul>
                     </nav>
                 <div className="btn-header">
@@ -1089,7 +1089,10 @@ function Home() {
                           .filter(task => task.state === "Not done")
                           .map((task, index) => (
                         <li key={index} className="tasks-kbn">
-                          <span onClick={() => openModalTask(task)} className="span-name-kbn">{task.name}</span>
+                          <span className="more-kbn"><MoreVertIcon className="ic-more"/></span>
+                          <span onClick={() => openModalTask(task)} className="span-name-kbn">
+                            {task.name}
+                          </span>
                           <span className="task-type-kbn" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}>
                             {task.type}
                           </span>
@@ -1097,7 +1100,7 @@ function Home() {
                             <span className="task-state-icon-kbn not-done">
                               <FiberManualRecordIcon className="ic-state" fontSize="small"/>
                             </span>
-                            <span className="task-id-kbn">{task.id}</span> 
+                            <span className="task-id-kbn">{task.id}</span>
                           </div>
                         </li>
                           ))}
@@ -1112,6 +1115,7 @@ function Home() {
                           .filter(task => task.state === "Doing")
                           .map((task, index) => (
                         <li key={index} className="tasks-kbn">
+                          <span className="more-kbn"><MoreVertIcon className="ic-more"/></span>
                           <span onClick={() => openModalTask(task)} className="span-name-kbn">{task.name}</span>
                           <span className="task-type-kbn" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}>
                             {task.type}
@@ -1135,6 +1139,7 @@ function Home() {
                           .filter(task => task.state === "Done")
                           .map((task, index) => (
                         <li key={index} className="tasks-kbn">
+                          <span className="more-kbn"><MoreVertIcon className="ic-more"/></span>
                           <span onClick={() => openModalTask(task)} className="span-name-kbn">{task.name}</span>
                           <span className="task-type-kbn" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}>
                             {task.type}
@@ -1152,8 +1157,181 @@ function Home() {
                     </div>
                   </div>
             </div>
-            <div className={ScrView ? "scrum-view" : "scrum-view-hidden"}></div>
-            <div className={ScheduleView ? "schedule-view" : "schedule-view-hidden"}></div>
+            <div className={ScrView ? "scrum-view" : "scrum-view-hidden"}>
+            <div className={menuUser ? "menu-user" : "off"}>
+                <div className="user">
+                  <span><AccountCircleIcon className="icon-user"/></span>
+                  <span className="user-name">{user?.username}</span>
+                </div>
+                <div className="btn-menu">
+                <button className="darkmode" onClick={Theme}>
+                  {theme === "dark" ? (
+                    <>
+                      <LightModeOutlinedIcon  className="ic-theme" /> Light Mode
+                    </>
+                  ) : (
+                    <>
+                      <DarkModeOutlinedIcon className="ic-theme" /> Dark Mode
+                    </>
+                  )}
+                </button>
+                  <button onClick={SignOut} className={menuUser ? "signout" : "off"}>Sign Out <PowerSettingsNewIcon className="ic-user"/></button>
+                </div>
+               </div>
+                <div className="info-day">
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
+                </div>
+                <div className="slc">
+                    <input 
+                    className="input"
+                    type="text"
+                    value={dayOfWeek}
+                    onClick={() => setShowCalendar(true)} 
+                    onChange={(date) => {
+                        weekday(date)
+                    }}/>
+                    
+                    {showIcon && (
+                        <button 
+                        className="calendar"
+                        onClick={SHW}>
+                            <CalendarMonthIcon 
+                            className="icon-calendar"/>
+                        </button>
+                    )}
+                    {showCalendar && (
+                    <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => {
+                      setSelectedDate(date);
+                      SHW();  // Chama a função SHW
+                      weekday(date);  // Chama a função weekday
+                    }}
+                    inline
+                    className="custom-datepicker"
+                    dateFormat="yyyy-MM-dd"  // Mantém o formato de data do DatePicker
+                  />                             
+                        )}
+                        
+                <div className="task-section">
+                  <nav className="nav-section">
+                    <ul>
+                      {areas.map((area) => (
+                        <li key={area.id}>
+                          <button
+                            onClick={() => selectFilter(area.id)}
+                            className={selectedFilter === area.id ? "selected" : ""}
+                          >
+                            {area.name}
+                          </button>
+                        </li>
+                      ))}
+
+                      {isEditingArea ? (
+                        <li>
+                          <div
+                            ref={newAreaRef}
+                            contentEditable="true"
+                            suppressContentEditableWarning={true}
+                            className="editable-button"
+                            onBlur={(e) => {
+                              const text = e.currentTarget.textContent.trim();
+                              if (text) {
+                                setNewAreaName(text);
+                                AddArea();
+                              } else {
+                                setIsEditingArea(false); // Cancela se o usuário não digitar nada
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.preventDefault(); // Impede a quebra de linha
+                                const text = e.currentTarget.textContent.trim();
+                                if (text) {
+                                  setNewAreaName(text);
+                                  AddArea();
+                                }
+                              }
+                            }}
+                            autoFocus
+                          />
+                        </li>
+                      ) : (
+                        <li>
+                          <button onClick={() => setIsEditingArea(true)}>
+                            <AddIcon className="ic-section" /> Add Filter
+                          </button>
+                        </li>
+                      )}
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+              <div className="scrum-board">
+                <div className="list-scrum">
+            
+                </div>
+              </div>
+            </div>
+
+            <div className={ScheduleView ? "schedule-view" : "schedule-view-hidden"}>
+            <div className={menuUser ? "menu-user" : "off"}>
+                <div className="user">
+                  <span><AccountCircleIcon className="icon-user"/></span>
+                  <span className="user-name">{user?.username}</span>
+                </div>
+                <div className="btn-menu">
+                <button className="darkmode" onClick={Theme}>
+                  {theme === "dark" ? (
+                    <>
+                      <LightModeOutlinedIcon  className="ic-theme" /> Light Mode
+                    </>
+                  ) : (
+                    <>
+                      <DarkModeOutlinedIcon className="ic-theme" /> Dark Mode
+                    </>
+                  )}
+                </button>
+                  <button onClick={SignOut} className={menuUser ? "signout" : "off"}>Sign Out <PowerSettingsNewIcon className="ic-user"/></button>
+                </div>
+               </div>
+                <div className="info-day">
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
+                </div>
+                <div className="slc">
+                    <input 
+                    className="input"
+                    type="text"
+                    value={dayOfWeek}
+                    onClick={() => setShowCalendar(true)} 
+                    onChange={(date) => {
+                        weekday(date)
+                    }}/>
+                    
+                    {showIcon && (
+                        <button 
+                        className="calendar"
+                        onClick={SHW}>
+                            <CalendarMonthIcon 
+                            className="icon-calendar"/>
+                        </button>
+                    )}
+                    {showCalendar && (
+                    <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => {
+                      setSelectedDate(date);
+                      SHW();  // Chama a função SHW
+                      weekday(date);  // Chama a função weekday
+                    }}
+                    inline
+                    className="custom-datepicker"
+                    dateFormat="yyyy-MM-dd"  // Mantém o formato de data do DatePicker
+                  />                             
+                        )}
+               </div>
+            </div>
+
             <div className={CalendarView ? "calendar-view" : "calendar-view-hidden"}>
               <div className="calendar-container">
                 <div className="calendar-header">

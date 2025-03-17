@@ -161,7 +161,7 @@
 .btn-view-enable {
   position: relative;
   padding-top: 0.5vw;
-  height: 22.2vh;
+  height: 28.2vh;
   background-color: rgba(19, 46, 84, 0.3) !important;
   border-radius: 1vw;
 }
@@ -272,8 +272,19 @@
     z-index: 1000;
   }
 
+  .binder-view {
+    position: fixed;
+    top: 8vh;
+    left: 17vw;
+    height: 92vh;
+    width: 85vw;
+    background-color: var(--color_1);
+    z-index: 1000;
+  }
 
-  .kbn-view-hidden, .scrum-view-hidden, .schedule-view-hidden, .calendar-view-hidden {
+
+
+  .kbn-view-hidden, .scrum-view-hidden, .schedule-view-hidden, .calendar-view-hidden, .binder-view-hidden {
     display: none;
   }
 
@@ -310,11 +321,18 @@
   position: relative;
   margin-left: 1rem;
   border: none;
+  background-color: transparent;
   border-radius: 3px;
-  background: linear-gradient(100deg, var(--color_9), var(--color_10), var(--color_11));
-  color: var(--color_1);
-  font-size: 15px !important;
-  font-weight: 700;
+  cursor: pointer;
+  color: var(--color_7);
+  font-size: 16px !important;
+  font-weight: 500;
+}
+
+.ic-direct {
+  position: relative;
+  top: 0.2rem;
+  font-size: 18px !important
 }
 
 .info-day h3 {
@@ -449,7 +467,7 @@ margin-left: -15vw;
 .nav-section button:hover {
   outline: none; /* Remove o contorno padrão do foco */
   background-color: var(--color_5);
-  border: solid 2px var(--color_3) ;
+  border: solid 1px var(--color_3) ;
   color: var(--color_2) !important;
 }
 
@@ -469,10 +487,25 @@ margin-left: -15vw;
 .nav-section .selected {
   outline: none; /* Remove o contorno padrão do foco */
   background-color: var(--color_5);
-  background: linear-gradient(100deg, var(--color_9), var(--color_10), var(--color_11));
-  border: solid 2px var(--color_3) ;
+  color: var(--color_2);
+  border: solid 1px var(--color_3) ;
   font-weight: 900 !important;
-  color: var(--color_1) !important;
+}
+
+.options-area{
+  position: absolute;
+  right: 4rem;
+}
+
+.btn-options {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: var(--color_8);
+}
+
+.ic-options {
+  position: relative;
 }
 
 
@@ -1485,4 +1518,12 @@ summary {
 
 .day-events {
   font-size: 12px;
+}
+
+.binder-subject {
+  position: relative;
+  height: 10rem;
+  width: 17rem;
+  background-color: var(--color_5);
+  border: solid 1px var(--color_8);
 }

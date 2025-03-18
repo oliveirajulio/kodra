@@ -55,6 +55,8 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import { FastForward } from "@mui/icons-material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 
 function Home() {
@@ -82,7 +84,7 @@ function Home() {
   const [tempState, setTempState] = useState(selectedTask?.state || "Not done"); // Armazenar temporariamente o estado selecionado
   const [btnClick, setBtnClick] = useState(false);
   const [menuUser, setmenuUser] = useState(false)
-  const [placeholder, setPlaceholder] = useState("Planeje seu dia de forma eficaz. Comece selecionando uma data:");  // Adiciona um estado para a frase
+  const [placeholder, setPlaceholder] = useState("Selecione uma data:");  // Adiciona um estado para a frase
   const [areas, setAreas] = useState([]);
   const [isEditingArea, setIsEditingArea] = useState(false);
   const [tempAreaId, setTempAreaId] = useState(null);
@@ -95,6 +97,7 @@ function Home() {
   const [ScrView, setScrView] = useState(false)
   const [ScheduleView, setScheduleView] = useState(false)
   const [CalendarView, setCalendarView] = useState(false)
+  const [BinderView, setBinderView] = useState(false)
   const { currentDate, changeMonth, getDaysInMonth } = useCalendar();
 
 
@@ -132,6 +135,7 @@ function Home() {
       setScrView(false)
       setScheduleView(false)
       setCalendarView(false)
+      setBinderView(false)
 
     }
     const OpenScrView = () => {
@@ -139,6 +143,8 @@ function Home() {
       setKbnView(false)
       setScheduleView(false)
       setCalendarView(false)
+      setBinderView(false)
+
 
     }
     const OpenScheduleView = () => {
@@ -146,16 +152,25 @@ function Home() {
       setKbnView(false)
       setScrView(false)
       setCalendarView(false)
+      setBinderView(false)
+
     }
     const OpenCalendarView = () => {
       setCalendarView(prevState => !prevState);
       setKbnView(false)
       setScrView(false)
       setScheduleView(false)
+      setBinderView(false)
+
     }
     
-
-  
+    const OpenBinderView = () => {
+      setCalendarView(prevState => !prevState);
+      setKbnView(false)
+      setScrView(false)
+      setScheduleView(false)
+      setBinderView(true)
+    }
 
     
 
@@ -791,12 +806,13 @@ function Home() {
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
                           <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
+                              <button><TaskAltIcon className="ic-board"/> Task Management</button>
                               <button onClick={OpenKbnView}><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
                               <button onClick={OpenScrView}><ViewArrayIcon className="ic-board"/>Scrum</button>
                               <button onClick={OpenScheduleView}><ScheduleIcon className="ic-board"/>Schedule</button>
                             </div>
                         </details>
-                        <button><MenuBookIcon className="ic-boardbtn"/>Binder</button>
+                        <button onClick={OpenBinderView}><MenuBookIcon className="ic-boardbtn"/>Binder</button>
                         <button onClick={OpenCalendarView}><EditCalendarIcon className="ic-boardbtn"/>Calendar</button>
                         <button><AssessmentIcon className="ic-boardbtn"/>Reports</button>
                     </div>
@@ -824,7 +840,7 @@ function Home() {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">Today<KeyboardDoubleArrowRightIcon className="ic-direct"/></button></h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -912,13 +928,12 @@ function Home() {
                   </nav>
                 </div>
 
-                                
-                <div className='insights'>
-                    <TrendingUpIcon className="icon-insight"/>
-                    <button className="insights-btn">Insights</button>
-                    <div className="insight-board"></div>
+                  <div className="options-area">
+                    <button className="btn-options"><EditRoundedIcon className="ic-options"/></button>
+                    <button className="btn-options"><SettingsIcon className="ic-options"/></button>    
+                  </div>
                 </div>
-                </div>
+                
                 <div className='board'>
                     <details open={open} onToggle={(e) => setopen(e.target.open)}>
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
@@ -992,7 +1007,7 @@ function Home() {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">Today<KeyboardDoubleArrowRightIcon className="ic-direct"/></button></h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -1179,7 +1194,7 @@ function Home() {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">Today<KeyboardDoubleArrowRightIcon className="ic-direct"/></button></h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -1296,7 +1311,7 @@ function Home() {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">GO TO TODAY</button></h3>
+                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">Today<KeyboardDoubleArrowRightIcon className="ic-direct"/></button></h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -1363,6 +1378,15 @@ function Home() {
                 </div>
               </div>
             </div>
+
+            <div className={BinderView ? "binder-view" : "binder-view-hidden"}>
+                <nav>
+                  <ul>
+                    <button className="binder-subject"></button>
+                  </ul>
+                </nav>
+            </div>
+
             <div id={showModal ? "modal-root" : ""}>
                     <div className={showModal ? "overlay" : ""}>
                         <h2 className={showModal ? "title-over" : "title-off"}>Create Task</h2>

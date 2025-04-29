@@ -41,6 +41,12 @@ function Login() {
 
   return (
     <div className="container-login">
+
+      <div className="logo">
+        <img className="logo-ig" src="/kaban/images/logo.png"/>
+      </div>
+
+
       <div className="intro-login">
         <h2 className="invite-login">Sign in to</h2>
       </div>

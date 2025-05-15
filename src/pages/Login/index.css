@@ -10,6 +10,12 @@
     background-color: #1d2125;;
   }
 
+  .logo-img {
+    position: relative;
+    width: 13rem;
+    height: auto;
+  }
+
   .box-login {
     margin-top: 2vh;
     width: 20%;

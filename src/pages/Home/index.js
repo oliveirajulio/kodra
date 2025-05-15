@@ -769,11 +769,9 @@ function Home() {
     return (
         <div className="container">
             <div className={`header ${showModal ? "container-blur" : " "}`}>
-                <nav>
-                    <ul>
-                        <li></li>
-                    </ul>
-                </nav>
+              <div className="img-inline">
+                <img className="logo-img" src="/imagens/logo-inline.png"/>
+              </div>
                 <div className="search-input">
                     <input 
                         className="search-ipt"
@@ -796,10 +794,6 @@ function Home() {
                 </div>
             </div>
             <div className={`sidebar ${showModal ? "container-blur" : " "}`}>
-                <div className="main-title">
-                    <h4 className="title-area">Area Test</h4>
-                    <h5 className="subtitle-area">subtitle test</h5>
-                </div>
                 <div className="plan-menu">
                     <p className="intro">PLANNING</p>
                     <div className="buttons">

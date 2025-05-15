@@ -66,7 +66,7 @@ function Home() {
   const [showCalendar, setShowCalendar] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [open, setopen] = useState(false)
-  const [openboard, setopenboard] = useState(false)
+  const [openboard, setopenboard] = useState(false)     
   const [tasks, setTasks] = useState([]);
   const [user, setuser] = useState(false)
   const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });

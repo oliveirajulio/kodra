@@ -154,7 +154,7 @@
   left: -7.8rem;
   top: 0.1rem;
   text-align: start;
-  font-size: 13px;
+  font-size: 14px;
   margin-bottom: 2vh;
 }
 
@@ -226,7 +226,7 @@
   text-align: start;
   color: var(--color_3);
   cursor: pointer;
-
+  font-size: 14px !important;
 }
 
 

@@ -42,31 +42,33 @@ function Login() {
   return (
     <div className="container-login">
 
+      <div className="intro-login">
+        <h3> <img className="isologo" src="/imagens/isologo.png"/>
+         Kodra </h3>  
+      </div>
+
+      <div className="box-login">
+
       <div className="logo">
         <img className="logo-img" src="/imagens/logo.png"/>
       </div>
 
-
-      <div className="intro-login">
-        <h2 className="invite-login">Sign in</h2>
-      </div>
-
-      <div className="box-login">
-        <label className="lablog-email">Email address</label>
+        {/* <label className="lablog-email">Email address</label> */}
         <input
           className="iptlog-email"
+          placeholder="Email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <div className="pass-row">
-          <label className="lablog-pass">Password</label>
-          <button className="btn-fgt">Forgot password?</button>
+          {/* <label className="lablog-pass">Password</label> */}
         </div>
         <input
           className="iptlog-pass"
           type="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -74,13 +76,16 @@ function Login() {
         <button onClick={() => LoginBtn(email, password)} className="signin">
           Sign in
         </button>
+        <button className="btn-fgt">Forgot password?</button>
+
+          <div className="box-more">
+          <a className="passkey">Sign with a passkey</a>
+          <span className="sp-qst">New to? 
+            <a onClick={NewAcc}>Create an account</a>
+          </span>
+        </div>
       </div>
-      <div className="box-more">
-        <a className="passkey">Sign with a passkey</a>
-        <span className="sp-qst">New to? 
-          <a onClick={NewAcc}>Create an account</a>
-        </span>
-      </div>
+
     </div>
   );
 }

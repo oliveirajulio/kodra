@@ -5,7 +5,7 @@
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: var(--color_1);
+  background-color: var(--color_5);
   filter: none; 
   transition: filter 0.7s ease; 
 }
@@ -16,7 +16,7 @@
   padding: 0;
   width: 100vw;
   height: 100vh;
-  background-color: var(--color_1);
+  background-color: var(--color_5);
   filter: blur(2px); 
   transition: filter 0.7s ease;
   overflow: hidden;
@@ -25,17 +25,27 @@
 .header {
   position: relative;
   display: flex;
-  top: 0;
-  width: 100vw;
-  height: 7%;
+  top: 1rem;
+  width: 95%;
+  height: 3.5rem;
   background-color: var(--color_1);
+  border-radius: 1.5rem;
   border-bottom: solid 0.5px var(--color_13);
 }
 
 .img-inline { 
   position: relative;
-  top:-4.5rem
+  left: 1rem;
+  top:1rem
 }
+
+.isologo-home {
+  position: relative;
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  top: -1.3rem;
+  }
 
 .nav-header {
   font-size: 14px !important;
@@ -51,6 +61,20 @@
   list-style: none;
 
 }
+
+.nav-header button {
+  height: 1.5rem;
+  background-color: transparent;
+  color: var(--color_3);
+  border: none;
+}
+
+.nav-header ul button:first-of-type {
+  border-bottom: solid 3px rgba(181, 76, 255, 0.9);
+}
+
+
+
 
 .search-input {
   position: absolute;
@@ -110,7 +134,7 @@
 .sidebar {
   position: fixed;
   left: 0;
-  top: 8vh;
+  top: 10vh;
   margin: 0;
   width: 17%;
   height: 92vh;
@@ -145,8 +169,7 @@
 .buttons {
   display: flex;
   flex-direction: column;
-  margin-top: 2vh;
-  padding: 0.5vw;
+  margin-top: 6vh;
 }
 
 .info-view {
@@ -166,10 +189,28 @@
 .btn-view-enable {
   position: relative;
   padding-top: 0.5vw;
-  height: 28.2vh;
-  background-color: rgba(19, 46, 84, 0.3) !important;
-  border-radius: 1vw;
+  margin: 0.2rem;
+  margin-bottom: 0.5rem;
+  height: 31vh;
+  border: solid 2px var(--color_5);
+  border-radius: 1rem;
 }
+
+.btn-view-enable button {
+  position: relative;
+  display: flex;
+  color: rgba(203, 132, 253, 0.9) !important;
+  background-color: rgba(181, 76, 255, 0.2) !important;
+  border: none;
+  margin-top: 0.5vh;
+  margin: 1vh;
+  padding-top: 2vh;
+  width: 90%;
+  height: 6vh;
+  border-radius: 2rem;
+  text-align: start;
+}
+
 
 .btn-details {
   color: var(--color_3);
@@ -203,12 +244,12 @@
 }
 
 .buttons select {
-  background-color: var(--color_1);
+  background-color: var(--color_6);
   border: none;
   margin-top: 0.5vh;
   margin-left: 1vw ;
   height: 6vh;
-  border-radius: 5px;
+  border-radius: 2rem;
   text-align: start;
   color: var(--color_3);
   
@@ -216,13 +257,13 @@
 
 .buttons button {
   position: relative;
-  background-color: var(--color_1);
+  background-color: var(--color_5);
   border: none;
   margin-top: 0.5vh;
   margin-left: 1vw ;
   margin-right: 1vw ;
   height: 6vh;
-  border-radius: 5px;
+  border-radius: 1rem;
   text-align: start;
   color: var(--color_3);
   cursor: pointer;
@@ -236,7 +277,7 @@
 
 .home {
   position: fixed;
-  top: 8vh;
+  top: 10vh;
   left: 17vw;
   margin-left: 0.5vw;
   height: 92vh;
@@ -246,12 +287,12 @@
 
 .kbn-view {
     position: fixed;
-    top: 8vh;
+    top: 10vh;
     left: 17vw;
     margin-left: 0.5vw;
     height: 92vh;
     width: 85vw;
-    background-color: var(--color_1);
+    background-color: var(--color_5);
     z-index: 1000;
   }
 
@@ -306,21 +347,6 @@
   }
 
 
-.btn-view-enable button {
-  position: relative;
-  display: flex;
-  color: #88bcff !important;
-  background-color: rgba(19, 46, 84, 0.65) !important;
-  border: none;
-  margin-top: 0.5vh;
-  margin-left: 1vw ;
-  margin-right: 1vw;
-  padding-top: 2vh;
-  width: 87%;
-  height: 6vh;
-  border-radius: 5px;
-  text-align: start;
-}
 
 .direct-today {
   position: relative;
@@ -461,7 +487,6 @@ margin-left: -15vw;
   border-radius: 20px;
   margin-right: 0.2rem;
   text-align: center;
-  background-color: var(--color_1);
   color: var(--color_2);
   background-color: var(--color_5);
   font-weight: 400;
@@ -472,7 +497,7 @@ margin-left: -15vw;
 .nav-section button:hover {
   outline: none; /* Remove o contorno padrão do foco */
   background-color: var(--color_5);
-  border: solid 1px var(--color_3) ;
+  border: solid 2px rgba(213, 157, 253, 0.9) ;
   color: var(--color_2) !important;
 }
 
@@ -493,7 +518,7 @@ margin-left: -15vw;
   outline: none; /* Remove o contorno padrão do foco */
   background-color: var(--color_5);
   color: var(--color_2);
-  border: solid 1px var(--color_3) ;
+  border: solid 2px rgba(181, 76, 255, 0.9) ;
   font-weight: 900 !important;
 }
 
@@ -565,6 +590,7 @@ margin-left: -15vw;
 
 .board {
   position: relative;
+  width: 65%;
   top: 14vh;
   margin-bottom: 1vh;
   margin-left: 2vw;
@@ -626,21 +652,21 @@ summary {
 }
 .list {
   margin: 0;
-  width: 77vw;
+  width: 100%;
   font-weight: 400;
-  background-color: var(--color_5);
-  border: solid 1px var(--color_8) ;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
   
 } 
 
 .list li {
-  height: 4vh;
+  height: 2.5rem;
+  margin-bottom: 0.3rem;
   margin-left: -3vw;
   font-size: 14px;
+  border: solid 1px var(--color_8);
+  border-radius: 1rem;
   font-weight: 400;
   list-style: none;
-  border-bottom: solid 1px var(--color_8) ;
+  background-color: var(--color_5);
 }
 
 .list-kbn {
@@ -699,9 +725,10 @@ summary {
 
 .man-btn {
   position: fixed;
+  margin-top: 0.2rem;
   width: 20%;
   display: inline-flex;
-  left: 85%;
+  left: 64%;
   color: transparent;
 
 }
@@ -984,7 +1011,6 @@ summary {
   background-color: var(--color_1);
   border: none;
   color: var(--color_3);
-  ;
 }
 
 
@@ -1171,8 +1197,8 @@ summary {
 
 .tasks {
   text-align: start;
-  padding-top: 0.5vh ;
-  padding-left: 1vw;
+  padding-top: 0.5rem ;
+  padding-left: 1.5rem;
   color: var(--color_3);
 }
 
@@ -1527,8 +1553,26 @@ summary {
 
 .binder-subject {
   position: relative;
-  height: 10rem;
-  width: 17rem;
+  top: 10rem;
+  margin-bottom: 0.5rem ;
+  height: 3rem;
+  width: 60rem;
   background-color: var(--color_5);
   border: solid 1px var(--color_8);
+}
+
+.main-board {  
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+}
+
+.reports-board {
+  position: absolute;
+  width: 25%;
+  height: 75%;
+  right: 6%;
+  margin-top: 4rem;
+  border-radius: 2rem;
+  background-color: var(--color_1);
 }

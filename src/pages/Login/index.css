@@ -7,46 +7,80 @@
     justify-content: center;
     width: 100vw;
     height: 100vh;
-    background-color: #1d2125;;
+    background-color: var(--color_5);
   }
 
-  .logo-img {
+  .logo-img { 
     position: relative;
-    width: 13rem;
+    width: 9rem;
     height: auto;
+    margin-bottom: 2rem;
+  }
+
+  .isologo {
+    position: relative;
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    top: -0.8rem;
+  }
+
+  .intro-login {
+    position: relative;
+    padding: 1rem;
+    font-size: 800;
+    width: 95%;
+    height: 3.5rem;
+    border-radius: 1.5rem;
+    color: var(--color_3);
+    background-color: var(--color_1);
+  }
+
+  .intro-login h3 {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
   }
 
   .box-login {
-    margin-top: 2vh;
-    width: 20%;
-    height: auto;
+    text-align: center;
+    align-items: center;
+    background-color: var(--color_1);
+    margin-top: 1rem;
+    width: 30%;
+    height: 80%;
     border: solid 1px rgba(240, 248, 255, 0.1) ;
-    padding: 1rem;
+    border-radius: 2rem;
+    padding: 2rem;
+    padding-top: 2rem;
+    
   }
 
   .invite-login {
-    font-weight: 200;
-    color: rgba(240, 248, 255, 0.8);
+    font-weight: 400;
+    color: var(--color_4);
   }
 
   .lablog-email {
-    color: rgba(240, 248, 255, 0.8);
+    color: var(--color_4);
     font-size: 14px;
   }
 
   .iptlog-email {
     margin-top: 1vh;
-    border: solid 2px rgba(240, 248, 255, 0.1) ;
-    border-radius: 7px;
+    margin-bottom: 1rem;
+    border: solid 3px var(--color_5) ;
+    border-radius: 0.5rem;
     width: 100%;
-    height: 5vh;
+    height: 3rem;
     background-color: transparent;
     padding-left: 0.5vw;
-    color: rgba(240, 248, 255, 0.8);
+    color: var(--color_4);
+    font-size: 17px !important;
   }
 
   .iptlog-email:focus, .iptlog-pass:focus {
-    border: solid 2px #29903b ;
+    border: solid 3px rgba(181, 76, 255, 0.9) ;
   }
 
   
@@ -57,37 +91,47 @@
   }
 
   .lablog-pass {
-    color: rgba(240, 248, 255, 0.8);
+    color: var(--color_4);
     font-size: 14px;
   }
 
   .btn-fgt {
-    margin-left: 3.7vw;
+    margin-top: 1rem;
     position: relative;
     border: none;
     background-color: transparent;
-    color: #29903b;
+    color: rgba(181, 76, 255, 0.9);
   }
 
   .iptlog-pass {
     margin-top: 1vh;
-    border: solid 2px rgba(240, 248, 255, 0.1) ;
-    border-radius: 7px;
+    margin-bottom: 0.5rem;
+    border: solid 3px var(--color_5) ;
+    border-radius: 0.5rem;
     width: 100%;
-    height: 5vh;
+    height: 3rem;
     background-color: transparent;
     padding-left: 0.5vw;
-    color: rgba(240, 248, 255, 0.8);
+    color: var(--color_4);
+    font-size: 17px !important;
+
   }
 
   .signin {
     width: 100%;
-    height: 2rem;
+    height: 3rem;
     margin-top: 2vh;
     border: none;
-    border-radius: 7px;
-    background-color: #29903b;
+    border-radius: 0.5rem;
+    font-size: 16px !important;
+    background-color: rgba(181, 76, 255, 0.9);
     color: white;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
+  }
+
+  .signin:focus{
+    background-color: rgba(203, 132, 253, 0.9);
+
   }
 
   .login-popup {
@@ -112,12 +156,13 @@
   }
   
   .box-more {
-    margin-top: 2vh;
-    width: 20%;
+    background-color: var(--color_1);
+    margin-top: 5vh;
     height: auto;
-    border: solid 1px rgba(240, 248, 255, 0.1) ;
+    border: solid 1px rgba(240, 248, 255, 0.1);
+    border-radius: 1rem;
     padding: 1rem;
-    color: #29903b;
+    color: rgba(181, 76, 255, 0.9);
     text-align: center;
     font-size: 13px;
     display: flex;
@@ -132,12 +177,12 @@
   .sp-qst {
     position: relative;
     margin-top: 1vh;
-    color: rgba(240, 248, 255, 0.8);    
+    color: var(--color_4);    
   }
 
   .sp-qst a {
     cursor: pointer;
     margin-top: 1vh;
     margin-left: 0.3vw;
-    color: #29903b;
+    color: rgba(181, 76, 255, 0.9);
   }

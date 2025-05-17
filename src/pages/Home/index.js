@@ -770,7 +770,7 @@ function Home() {
         <div className="container">
             <div className={`header ${showModal ? "container-blur" : " "}`}>
               <div className="img-inline">
-                <img className="logo-img" src="/imagens/logo-inline.png"/>
+                <img className="isologo-home" src="/imagens/isologo.png"/>
               </div>
                 <div className="search-input">
                     <input 
@@ -780,11 +780,11 @@ function Home() {
                 </div>
                   <nav className="nav-header">
                       <ul>
-                        <li>Dashboard</li>
-                        <li>Projects</li>
-                        <li>My tasks</li>
-                        <li>Teams</li>
-                        <li>Help</li>
+                        <button>Home</button>
+                        <button>Dashboard</button>
+                        <button>Projects</button>
+                        <button>My tasks</button>
+                        <button>Help</button>
                       </ul>
                     </nav>
                 <div className="btn-header">
@@ -928,6 +928,8 @@ function Home() {
                   </div>
                 </div>
                 
+
+              <div className="main-board">  
                 <div className='board'>
                     <details open={open} onToggle={(e) => setopen(e.target.open)}>
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
@@ -977,6 +979,10 @@ function Home() {
                         </div>
                         <button onClick={openModal} className="add-issue">+ Create task</button>
                     </details>    
+                </div>
+                <div className="reports-board">
+
+                </div>
                 </div>
             </div>
             <div className={KbnView ? "kbn-view" : "kbn-view-hidden"}>
@@ -1376,6 +1382,9 @@ function Home() {
             <div className={BinderView ? "binder-view" : "binder-view-hidden"}>
                 <nav>
                   <ul>
+                    <button className="binder-subject"></button>
+                    <button className="binder-subject"></button>
+                    <button className="binder-subject"></button>
                     <button className="binder-subject"></button>
                   </ul>
                 </nav>

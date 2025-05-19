@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createArea, getAreas, deleteArea } from "../../services/service-area";
+import GetTasksStatus from "../../services/service-gettaskstatus";
 import getUser from "../../services/service-getuser";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
@@ -101,6 +102,7 @@ function Home() {
   const [CalendarView, setCalendarView] = useState(false)
   const [BinderView, setBinderView] = useState(false)
   const { currentDate, changeMonth, getDaysInMonth } = useCalendar();
+  const [taskData, setTaskData] = useState({ done: 0, in_progress: 0, not_done: 0 });
 
 
 
@@ -418,6 +420,21 @@ const nextDay = () => {
     };
 
     useEffect(() => {
+        if (!selectedDate) return;
+
+        const formattedDate = getFormattedDateBackend(selectedDate);
+
+        GetTasksStatus(formattedDate)
+        .then((data) => {
+          setTaskData(data);
+          console.log("taskData recebido:", data);  // <-- aqui
+        })
+        .catch((err) =>
+          console.error("Erro ao buscar status das tarefas:", err)
+        );
+        }, [selectedDate]);
+
+    useEffect(() => {
       loadAreas();
     }, []);
 
@@ -492,8 +509,6 @@ const nextDay = () => {
       localStorage.setItem("theme", theme);
       document.documentElement.setAttribute('data-theme', theme);
     }, [theme]);
-  
-    
 
     const addtask = async () => {
       if (!selectedOption) {
@@ -1002,7 +1017,17 @@ const nextDay = () => {
                     </details>    
                 </div>
                 <div className="reports-board">
-                  <TasksByStatusChart/>
+                    <div className="charts">
+                      <span className="title-getstatus">Total tasks by state</span>
+                      <div className="main-chart">
+                        <span className="chart-taskstatus"> 
+                          <TasksByStatusChart selectedDate={selectedDate} />
+                        </span>
+                        <span className="legends">
+                        </span>
+                      </div> 
+                    </div>
+                  
                 </div>
                 </div>
             </div>

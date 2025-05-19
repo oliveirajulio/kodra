@@ -1595,6 +1595,7 @@ summary {
 
 .reports-board {
   position: absolute;
+  padding: 0.1rem;
   width: 25%;
   height: 75%;
   right: 6%;
@@ -1602,3 +1603,32 @@ summary {
   border-radius: 2rem;
   background-color: var(--color_1);
 }
+
+.charts {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.title-getstatus {
+  font-size: 12px !important;
+  color: var(--color_3);
+}
+
+.chart-taskstatus {
+  position: relative;
+  top: 2rem;
+  left: 2rem;
+}
+
+.main-chart {
+  display: inline-flex;
+}
+
+.legends {
+  position: relative;
+  left: 5rem;
+}
+
+

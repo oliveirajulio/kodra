@@ -1,9 +1,9 @@
 import service from "./service";
 
-function GetTasksStatus() {
+function GetTasksStatus(date) {
   return new Promise((resolve, reject) => {
     service
-      .get("/tasks/status")
+      .get(`/tasks/status/${date}`)
       .then((response) => {
         resolve(response.data);
       })

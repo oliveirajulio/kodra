@@ -25,6 +25,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -171,6 +172,20 @@ function Home() {
       setScheduleView(false)
       setBinderView(true)
     }
+
+const prevDay = () => {
+  const newDate = new Date(selectedDate);
+  newDate.setDate(newDate.getDate() - 1);
+  setSelectedDate(newDate);
+  weekday(newDate);
+};
+
+const nextDay = () => {
+  const newDate = new Date(selectedDate);
+  newDate.setDate(newDate.getDate() + 1);
+  setSelectedDate(newDate);
+  weekday(newDate);
+};
 
     
 
@@ -798,7 +813,7 @@ function Home() {
                     <p className="intro">PLANNING</p>
                     <div className="buttons">
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
-                          <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
+                          <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board-arrow"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
                               <button><TaskAltIcon className="ic-board"/> Task Management</button>
                               <button onClick={OpenKbnView}><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
@@ -834,7 +849,12 @@ function Home() {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">Today<KeyboardDoubleArrowRightIcon className="ic-direct"/></button></h3>
+                  <h3>
+                    <span onClick={prevDay}><KeyboardArrowLeftIcon className="ic-info-day-prev"/></span>
+                    {selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}
+                    <span onClick={nextDay}><KeyboardArrowRightIcon className="ic-info-day-next"/></span>
+                    <button onClick={goToToday} className="direct-today">Today<KeyboardDoubleArrowRightIcon className="ic-direct"/></button>
+                  </h3>
                 </div>
                 <div className="slc">
                     <input 
@@ -1412,7 +1432,7 @@ function Home() {
                             value={selectedOption} // Garante que o valor selecionado seja controlado
                             isClearable={true} // Adiciona a opção de limpar o valor manualmente
                             />
-                            <label className="labsu">Summary</label>
+                            <label className="labsu"> </label>
                             <input
                              className="input-summary"
                              type="text"

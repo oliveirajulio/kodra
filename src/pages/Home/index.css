@@ -175,7 +175,6 @@
 .info-view {
   position: relative;
   left: -7.8rem;
-  top: 0.1rem;
   text-align: start;
   font-size: 14px;
   margin-bottom: 2vh;
@@ -211,6 +210,10 @@
   text-align: start;
 }
 
+.btn-view-enable button:hover {
+  border: solid 3px rgba(181, 76, 255, 0.9);
+}
+
 
 .btn-details {
   color: var(--color_3);
@@ -225,7 +228,15 @@
 .icon-board {
   position: relative;
   font-size: 20px !important;
-  margin-left: -2vw;
+  margin-left: 0vw;
+}
+
+.ic-board-arrow {
+  position: relative;
+  display: inline-flex;
+  top: 0.2rem;
+  margin-right: 0.5rem;
+  font-size: 18px !important;
 }
 
 .ic-board {
@@ -366,13 +377,27 @@
   font-size: 18px !important
 }
 
+
+
 .info-day h3 {
   margin : 2%;
   margin-left: 3%;
   color: var(--color_3);
   margin-bottom: 3vh;
 }
+.ic-info-day-prev {
+  position: relative;
+  top: 0.2rem;
+  font-size: 18px !important;
+  margin-right: 0.5rem;
+}
 
+.ic-info-day-next {
+  position: relative;
+  top: 0.2rem;
+  font-size: 18px !important;
+  margin-left: 0.5rem;
+}
 .slc {
 position: absolute;
 left: 0;
@@ -390,7 +415,7 @@ align-items: center;
 text-align: center;
 padding-left: 0.5vw;
 color: var(--color_7);
-font-size: 12px;
+font-size: 14px !important;
 border: solid 2px var(--color_8) ;
 border-radius: 7px;
 }
@@ -497,7 +522,7 @@ margin-left: -15vw;
 .nav-section button:hover {
   outline: none; /* Remove o contorno padrão do foco */
   background-color: var(--color_5);
-  border: solid 2px rgba(213, 157, 253, 0.9) ;
+  border: solid 3px rgba(213, 157, 253, 0.9) ;
   color: var(--color_2) !important;
 }
 
@@ -518,7 +543,7 @@ margin-left: -15vw;
   outline: none; /* Remove o contorno padrão do foco */
   background-color: var(--color_5);
   color: var(--color_2);
-  border: solid 2px rgba(181, 76, 255, 0.9) ;
+  border: solid 3px rgba(181, 76, 255, 0.9) ;
   font-weight: 900 !important;
 }
 
@@ -763,7 +788,7 @@ summary {
 .task-state-icon {
   position: relative;
   top: 0.1vh  ;
-  width: 1.2%;
+  width: 2.1%;
   height: 63%;
   display: inline-flex;
   align-items: center;
@@ -852,16 +877,14 @@ summary {
   margin-top: 1vh;
   background-color: transparent;
   border: none;
-  color: var(--color_3);
-  font-size: 16px;
-  text-shadow: 0px 1px 0.1px rgba(0, 0, 0, 10);
+  color: rgba(181, 76, 255, 0.9);
   font-size: 14px;
   cursor: pointer;
 }
 
 .length {
   font-size: 13px;
-  color: var(--color_3);
+  color: var(--color_7);
   margin-top: 0.9vh;
   margin-left: 0.6vw;
 }
@@ -898,7 +921,7 @@ summary {
   top: 5vh;
   height: 90vh;
   width: 70vw;
-  background: var(--color_6);
+  background: var(--color_5);
   filter: none;
   padding-top: 3vh;
   padding-left: 3vw;
@@ -910,7 +933,7 @@ summary {
   top: 5vh;
   height: 90vh;
   width: 90vw;
-  background: var(--color_6);
+  background: var(--color_5);
   filter: none;
   padding-top: 3vh;
   padding-left: 1vw;
@@ -984,12 +1007,14 @@ summary {
 
 
 .input-select {
+  padding: 0.5rem;
   margin-top: 0.5vh;
   margin-bottom: 4vh;
   height: 2.3rem;
   width: 22vw;
   background-color: var(--color_1);
-  border: none;
+  border: solid 1px var(--color_12);
+  border-radius: 2rem ;
   color: var(--color_3);
   ;
 }
@@ -997,7 +1022,7 @@ summary {
 
 .input-select::placeholder {
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 5 00;
   padding-left: 0.5vw;
   color: var(--color_12)
 }
@@ -1010,7 +1035,7 @@ summary {
   width: 64vw;
   background-color: var(--color_1);
   border: none;
-  color: var(--color_3);
+  color: var(--color_12);
 }
 
 
@@ -1027,7 +1052,8 @@ summary {
 .custom__control {
   margin-top: 0.5vh;
   background-color: var(--color_1) !important; /* Cor de fundo */
-  border: none !important; /* Borda */
+  border: solid 1px var(--color_12) !important;
+  border-radius: 2rem !important ; /* Borda */
   height: 1vh; /* Altura */
   box-shadow: none !important; /* Remove sombra */
   cursor: pointer!important;
@@ -1141,6 +1167,7 @@ summary {
   color: var(--color_4) !important;
 }
 
+
 .custom-quill .ql-editor {
   min-height: 22vh; /* Altura mínima */
   padding: 15px; /* Espaçamento interno */
@@ -1168,16 +1195,15 @@ summary {
   cursor: pointer;
   height: 4.5vh;
   width: 5vw;
-  color: #88bcff !important;
-  background-color: rgba(19, 46, 84, 0.7) !important;
+  background-color: rgba(203, 132, 253, 0.6) !important;
   border: none;
-  color: #88bcff;
+  color: rgba(181, 76, 255, 0.9);
   font-size: 16px;
   margin-right: 0.5vw;
 }
 
 .btn-over .create:hover {
-  color: rgb(178, 211, 253);
+  color: rgba(213, 157, 253, 0.9)
 }
 
 .btn-over .cancel {

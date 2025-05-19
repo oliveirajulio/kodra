@@ -10,6 +10,7 @@ import editTask from "../../services/servoce-edittask";
 import deleteTask from "../../services/service-deletetask";
 import updateTaskState from "../../services/service-state";
 import useCalendar from "../../components/Calendar";
+import TasksByStatusChart from "../../components/Charts/StatusType";
 import { format, isSameDay } from 'date-fns';
 import Select from "react-select"
 import Swal from 'sweetalert2';
@@ -1001,7 +1002,7 @@ const nextDay = () => {
                     </details>    
                 </div>
                 <div className="reports-board">
-
+                  <TasksByStatusChart/>
                 </div>
                 </div>
             </div>

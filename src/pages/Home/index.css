@@ -1022,7 +1022,7 @@ summary {
 
 .input-select::placeholder {
   font-size: 14px;
-  font-weight: 5 00;
+  font-weight: 500;
   padding-left: 0.5vw;
   color: var(--color_12)
 }

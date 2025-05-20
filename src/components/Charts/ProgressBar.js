@@ -36,18 +36,18 @@ function TaskProgressChart({ selectedDate }) {
     return <p>Sem tarefas para o dia selecionado.</p>;
   }
 
-  const doing = progress.in_progress;
-  const remaining = progress.total - doing;
+  const done = progress.done;
+  const remaining = progress.total - done;
 
-  const doingPercent = Math.round((doing / progress.total) * 100);
-  const remainingPercent = 100 - doingPercent;
+  const donePercent = Math.round((done / progress.total) * 100);
+  const remainingPercent = 100 - donePercent;
 
   const data = {
     labels: [''], // Remove o rótulo lateral
     datasets: [
       {
-        label: `${doingPercent}% em andamento`,
-        data: [doing],
+        label: `${donePercent}% concluídos`,
+        data: [done],
         backgroundColor: "#cb84fde6",
         borderRadius: 12,
       },

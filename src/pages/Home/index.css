@@ -198,8 +198,8 @@
 .btn-view-enable button {
   position: relative;
   display: flex;
-  color: rgba(203, 132, 253, 0.9) !important;
-  background-color: rgba(181, 76, 255, 0.2) !important;
+  color: #cb84fde6 !important;
+  background-color: #b54cff33 !important;
   border: none;
   margin-top: 0.5vh;
   margin: 1vh;
@@ -1628,7 +1628,58 @@ summary {
 
 .legends {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  top: 3rem;
+  font-size: 12px !important;
   left: 5rem;
 }
 
+.lg-done {
+  position: relative;
+  width: 5rem;
+  padding: 0.1rem;
+  text-align: center;
+  margin-bottom: 0.2rem;
+  background-color: #2ac082;
+  color: var(--color_1);
+  font-weight: 600;
+  border-radius: 1rem;
+}
+.lg-doing {
+  position: relative;
+  padding: 0.1rem;
+  text-align: center;
+  margin-bottom: 0.2rem;
+  background-color: #2196F3;
+  color: var(--color_1);
+  font-weight: 600;
+  border-radius: 1rem;
+}
 
+.lg-not-done {
+  position: relative;
+  padding: 0.1rem;
+  text-align: center;
+  margin-bottom: 0.2rem;
+  background-color: #F44336;
+  color: var(--color_1);
+  font-weight: 600;
+  border-radius: 1rem;
+}
+
+.main-progress {
+  position: relative;
+  margin-top: 3rem;  
+}
+
+.title-getprogress {
+  font-size: 12px !important;
+  color: var(--color_3)  
+}
+
+
+
+.progressbar {
+  height: 1rem;
+}

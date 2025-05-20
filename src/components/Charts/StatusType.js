@@ -53,10 +53,10 @@ function TasksByStatusChart({ selectedDate }) {
         enabled: true,
         backgroundColor: "#000",
         titleFont: {
-          size: 9,
+          size: 12,
         },
         bodyFont: {
-          size: 9,
+          size: 12,
         },
         padding: 3,
       },

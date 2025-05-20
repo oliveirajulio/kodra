@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createArea, getAreas, deleteArea } from "../../services/service-area";
 import GetTasksStatus from "../../services/service-gettaskstatus";
+import GetTasksProgress from "../../services/service-taskprogress";
 import getUser from "../../services/service-getuser";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
@@ -12,6 +13,7 @@ import deleteTask from "../../services/service-deletetask";
 import updateTaskState from "../../services/service-state";
 import useCalendar from "../../components/Calendar";
 import TasksByStatusChart from "../../components/Charts/StatusType";
+import TaskProgressBar from "../../components/Charts/ProgressBar";
 import { format, isSameDay } from 'date-fns';
 import Select from "react-select"
 import Swal from 'sweetalert2';
@@ -103,6 +105,7 @@ function Home() {
   const [BinderView, setBinderView] = useState(false)
   const { currentDate, changeMonth, getDaysInMonth } = useCalendar();
   const [taskData, setTaskData] = useState({ done: 0, in_progress: 0, not_done: 0 });
+
 
 
 
@@ -1024,13 +1027,21 @@ const nextDay = () => {
                           <TasksByStatusChart selectedDate={selectedDate} />
                         </span>
                         <span className="legends">
+                          <span className="lg-done">Done</span>
+                          <span className="lg-doing">Doing</span>
+                          <span className="lg-not-done">Not Done</span>
                         </span>
                       </div> 
-                    </div>
-                  
+                        <div className="main-progress">
+                      <span className="title-getprogress">Progress Bar</span>
+                          <span className="progressbar">
+                            <TaskProgressBar selectedDate={selectedDate}/>
+                          </span>  
+                        </div>
+                      </div>
+                 </div>
                 </div>
-                </div>
-            </div>
+              </div>
             <div className={KbnView ? "kbn-view" : "kbn-view-hidden"}>
               <div className={menuUser ? "menu-user" : "off"}>
                 <div className="user">

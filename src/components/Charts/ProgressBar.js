@@ -1,3 +1,4 @@
+import "./index.css"
 import { useEffect, useState } from "react";
 import GetTasksProgress from "../../services/service-taskprogress";
 import {
@@ -105,6 +106,9 @@ function TaskProgressChart({ selectedDate }) {
   return (
     <div style={{ marginTop: "1rem", maxWidth: "500px" }}>
       <Bar data={data} options={options} height={30} />
+      <p className="percent-progress">
+        Concluídas: {donePercent}% |
+      </p>
     </div>
   );
 }

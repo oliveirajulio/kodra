@@ -1022,6 +1022,7 @@ const nextDay = () => {
                 <div className="reports-board">
                     <div className="charts">
                       <span className="title-getstatus">Total tasks by state</span>
+                      <span className="subtitle-getstatus">Overview of ongoing task states</span>
                       <div className="main-chart">
                         <span className="chart-taskstatus"> 
                           <TasksByStatusChart selectedDate={selectedDate} />
@@ -1034,6 +1035,7 @@ const nextDay = () => {
                       </div> 
                         <div className="main-progress">
                       <span className="title-getprogress">Progress Bar</span>
+                      <span className="subtitle-getprogress">In-Progress tasks overview</span>
                           <span className="progressbar">
                             <TaskProgressBar selectedDate={selectedDate}/>
                           </span>  

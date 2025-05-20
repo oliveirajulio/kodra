@@ -1616,6 +1616,13 @@ summary {
   color: var(--color_3);
 }
 
+.subtitle-getstatus {
+  position: relative;
+  margin-top: 0.1rem;
+  font-size: 12px !important;
+  color: var(--color_2);
+}
+
 .chart-taskstatus {
   position: relative;
   top: 2rem;
@@ -1670,13 +1677,24 @@ summary {
 
 .main-progress {
   position: relative;
-  margin-top: 3rem;  
+  display: flex;
+  flex-direction: column;
+  margin-top: 19rem;  
 }
 
 .title-getprogress {
   font-size: 12px !important;
   color: var(--color_3)  
 }
+
+.subtitle-getprogress {
+  font-size: 12px !important;
+  color: var(--color_2);
+  margin-top: 0.1rem;
+}
+
+
+
 
 
 

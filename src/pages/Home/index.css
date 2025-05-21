@@ -1675,11 +1675,28 @@ summary {
   border-radius: 1rem;
 }
 
+.main-linechart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 25%;
+}
+
+.title-linechart {
+  font-size: 12px !important;
+  color: var(--color_3);
+}
+
+.subtitle-linechart {
+  font-size: 12px !important;
+  color: var(--color_2);
+}
+
 .main-progress {
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-top: 19rem;  
+  margin-top: 10%;  
 }
 
 .title-getprogress {

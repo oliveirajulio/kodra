@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { createArea, getAreas, deleteArea } from "../../services/service-area";
 import GetTasksStatus from "../../services/service-gettaskstatus";
 import GetTasksProgress from "../../services/service-taskprogress";
+import GetProductivity from "../../services/service-productivity";
 import getUser from "../../services/service-getuser";
 import getTask from "../../services/service-gettask";
 import addTask from "../../services/service-addtask";
@@ -14,14 +15,13 @@ import updateTaskState from "../../services/service-state";
 import useCalendar from "../../components/Calendar";
 import TasksByStatusChart from "../../components/Charts/StatusType";
 import TaskProgressBar from "../../components/Charts/ProgressBar";
+import ProductivityLineChart from "../../components/Charts/ProductivityLine";
 import { format, isSameDay } from 'date-fns';
 import Select from "react-select"
 import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import loadingIcon from "./loading.svg";
-
-
 
 
 
@@ -1033,6 +1033,13 @@ const nextDay = () => {
                           <span className="lg-not-done">Not Done</span>
                         </span>
                       </div> 
+                          <div className="main-linechart">
+                          <span className="title-linechart">Progress Bar</span>
+                          <span className="subtitle-linechart">In-Progress tasks overview</span>
+                              <span className="lineproductivity">
+                                <ProductivityLineChart selectedDate={selectedDate}/>
+                              </span>  
+                            </div>
                         <div className="main-progress">
                       <span className="title-getprogress">Progress Bar</span>
                       <span className="subtitle-getprogress">In-Progress tasks overview</span>

@@ -1,17 +1,17 @@
 import service from "./service";
 
-function GetTasksStatus(date) {
+function GetProductivity(date) {
   return new Promise((resolve, reject) => {
     service
-      .get(`/tasks/status/${date}`)
+      .get(`/tasks/productivity?date=${date}`)
       .then((response) => {
         resolve(response.data);
       })
       .catch((error) => {
-        console.error("Erro ao buscar status das tarefas:", error.response?.data || error.message);
+        console.error("Erro ao buscar evolução da produtividade:", error.response?.data || error.message);
         reject(error);
       });
   });
 }
 
-export default GetTasksStatus;
+export default GetProductivity;

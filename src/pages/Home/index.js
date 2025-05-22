@@ -1034,15 +1034,15 @@ const nextDay = () => {
                         </span>
                       </div> 
                           <div className="main-linechart">
-                          <span className="title-linechart">Progress Bar</span>
-                          <span className="subtitle-linechart">In-Progress tasks overview</span>
+                          <span className="title-linechart">Productivity Line</span>
+                          <span className="subtitle-linechart">Productivity line over the weeks</span>
                               <span className="lineproductivity">
                                 <ProductivityLineChart selectedDate={selectedDate}/>
                               </span>  
                             </div>
                         <div className="main-progress">
                       <span className="title-getprogress">Progress Bar</span>
-                      <span className="subtitle-getprogress">In-Progress tasks overview</span>
+                      <span className="subtitle-getprogress">Done tasks overview</span>
                           <span className="progressbar">
                             <TaskProgressBar selectedDate={selectedDate}/>
                           </span>  
@@ -1073,7 +1073,11 @@ const nextDay = () => {
                 </div>
                </div>
                 <div className="info-day">
-                  <h3>{selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}<button onClick={goToToday} className="direct-today">Today<KeyboardDoubleArrowRightIcon className="ic-direct"/></button></h3>
+                  <h3>
+                    <span onClick={prevDay}><KeyboardArrowLeftIcon className="ic-info-day-prev"/></span>
+                    {selectedDate instanceof Date && !isNaN(selectedDate) ? getFormattedDate(selectedDate) : placeholder}
+                    <span onClick={nextDay}><KeyboardArrowRightIcon className="ic-info-day-next"/></span>
+                  </h3>
                 </div>
                 <div className="slc">
                     <input 

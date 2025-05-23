@@ -1,6 +1,8 @@
 import "./index.css"
 import { useEffect, useState } from "react";
 import GetTasksProgress from "../../services/service-taskprogress";
+import { useTaskRefresh } from "../../contexts/RefreshContext";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +15,7 @@ import { Bar } from "react-chartjs-2";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 function TaskProgressChart({ selectedDate }) {
+  const { refreshCount } = useTaskRefresh();
   const [progress, setProgress] = useState(null);
 
   const getFormattedDateBackend = (date) => {
@@ -31,7 +34,7 @@ function TaskProgressChart({ selectedDate }) {
     GetTasksProgress(formattedDate)
       .then((data) => setProgress(data))
       .catch((err) => console.error("Erro ao buscar progresso das tarefas:", err));
-  }, [selectedDate]);
+  }, [selectedDate, refreshCount]);
 
   if (!progress || progress.total === 0) {
     return <p>Sem tarefas para o dia selecionado.</p>;

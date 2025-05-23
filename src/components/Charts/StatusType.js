@@ -1,5 +1,6 @@
 import { Doughnut } from "react-chartjs-2";
 import { useEffect, useState } from "react";
+import { useTaskRefresh } from "../../contexts/RefreshContext";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -11,6 +12,8 @@ ChartJS.register(ArcElement, Tooltip);
 
 function TasksByStatusChart({ selectedDate }) {
   const [data, setData] = useState(null);
+  const { refreshCount } = useTaskRefresh();
+
 
   const getFormattedDateBackend = (date) => {
         // Ajusta a data para o fuso horário do Brasil
@@ -42,7 +45,7 @@ function TasksByStatusChart({ selectedDate }) {
         ],
       });
     });
-  }, [selectedDate]);
+  }, [selectedDate, refreshCount]);
 
   const options = {
     responsive: true,

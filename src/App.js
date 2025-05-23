@@ -1,10 +1,13 @@
 import './Styles.css'
+import { TaskRefreshProvider } from './contexts/RefreshContext';
 import Router from './router'
 
 
 function App() {
   return (
-    <Router/>
+    <TaskRefreshProvider>
+      <Router/>
+    </TaskRefreshProvider>
   );
 }
 

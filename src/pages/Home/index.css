@@ -59,8 +59,9 @@
   display: inline-flex;
   gap: 2rem;
   list-style: none;
-
+  cursor: pointer;
 }
+
 
 .nav-header button {
   height: 1.5rem;
@@ -69,9 +70,16 @@
   border: none;
 }
 
-.nav-header ul button:first-of-type {
+.nav-header ul button:hover {
+  cursor: pointer;
+  border-bottom: solid 3px rgba(181, 76, 255, 0.9);
+
+}
+
+.nav-header ul button:focus {
   border-bottom: solid 3px rgba(181, 76, 255, 0.9);
 }
+
 
 
 

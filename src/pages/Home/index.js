@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createArea, getAreas, deleteArea } from "../../services/service-area";
+import { useTaskRefresh } from "../../contexts/RefreshContext";
 import GetTasksStatus from "../../services/service-gettaskstatus";
 import GetTasksProgress from "../../services/service-taskprogress";
 import GetProductivity from "../../services/service-productivity";
@@ -105,6 +106,9 @@ function Home() {
   const [BinderView, setBinderView] = useState(false)
   const { currentDate, changeMonth, getDaysInMonth } = useCalendar();
   const [taskData, setTaskData] = useState({ done: 0, in_progress: 0, not_done: 0 });
+  const { triggerRefresh } = useTaskRefresh();
+
+
 
 
 
@@ -136,7 +140,15 @@ function Home() {
     const closeModalTask = () => {
       setModalTask(false);
       setShowModal(false)
+    }
+    const OpenTaskView = () => {
+      setKbnView(false);
+      setScrView(false)
+      setScheduleView(false)
+      setCalendarView(false)
+      setBinderView(false)
     } 
+    
     const OpenKbnView = () => {
       setKbnView(prevState => !prevState);
       setScrView(false)
@@ -526,6 +538,7 @@ const nextDay = () => {
     
       setLoading(true);
     
+
       try {
         const newRow = { 
           selectedOption: selectedOption.value,
@@ -567,7 +580,8 @@ const nextDay = () => {
       });
   
       clearmodal();
-      closeModal(); // Fecha o modal após a criação
+      closeModal();
+      triggerRefresh(); // Fecha o modal após a criação
     } catch (error) {
       console.error("Error adding row:", error);
       alert("Failed to add row. Try again.");
@@ -680,6 +694,7 @@ const nextDay = () => {
           fetchTasks(); // Atualiza a lista de tarefas
           setModalTask(false)
           closeModal()
+          triggerRefresh(); 
         })
         .catch((error) => {
           console.error(error);
@@ -718,6 +733,8 @@ const nextDay = () => {
               document.querySelector('.custom-confirm').style.margin = '0';
             },
           });
+          triggerRefresh();
+
         })
         .catch((error) => {
           console.error("Erro ao atualizar estado:", error);
@@ -814,11 +831,12 @@ const nextDay = () => {
                 </div>
                   <nav className="nav-header">
                       <ul>
-                        <button>Home</button>
-                        <button>Dashboard</button>
-                        <button>Projects</button>
-                        <button>My tasks</button>
-                        <button>Help</button>
+                        <button className="btn-nav-home">Home</button>
+                        <button className="btn-nav-dashboard">Dashboard</button>
+                        <button className="btn-nav-project">Projects</button>
+                        <button className="btn-nav-tasks">My tasks</button>
+                        <button className="btn-nav-help 
+                        ">Help</button>
                       </ul>
                     </nav>
                 <div className="btn-header">
@@ -834,7 +852,7 @@ const nextDay = () => {
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
                           <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board-arrow"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
-                              <button><TaskAltIcon className="ic-board"/> Task Management</button>
+                              <button onClick={OpenTaskView}><TaskAltIcon className="ic-board"/> Task Management</button>
                               <button onClick={OpenKbnView}><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
                               <button onClick={OpenScrView}><ViewArrayIcon className="ic-board"/>Scrum</button>
                               <button onClick={OpenScheduleView}><ScheduleIcon className="ic-board"/>Schedule</button>

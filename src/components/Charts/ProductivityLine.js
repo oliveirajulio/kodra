@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
+import { useTaskRefresh } from "../../contexts/RefreshContext";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,6 +15,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 
 function ProductivityLineChart({ selectedDate }) {
   const [chartData, setChartData] = useState(null);
+  const { refreshCount } = useTaskRefresh();
+
 
   const getFormattedDateBackend = (date) => {
     const localDate = new Date(date.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
@@ -49,7 +52,7 @@ function ProductivityLineChart({ selectedDate }) {
         });
       })
       .catch(err => console.error("Erro ao carregar gráfico:", err));
-  }, [selectedDate]);
+  }, [selectedDate, refreshCount]);
 
   if (!chartData) {
     return <p>Carregando gráfico...</p>;

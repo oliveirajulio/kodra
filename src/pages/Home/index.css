@@ -690,6 +690,12 @@ summary {
   
 } 
 
+.list ul {
+  max-height: 20rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .list li {
   height: 2.5rem;
   margin-bottom: 0.3rem;
@@ -700,6 +706,10 @@ summary {
   font-weight: 400;
   list-style: none;
   background-color: var(--color_5);
+}
+
+.list ul::-webkit-scrollbar {
+  background-color: transparent;
 }
 
 .list-kbn {
@@ -717,6 +727,17 @@ summary {
   border: solid 0.1px var(--color_6);
   border-radius: 7px;
   box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-kbn ul {
+  max-height: 25rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+.list-kbn ul::-webkit-scrollbar {
+  background-color: transparent;
 }
 
 .task-type {
@@ -757,13 +778,12 @@ summary {
 }
 
 .man-btn {
-  position: fixed;
-  margin-top: 0.2rem;
-  width: 20%;
+  position: relative;
   display: inline-flex;
-  left: 64%;
+  width: 45rem;
+  top: -65%;
+  left: 77%;
   color: transparent;
-
 }
 
 .span-name {
@@ -1507,12 +1527,12 @@ summary {
 
 .calendar-view {
     position: fixed;
-    top: 8vh;
+    top: 12vh;
     left: 17vw;
     margin-left: 0.5vw;
     width: 85vw;
     border-radius: 2rem;
-    background-color: var(--color_1);
+    background-color: var(--color_5);
     z-index: 1000;
 }
 

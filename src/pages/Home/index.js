@@ -581,7 +581,7 @@ const nextDay = () => {
   
       clearmodal();
       closeModal();
-      triggerRefresh(); // Fecha o modal após a criação
+      triggerRefresh();
     } catch (error) {
       console.error("Error adding row:", error);
       alert("Failed to add row. Try again.");
@@ -814,6 +814,10 @@ const nextDay = () => {
       });
     };
 
+    function Dashboard () {
+      window.location.href = '/dashboard'
+    }
+
 
 
 
@@ -832,7 +836,7 @@ const nextDay = () => {
                   <nav className="nav-header">
                       <ul>
                         <button className="btn-nav-home">Home</button>
-                        <button className="btn-nav-dashboard">Dashboard</button>
+                        <button onClick={Dashboard} className="btn-nav-dashboard">Dashboard</button>
                         <button className="btn-nav-project">Projects</button>
                         <button className="btn-nav-tasks">My tasks</button>
                         <button className="btn-nav-help 

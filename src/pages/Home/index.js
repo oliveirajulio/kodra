@@ -104,7 +104,7 @@ function Home() {
   const [ScheduleView, setScheduleView] = useState(false)
   const [CalendarView, setCalendarView] = useState(false)
   const [BinderView, setBinderView] = useState(false)
-  const { currentDate, changeMonth, getDaysInMonth } = useCalendar();
+  const {currentDate, changeMonth, getDaysInMonth } = useCalendar();
   const [taskData, setTaskData] = useState({ done: 0, in_progress: 0, not_done: 0 });
   const { triggerRefresh } = useTaskRefresh();
 
@@ -862,7 +862,7 @@ const nextDay = () => {
                               <button onClick={OpenScheduleView}><ScheduleIcon className="ic-board"/>Schedule</button>
                             </div>
                         </details>
-                        <button onClick={OpenBinderView}><MenuBookIcon className="ic-boardbtn"/>Binder</button>
+                        <button onClick={OpenBinderView}><MenuBookIcon className="ic-boardbtn"/>Student Dashboard</button>
                         <button onClick={OpenCalendarView}><EditCalendarIcon className="ic-boardbtn"/>Calendar</button>
                         <button><AssessmentIcon className="ic-boardbtn"/>Reports</button>
                     </div>
@@ -1039,7 +1039,14 @@ const nextDay = () => {
                             </ul>
                         </div>
                         <button onClick={openModal} className="add-issue">+ Create task</button>
-                    </details>    
+                    </details> 
+                  <div className="planner-board">
+                    <details open={open} onToggle={(e) => setopen(e.target.open)}>
+                        <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+                        <h4 className="title">Planner</h4>
+                      </summary>
+                    </details>
+                  </div>     
                 </div>
                 <div className="reports-board">
                     <div className="charts">
@@ -1472,14 +1479,7 @@ const nextDay = () => {
             </div>
 
             <div className={BinderView ? "binder-view" : "binder-view-hidden"}>
-                <nav>
-                  <ul>
-                    <button className="binder-subject"></button>
-                    <button className="binder-subject"></button>
-                    <button className="binder-subject"></button>
-                    <button className="binder-subject"></button>
-                  </ul>
-                </nav>
+                <h2>Good Night Julio!</h2>
             </div>
 
             <div id={showModal ? "modal-root" : ""}>

@@ -63,6 +63,7 @@
 }
 
 
+
 .nav-header button {
   height: 1.5rem;
   background-color: transparent;
@@ -80,9 +81,9 @@
   border-bottom: solid 3px rgba(181, 76, 255, 0.9);
 }
 
-
-
-
+.btn-nav-home {
+  border-bottom: solid 3px rgba(181, 76, 255, 0.9) !important;
+}
 
 .search-input {
   position: absolute;
@@ -339,12 +340,15 @@
 
   .binder-view {
     position: fixed;
-    top: 8vh;
+    top: 10vh;
     left: 17vw;
     height: 92vh;
     width: 85vw;
-    background-color: var(--color_1);
+    background-color: var(--color_5);
     z-index: 1000;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
   }
 
 
@@ -624,7 +628,7 @@ margin-left: -15vw;
 .board {
   position: relative;
   width: 65%;
-  top: 14vh;
+  top: 4rem ;
   margin-bottom: 1vh;
   margin-left: 2vw;
   font-weight: 400;
@@ -1621,6 +1625,10 @@ summary {
   height: 100%;
 }
 
+.planner-board  {
+  position: relative;
+  margin-top: 2rem;
+}
 .reports-board {
   position: absolute;
   padding: 0.1rem;

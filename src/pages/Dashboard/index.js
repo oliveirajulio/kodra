@@ -33,8 +33,8 @@ function Dashboard () {
                 </div>
                     <nav className="nav-header">
                         <ul>
-                        <button onClick={Home} className="btn-nav-home">Home</button>
-                        <button onClick={Dashboard} className="btn-nav-dashboard">Dashboard</button>
+                        <button onClick={Home}>Home</button>
+                        <button onClick={Dashboard} className="btn-nav-main">Dashboard</button>
                         <button className="btn-nav-project">Projects</button>
                         <button className="btn-nav-tasks">My tasks</button>
                         <button className="btn-nav-help 

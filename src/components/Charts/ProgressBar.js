@@ -37,7 +37,7 @@ function TaskProgressChart({ selectedDate }) {
   }, [selectedDate, refreshCount]);
 
   if (!progress || progress.total === 0) {
-    return <p>Sem tarefas para o dia selecionado.</p>;
+    return <p></p>;
   }
 
   const done = progress.done;

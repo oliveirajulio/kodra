@@ -340,7 +340,7 @@
 
   .binder-view {
     position: fixed;
-    top: 10vh;
+    top: 12vh;
     left: 17vw;
     height: 92vh;
     width: 85vw;
@@ -352,6 +352,75 @@
   }
 
 
+.intro-view {
+  position: relative;
+  top: 20%;
+}
+
+.hosp-phrase {
+  align-items: start;
+  font-weight: 300 !important;
+}
+
+.input-box {
+  position: relative;
+  background-color: var(--color_6);
+  margin-top: 2rem;
+  left: 23%;
+  padding-top: 2rem;
+  padding-left: 1rem;
+  height: 9rem;
+  width: 40rem;
+  border: solid 2px var(--color_8);
+  justify-content: start;
+  align-items: start;
+  text-align: start;
+  border-radius: 1rem;
+}
+
+.input-intro {
+  position: relative;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+
+.input-intro::placeholder {
+  position: relative;
+  margin-left: 2rem;
+}
+
+.nav-student-options {
+  position: relative;
+  right: 3%;
+  margin-top: 1rem;
+}
+
+.nav-student-options button {
+  width: auto;
+  height: 2.5rem;
+  margin-left: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: var(--color_7);
+  border: solid 2px var(--color_8);
+  border-radius: 0.5rem;
+  background-color: var(--color_5);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-student-options {
+  position: relative;
+  top: -1vh;
+}
+
+.ic-student {
+  position: relative;
+  top: 1vh;
+}
 
   .kbn-view-hidden, .scrum-view-hidden, .schedule-view-hidden, .calendar-view-hidden, .binder-view-hidden {
     display: none;
@@ -947,6 +1016,15 @@ summary {
   z-index: 1000;
 }
 
+
+#modal-event {
+  position: absolute;
+  top: 8vh;
+  height: 92vh;
+  width: 100vw;
+  z-index: 1000;
+}
+
 .overlay {
   position: fixed;
   left: 15vw;
@@ -969,6 +1047,31 @@ summary {
   filter: none;
   padding-top: 3vh;
   padding-left: 1vw;
+}
+
+.overlay-event {
+  position: fixed;
+  left: 20vw;
+  top: 15vh;
+  height: 70vh;
+  width: 70vw;
+  border: solid 2px var(--color_8);
+  border-radius: 1rem;
+  background: var(--color_5);
+  filter: none;
+  padding-top: 3vh;
+  padding-left: 1vw;
+}
+
+.select-event {
+position: relative;
+display: flex;
+flex-direction: column;
+}
+
+.label-event {
+  position: relative;
+  margin-top: 3rem;
 }
 
 .title-over {
@@ -1535,6 +1638,7 @@ summary {
     left: 17vw;
     margin-left: 0.5vw;
     width: 85vw;
+    height: 90vh;
     border-radius: 2rem;
     background-color: var(--color_5);
     z-index: 1000;
@@ -1584,9 +1688,13 @@ summary {
   min-height: 13vh;
   padding: 0.5rem;
   border: 0.1px solid var(--color_8);
-  border-radius: 0.2rem ;
+  border-radius: 0.5rem ;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.6);
   position: relative;
+}
+
+.calendar-day:hover {
+  border: 0.5px solid var(--color_12);
 }
 
 .day-number {
@@ -1594,6 +1702,33 @@ summary {
   margin-bottom: 0.5rem;
 }
 
+.day-options {
+  height: 3.5rem;
+  position: relative;
+  width: 100%;
+  display: inline-flex;
+}
+
+.day-options button {
+  position: absolute;
+  display: flex;
+  top: -0.1rem;
+  left: 8rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.ic-event {
+  position: relative;
+  display: flex;
+  color: var(--color_8);
+  font-size: 16px !important;
+}
+
+.ic-event:hover {
+  color: var(--color_2);
+}
 .other-month {
   color: var(--color_2);
   background-color: var(--color_8);
@@ -1637,7 +1772,7 @@ summary {
   right: 6%;
   margin-top: 4rem;
   border-radius: 2rem;
-  background-color: var(--color_1);
+  background-color: var(--color_6);
 }
 
 .charts {

@@ -67,7 +67,7 @@ function TasksByStatusChart({ selectedDate }) {
     },
   };
 
-  if (!data) return <p>Carregando gráfico de status...</p>;
+  if (!data) return <p></p>;
 
   return (
     <div style={{width: "80px", height: "80px"}}>

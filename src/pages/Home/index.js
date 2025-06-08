@@ -63,12 +63,15 @@ import { FastForward } from "@mui/icons-material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
+import SsidChartOutlinedIcon from '@mui/icons-material/SsidChartOutlined';
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
+import ScoreOutlinedIcon from '@mui/icons-material/ScoreOutlined';
 
 function Home() {
 
     
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [open, setopen] = useState(false)
@@ -77,6 +80,7 @@ function Home() {
   const [user, setuser] = useState(false)
   const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
   const [showModal, setShowModal] = useState(false);
+  const [showModalEvent, setShowModalEvent] = useState(false);
   const [modalTask, setModalTask] = useState(false)
   const [dayOfWeek, setDayOfWeek] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
@@ -117,6 +121,7 @@ function Home() {
 
 
     const openModal = () => setShowModal(true);
+    const openModalEvent = () => setShowModalEvent(true)
     const openModaledit = (task) => {
       setSelectedTask(task);
       setTempState(task.state);
@@ -827,12 +832,6 @@ const nextDay = () => {
               <div className="img-inline">
                 <img className="isologo-home" src="/imagens/isologo.png"/>
               </div>
-                <div className="search-input">
-                    <input 
-                        className="search-ipt"
-                        placeholder="Search"
-                        />
-                </div>
                   <nav className="nav-header">
                       <ul>
                         <button className="btn-nav-home">Home</button>
@@ -1234,7 +1233,7 @@ const nextDay = () => {
                           <span className="task-type-kbn" style={{ marginLeft: "0.7vw", backgroundColor: getColor(task.type), padding: "0.1vh 6px", borderRadius: "4px"}}>
                             {task.type}
                           </span>
-                          <div className="infos-kbn">
+                          <div className= "infos-kbn">
                             <span className="task-state-icon-kbn doing">
                               <CropSquareOutlinedIcon className="ic-state" fontSize="small"/>
                             </span>
@@ -1467,10 +1466,13 @@ const nextDay = () => {
                       className={`calendar-day ${day.isCurrentMonth ? '' : 'other-month'} ${
                         isSameDay(day.date, new Date()) ? 'today' : ''
                       }`}
+                      onClick={openModalEvent}
                     >
-                      <div className="day-number">{format(day.date, 'd')}</div>
+                      <div className="day-options">
+                        <div className="day-number">{format(day.date, 'd')}</div>
+                        <button><MoreVertIcon className="ic-event"/></button>
+                      </div>
                       <div className="day-events">
-                        {/* Events would go here */}
                       </div>
                     </div>
                   ))}
@@ -1479,8 +1481,37 @@ const nextDay = () => {
             </div>
 
             <div className={BinderView ? "binder-view" : "binder-view-hidden"}>
-                <h2>Good Night Julio!</h2>
+                <div className="intro-view">
+                    <h1 className="hosp-phrase">Good Night, Julio</h1>
+                      <div className="input-box">
+                        <input
+                          className="input-intro"
+                          placeholder="How can I help you today?"
+                        />
+                      </div>
+                        <nav className="nav-student-options">
+                          <ul>
+                            <button><span className="btn-student-options"><LibraryBooksOutlinedIcon className="ic-student"/> Subjects</span></button>
+                            <button><span className="btn-student-options"><SsidChartOutlinedIcon className="ic-student"/> Graphs</span></button>
+                            <button><span className="btn-student-options"><NotificationsActiveOutlinedIcon className="ic-student"/> Reminders</span></button>
+                            <button><span className="btn-student-options"><ScoreOutlinedIcon className="ic-student"/> Score</span></button>
+                          </ul>
+                        </nav>
+                </div>
             </div>
+
+          {showModalEvent && ( 
+          <div id="modal-event">
+              <div className="overlay-event">
+                  <div className="select-event">
+                    <h2>Create Event</h2>
+                    <label className="label-event">Title</label>
+                    <input></input>
+                  </div>
+              </div>
+            </div> 
+          )}
+            
 
             <div id={showModal ? "modal-root" : ""}>
                     <div className={showModal ? "overlay" : ""}>
@@ -1538,6 +1569,7 @@ const nextDay = () => {
 
                     </div>
             </div>
+
             {modalTask && (
   <div id="modal-task">
     <div className="overlay-task">

@@ -1473,6 +1473,8 @@ const nextDay = () => {
                         <button><MoreVertIcon className="ic-event"/></button>
                       </div>
                       <div className="day-events">
+                        <div className="color-bar"></div>
+                        <span className="title-event">Title</span>
                       </div>
                     </div>
                   ))}

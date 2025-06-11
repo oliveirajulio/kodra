@@ -1506,10 +1506,18 @@ const nextDay = () => {
           <div id="modal-event">
               <div className="overlay-event">
                   <div className="select-event">
-                    <h2>Create Event</h2>
-                    <label className="label-event">Title</label>
-                    <input></input>
+                       <h2>Create Event</h2>
+                        <label className="label-event">Title</label>
+                        <input className="input-event"></input>
                   </div>
+
+                   <div className="top-modal">
+                      <input
+                      className="input-color-event"
+                      type="color">
+                      </input>
+                    </div>
+
               </div>
             </div> 
           )}

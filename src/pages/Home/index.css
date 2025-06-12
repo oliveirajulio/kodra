@@ -1052,10 +1052,10 @@ summary {
 .overlay-event {
   position: fixed;
   display: inline-flex;
-  left: 20vw;
+  left: 40vw;
   top: 15vh;
   height: 70vh;
-  width: 70vw;
+  width: 30vw;
   border: solid 2px var(--color_8);
   border-radius: 1rem;
   background: var(--color_5);
@@ -1065,7 +1065,7 @@ summary {
 }
 
 .select-event {
-width: 40%;
+width: 85%;
 position: relative;
 display: flex;
 flex-direction: column;
@@ -1138,6 +1138,27 @@ flex-direction: column;
   border-radius: 50%;
 }
 
+.time-event {
+  position: relative;
+  font-size: 14px !important ;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.hour-event {
+  position: relative;
+  padding: 0.5rem;
+  width: 25%;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  height: 2rem;
+  background-color: var(--color_1);
+  border: solid 1px var(--color_12);
+  border-radius: 2rem ;
+  color: var(--color_3);
+}
+
 .color-bar {
   position: relative;
   width: 0.3rem;
@@ -1152,6 +1173,8 @@ flex-direction: column;
   font-size: 12px;
   font-weight: bold;
 }
+
+
 
 .title-over {
   color: var(--color_3);

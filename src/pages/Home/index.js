@@ -23,6 +23,7 @@ import Swal from 'sweetalert2';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import loadingIcon from "./loading.svg";
+import Switch from '@mui/material/Switch';
 
 
 
@@ -111,6 +112,7 @@ function Home() {
   const {currentDate, changeMonth, getDaysInMonth } = useCalendar();
   const [taskData, setTaskData] = useState({ done: 0, in_progress: 0, not_done: 0 });
   const { triggerRefresh } = useTaskRefresh();
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 
 
@@ -142,10 +144,17 @@ function Home() {
       setModalTask(true)
       setShowModal(true)
     }
+
     const closeModalTask = () => {
       setModalTask(false);
       setShowModal(false)
     }
+
+    const closeModalEvent = () => {
+      setShowModalEvent(false)
+    }
+    
+    
     const OpenTaskView = () => {
       setKbnView(false);
       setScrView(false)
@@ -1509,6 +1518,28 @@ const nextDay = () => {
                        <h2>Create Event</h2>
                         <label className="label-event">Title</label>
                         <input className="input-event"></input>
+
+                        <span className="time-event">Every day
+                          <Switch {...label} defaultChecked />
+                        </span>
+
+                        <span className="time-event">Sex, 11 June</span>
+                        <span>
+                          <input className="hour-event"></input>
+                          to
+                          <input className="hour-event"></input>
+                        </span>
+
+                        <span className="time-event">On repeat
+                          <Switch {...label} defaultChecked />
+                        </span>
+
+                        <div className="btn-bottom">
+                          <button>Save</button>
+                          <button onClick={closeModalEvent}>Cancel</button>
+                        </div>
+
+
                   </div>
 
                    <div className="top-modal">

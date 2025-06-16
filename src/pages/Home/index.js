@@ -454,17 +454,39 @@ const nextDay = () => {
     };
 
     const fetchevents = async () => {
-        const formattedDateBackend = getFormattedDateBackend(selectedDate);
-        console.log("Fetching events for date:", formattedDateBackend);
+  // Para buscar todos os eventos do usuário (recomendado para calendário)
+  // const formattedDateBackend = getFormattedDateBackend(selectedDate);
+  console.log("Fetching events for user");
 
-        try {
-          const fetchedevents = await getEvent(formattedDateBackend);
-          console.log("Fetched events:", fetchedevents);
-          setEvents(fetchedevents);
-        } catch (error) {
-          console.error("Error fetching events:", error);
-        }
-      };
+  try {
+    // Buscar todos os eventos do usuário em vez de filtrar por data
+    const fetchedevents = await getEvent(); // Remove o parâmetro de data
+    console.log("Fetched events:", fetchedevents);
+    setEvents(fetchedevents);
+  } catch (error) {
+    console.error("Error fetching events:", error);
+  }
+};
+
+// OU se você quiser buscar eventos de uma data específica:
+const fetchEventsForDate = async (date) => {
+  const formattedDateBackend = getFormattedDateBackend(date);
+  console.log("Fetching events for date:", formattedDateBackend);
+
+  try {
+    const fetchedevents = await getEvent(formattedDateBackend);
+    console.log("Fetched events:", fetchedevents);
+    setEvents(fetchedevents);
+  } catch (error) {
+    console.error("Error fetching events:", error);
+  }
+};
+
+// useEffect atualizado para buscar eventos quando necessário
+useEffect(() => {
+  fetchevents();
+}, [currentDate]); // Buscar quando o mês muda
+
 
 
     const fetchUser = async () => {
@@ -1571,58 +1593,58 @@ const nextDay = () => {
                </div>
             </div>
 
-            <div className={CalendarView ? "calendar-view" : "calendar-view-hidden"}>
-              <div className="calendar-container">
-                <div className="calendar-header">
-                  <button onClick={() => changeMonth(-1)}>Previous</button>
-                  <h2>{format(currentDate, 'MMMM yyyy')}</h2>
-                  <button onClick={() => changeMonth(1)}>Next</button>
-                </div>
-                
-                <div className="calendar-weekdays">
-                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                    <div key={day} className="weekday">{day}</div>
-                  ))}
-                </div>
-                
-                <div className="calendar-days">
-                  {getDaysInMonth().map((day, index) => {
-                    // Filtra os eventos SOMENTE desse dia
-                  const dayEvents = filteredEvents.filter(event =>
-                    isSameDay(new Date(event.start_time), new Date(day.date))
-                  );
-
-                    return (
-                      <div 
-                        key={index} 
-                        className={`calendar-day ${day.isCurrentMonth ? '' : 'other-month'} ${
-                          isSameDay(day.date, new Date()) ? 'today' : ''
-                        }`}
-                        onClick={() => {
-                          setSelectedDate(day.date);  
-                          openModalEvent(day.date);   // passe a data DIRETO
-                        }}
-                      >
-                        <div className="day-options">
-                          <div className="day-number">{format(day.date, 'd')}</div>
-                          <button><MoreVertIcon className="ic-event"/></button>
-                        </div>
-
-                        {dayEvents.map(event => (
-                          <div key={event.id} className="day-events">
-                            <div
-                              className="color-bar"
-                              style={{ backgroundColor: event.color || 'gray' }}
-                            ></div>
-                            <span className="title-event">{event.title}</span>
-                          </div>
-                        ))}
-                      </div>
+              <div className={CalendarView ? "calendar-view" : "calendar-view-hidden"}>
+                <div className="calendar-container">
+                  <div className="calendar-header">
+                    <button onClick={() => changeMonth(-1)}>Previous</button>
+                    <h2>{format(currentDate, 'MMMM yyyy')}</h2>
+                    <button onClick={() => changeMonth(1)}>Next</button>
+                  </div>
+                  
+                  <div className="calendar-weekdays">
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                      <div key={day} className="weekday">{day}</div>
+                    ))}
+                  </div>
+                  
+                  <div className="calendar-days">
+                    {getDaysInMonth().map((day, index) => {
+                      // Filtra os eventos SOMENTE desse dia
+                    const dayEvents = filteredEvents.filter(event =>
+                      isSameDay(new Date(event.start_time), new Date(day.date))
                     );
-                  })}
-                </div>
 
-              </div>
+                      return (
+                        <div 
+                          key={index} 
+                          className={`calendar-day ${day.isCurrentMonth ? '' : 'other-month'} ${
+                            isSameDay(day.date, new Date()) ? 'today' : ''
+                          }`}
+                          onClick={() => {
+                            setSelectedDate(day.date);  
+                            openModalEvent(day.date);   // passe a data DIRETO
+                          }}
+                        >
+                          <div className="day-options">
+                            <div className="day-number">{format(day.date, 'd')}</div>
+                            <button><MoreVertIcon className="ic-event"/></button>
+                          </div>
+
+                          {dayEvents.map(event => (
+                            <div key={event.id} className="day-events">
+                              <div
+                                className="color-bar"
+                                style={{ backgroundColor: event.color || 'gray' }}
+                              ></div>
+                              <span className="title-event">{event.title}</span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                </div>
             </div>
 
             <div className={BinderView ? "binder-view" : "binder-view-hidden"}>

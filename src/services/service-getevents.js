@@ -1,8 +1,11 @@
 import service from './service';
 
-function getEvent(date) {
+function getEvent(date = null) {
   return new Promise((resolve, reject) => {
-    service.get(`/events?date=${date}`)
+    // Se date for fornecido, adiciona como parâmetro
+    const url = date ? `/events?date=${date}` : '/events';
+    
+    service.get(url)
       .then((response) => {
         console.log("Events received:", response.data);
         resolve(response.data);

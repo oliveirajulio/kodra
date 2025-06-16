@@ -9,9 +9,11 @@ import GetTasksProgress from "../../services/service-taskprogress";
 import GetProductivity from "../../services/service-productivity";
 import getUser from "../../services/service-getuser";
 import getTask from "../../services/service-gettask";
+import getEvent from "../../services/service-getevents";
 import addTask from "../../services/service-addtask";
 import editTask from "../../services/servoce-edittask";
 import deleteTask from "../../services/service-deletetask";
+import addEvent from "../../services/service-addevent";
 import updateTaskState from "../../services/service-state";
 import useCalendar from "../../components/Calendar";
 import TasksByStatusChart from "../../components/Charts/StatusType";
@@ -78,6 +80,7 @@ function Home() {
   const [open, setopen] = useState(false)
   const [openboard, setopenboard] = useState(false)     
   const [tasks, setTasks] = useState([]);
+  const [events, setEvents] = useState([])
   const [user, setuser] = useState(false)
   const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
   const [showModal, setShowModal] = useState(false);
@@ -88,6 +91,12 @@ function Home() {
   const [selectedOption, setselectOption] = useState(null);
   const [taskname, settaskname] = useState("");
   const [description, setdescription] = useState("")
+  const [titleevent, settitleevent] = useState("");
+  const [everyday, seteveryday] = useState(false); // ou false
+  const [onrepeat, setonrepeat] = useState(false);
+  const [starttime, setstarttime] = useState("");
+  const [endtime, setendtime] = useState("");
+  const [colorevent, setcolorevent] = useState("#b54cff");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false); 
   const [loadingtask, setLoadingTask] = useState(false); 
@@ -110,20 +119,17 @@ function Home() {
   const [CalendarView, setCalendarView] = useState(false)
   const [BinderView, setBinderView] = useState(false)
   const {currentDate, changeMonth, getDaysInMonth } = useCalendar();
+  const days = getDaysInMonth();
   const [taskData, setTaskData] = useState({ done: 0, in_progress: 0, not_done: 0 });
   const { triggerRefresh } = useTaskRefresh();
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-
-
-
-
-
-
-
-
     const openModal = () => setShowModal(true);
-    const openModalEvent = () => setShowModalEvent(true)
+    const openModalEvent = (date) => {
+      console.log("Abrindo modal com data:", date)
+      setShowModalEvent(true)
+      setSelectedDate(date); // garante que pega a data clicada
+    }
     const openModaledit = (task) => {
       setSelectedTask(task);
       setTempState(task.state);
@@ -409,6 +415,15 @@ const nextDay = () => {
         setselectOption(null); // Limpa a prioridade 
         setdescription("")
     };
+
+    const clearmodalevent =() => {
+      settitleevent("")
+      setstarttime("")
+      setendtime("")
+      seteveryday(false)
+      setonrepeat(false)
+      setcolorevent("#b54cff")  
+    }
     
 
     const change = (selectedOption) => {
@@ -438,6 +453,20 @@ const nextDay = () => {
       }
     };
 
+    const fetchevents = async () => {
+        const formattedDateBackend = getFormattedDateBackend(selectedDate);
+        console.log("Fetching events for date:", formattedDateBackend);
+
+        try {
+          const fetchedevents = await getEvent(formattedDateBackend);
+          console.log("Fetched events:", fetchedevents);
+          setEvents(fetchedevents);
+        } catch (error) {
+          console.error("Error fetching events:", error);
+        }
+      };
+
+
     const fetchUser = async () => {
       try {
         const fetchedUser = await getUser();
@@ -447,6 +476,8 @@ const nextDay = () => {
         console.error("Error fetching user:", error);
       }
     };
+
+
 
     useEffect(() => {
         if (!selectedDate) return;
@@ -475,7 +506,12 @@ const nextDay = () => {
     useEffect(() => {
       fetchUser();
     }, []);
-    
+
+
+    useEffect(() => {
+      fetchevents();
+    }, []);
+
     const Theme = () => {
       setTheme(prevTheme => prevTheme === "dark" ? "light" : "dark");
     };
@@ -715,6 +751,79 @@ const nextDay = () => {
         });
     };
 
+    const addevent = async () => {
+  if (!titleevent) {
+    alert("Please enter the event title!");
+    return;
+  }
+
+  if (!selectedDate) {
+    alert("Please select the event date!");
+    return;
+  }
+
+  const formattedDate = getFormattedDateBackend(selectedDate);
+
+  setLoading(true);
+
+  try {
+    const newEvent = {
+      title: titleevent,
+      is_all_day: everyday,
+      is_recurring: onrepeat,
+      start_time: starttime,
+      end_time: endtime,
+      color: colorevent,
+      date: formattedDate // sempre use a função segura
+    };
+
+    const response = await addEvent(newEvent);
+
+    console.log("Response:", response);
+
+    // Atualiza lista local de eventos
+    setEvents((prevEvents) => [
+      ...prevEvents,
+      {
+        id: response.id,
+        title: response.title,
+        color: response.color,
+        start_time: response.start_time,
+        end_time: response.end_time,
+        is_all_day: response.is_all_day,
+        is_recurring: response.is_recurring,
+        date: newEvent.date
+      },
+    ]);
+
+    Swal.fire({
+      position: 'bottom',
+      title: 'Event created successfully!',
+      showConfirmButton: false,
+      timer: 2000,
+      toast: true,
+      background: '#1ed760',
+      color: '#fff',
+      customClass: {
+        popup: 'custom-alert',
+      },
+      padding: '1px',
+    });
+
+    clearmodalevent();
+    closeModalEvent();
+    triggerRefresh();
+
+  } catch (error) {
+    console.error("Error adding event:", error);
+    alert("Failed to create event. Try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
     function StateChange(taskId, newState) {
       // Atualize o estado local para refletir a mudança da tarefa específica
       setTasks((prevTasks) =>
@@ -817,6 +926,14 @@ const nextDay = () => {
       return task.area_id === selectedFilter;
     })
   : tasks;
+
+   const filteredEvents = selectedFilter
+  ? events.filter(event => Number(event.area_id) === Number(selectedFilter))
+  : events;
+
+    const parseDateBR = (date) => new Date(new Date(date).toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+
+
     
     // Update the filter selection function
     const selectFilter = (area) => {
@@ -1469,25 +1586,42 @@ const nextDay = () => {
                 </div>
                 
                 <div className="calendar-days">
-                  {getDaysInMonth().map((day, index) => (
-                    <div 
-                      key={index} 
-                      className={`calendar-day ${day.isCurrentMonth ? '' : 'other-month'} ${
-                        isSameDay(day.date, new Date()) ? 'today' : ''
-                      }`}
-                      onClick={openModalEvent}
-                    >
-                      <div className="day-options">
-                        <div className="day-number">{format(day.date, 'd')}</div>
-                        <button><MoreVertIcon className="ic-event"/></button>
+                  {getDaysInMonth().map((day, index) => {
+                    // Filtra os eventos SOMENTE desse dia
+                  const dayEvents = filteredEvents.filter(event =>
+                    isSameDay(new Date(event.start_time), new Date(day.date))
+                  );
+
+                    return (
+                      <div 
+                        key={index} 
+                        className={`calendar-day ${day.isCurrentMonth ? '' : 'other-month'} ${
+                          isSameDay(day.date, new Date()) ? 'today' : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedDate(day.date);  
+                          openModalEvent(day.date);   // passe a data DIRETO
+                        }}
+                      >
+                        <div className="day-options">
+                          <div className="day-number">{format(day.date, 'd')}</div>
+                          <button><MoreVertIcon className="ic-event"/></button>
+                        </div>
+
+                        {dayEvents.map(event => (
+                          <div key={event.id} className="day-events">
+                            <div
+                              className="color-bar"
+                              style={{ backgroundColor: event.color || 'gray' }}
+                            ></div>
+                            <span className="title-event">{event.title}</span>
+                          </div>
+                        ))}
                       </div>
-                      <div className="day-events">
-                        <div className="color-bar"></div>
-                        <span className="title-event">Title</span>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
+
               </div>
             </div>
 
@@ -1517,25 +1651,44 @@ const nextDay = () => {
                   <div className="select-event">
                        <h2>Create Event</h2>
                         <label className="label-event">Title</label>
-                        <input className="input-event"></input>
+                        <input
+                          className="input-event"
+                          value={titleevent}
+                          onChange={(e) => settitleevent(e.target.value)}
+                        />
 
                         <span className="time-event">Every day
-                          <Switch {...label} defaultChecked />
+                         <Switch
+                            {...label}
+                            checked={everyday}
+                            onChange={(e) => seteveryday(e.target.checked)}
+                          />
                         </span>
 
-                        <span className="time-event">Sex, 11 June</span>
+                        <span className="time-event">
+                          {selectedDate ? format(selectedDate, 'EEE, dd MMMM') : 'No date selected'}
+                        </span>
                         <span>
-                          <input className="hour-event"></input>
+                          <input
+                            type="time"
+                            className="hour-event"
+                            value={starttime}
+                            onChange={(e) => setstarttime(e.target.value)}
+                          />
                           to
-                          <input className="hour-event"></input>
+                          <input
+                            type="time"
+                            className="hour-event"
+                            value={endtime}
+                            onChange={(e) => setendtime(e.target.value)}
+                          />
                         </span>
-
                         <span className="time-event">On repeat
                           <Switch {...label} defaultChecked />
                         </span>
 
                         <div className="btn-bottom">
-                          <button>Save</button>
+                          <button onClick={addevent}>Save</button>
                           <button onClick={closeModalEvent}>Cancel</button>
                         </div>
 
@@ -1544,10 +1697,12 @@ const nextDay = () => {
 
                    <div className="top-modal">
                       <input
-                      className="input-color-event"
-                      type="color">
-                      </input>
-                    </div>
+                        className="input-color-event"
+                        type="color"
+                        value={colorevent}
+                        onChange={(e) => setcolorevent(e.target.value)}
+                      />
+                  </div>
 
               </div>
             </div> 

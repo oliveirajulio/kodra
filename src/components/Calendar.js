@@ -13,6 +13,8 @@ import {
 
 function useCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
+
 
   const changeMonth = (amount) => {
     setCurrentDate(addMonths(currentDate, amount));

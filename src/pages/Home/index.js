@@ -454,19 +454,32 @@ const nextDay = () => {
     };
 
     const fetchevents = async () => {
-  // Para buscar todos os eventos do usuário (recomendado para calendário)
-  // const formattedDateBackend = getFormattedDateBackend(selectedDate);
-  console.log("Fetching events for user");
-
-  try {
-    // Buscar todos os eventos do usuário em vez de filtrar por data
-    const fetchedevents = await getEvent(); // Remove o parâmetro de data
-    console.log("Fetched events:", fetchedevents);
-    setEvents(fetchedevents);
-  } catch (error) {
-    console.error("Error fetching events:", error);
-  }
-};
+      console.log("🔍 Iniciando busca de eventos...");
+      
+      try {
+        const fetchedevents = await getEvent();
+        console.log("📅 Eventos retornados do backend:", fetchedevents);
+        console.log("📊 Quantidade de eventos:", fetchedevents.length);
+        
+        // Debug individual dos eventos
+        fetchedevents.forEach((event, index) => {
+          console.log(`📌 Evento ${index + 1}:`, {
+            id: event.id,
+            title: event.title,
+            date: event.date,
+            start_time: event.start_time,
+            user_id: event.user_id
+          });
+        });
+        
+        setEvents(fetchedevents);
+        console.log("✅ Eventos salvos no state");
+        
+      } catch (error) {
+        console.error("❌ Erro ao buscar eventos:", error);
+        console.error("❌ Detalhes do erro:", error.response?.data);
+      }
+    };
 
 // OU se você quiser buscar eventos de uma data específica:
 const fetchEventsForDate = async (date) => {

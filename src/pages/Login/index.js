@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 
 import LoginCall from "../../services/service-login";
@@ -7,6 +7,8 @@ import "./index.css";
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  
 
   function LoginBtn(email, password) {
     LoginCall(email, password)
@@ -38,6 +40,13 @@ function Login() {
     function NewAcc () {
       window.location.href = '/signup'
     }
+
+
+    useEffect(() => {
+          // Update localStorage and document class when theme changes
+          localStorage.setItem("theme", theme);
+          document.documentElement.setAttribute('data-theme', theme);
+        }, [theme]);
 
   return (
     <div className="container-login">

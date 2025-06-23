@@ -1,39 +1,53 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const BASE_URL = "https://backend-kbn-production.up.railway.app";  // Com https
+const BASE_URL = "https://backend-kbn-production.up.railway.app";
 
 const service = axios.create({
-    baseURL: BASE_URL,
-    timeout: 30000,
-    withCredentials: true // Certifique-se de que isso está configurado para enviar cookies e tokens
+  baseURL: BASE_URL,
+  timeout: 30000,
+  withCredentials: true,
 });
 
+// 🔑 flag para impedir múltiplos redirects
+let isRedirecting = false;
+
 service.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('token'); // Verifica o token no localStorage
-        if (token) {
-            config.headers['x-access-token'] = token; // Adiciona o token ao cabeçalho
-        } else {
-            console.warn("Token não encontrado no localStorage."); // Aviso se não encontrar o token
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['x-access-token'] = token;
     }
+    return config;
+  },
+  (error) => Promise.reject(error)
 );
 
 service.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            console.error("Token inválido ou não autorizado.");
-            // Opcional: Redirecionar para a tela de login
-        } else {
-            console.error("Erro na requisição", error.response?.data || error.message);
-        }
-        return Promise.reject(error);
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && !isRedirecting) {
+      console.error("Token inválido ou não autorizado.");
+
+      // Evita múltiplos redirects
+      isRedirecting = true;
+
+      // Limpa o token
+      localStorage.removeItem('token');
+
+      // Mostra o toast
+      toast.error("Sessão expirada. Faça login novamente.", {
+        position: "top-center",
+      });
+
+      // Redireciona depois de um tempo para exibir o toast
+      setTimeout(() => {
+        window.location.href = "/login"; // ou "/unauthorized"
+      }, 10000);
     }
+
+    return Promise.reject(error); // <- Isso precisa ficar, mas vamos tratar no componente!
+  }
 );
 
 export default service;

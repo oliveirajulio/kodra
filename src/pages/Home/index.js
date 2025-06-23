@@ -77,7 +77,7 @@ function Home() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
-  const [open, setopen] = useState(false)
+  const [open, setopen] = useState(true)
   const [openboard, setopenboard] = useState(false)     
   const [tasks, setTasks] = useState([]);
   const [events, setEvents] = useState([])
@@ -104,6 +104,7 @@ function Home() {
   const [tempState, setTempState] = useState(selectedTask?.state || "Not done"); // Armazenar temporariamente o estado selecionado
   const [btnClick, setBtnClick] = useState(false);
   const [menuUser, setmenuUser] = useState(false)
+  const menuRef = useRef(null);
   const [placeholder, setPlaceholder] = useState("Selecione uma data:");  // Adiciona um estado para a frase
   const [areas, setAreas] = useState([]);
   const [isEditingArea, setIsEditingArea] = useState(false);
@@ -113,6 +114,7 @@ function Home() {
   const [selectedArea, setSelectedArea] = useState(null);  
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+  const [TaskView, setTaskView] = useState(true)
   const [KbnView, setKbnView] = useState(false)
   const [ScrView, setScrView] = useState(false)
   const [ScheduleView, setScheduleView] = useState(false)
@@ -162,6 +164,7 @@ function Home() {
     
     
     const OpenTaskView = () => {
+      setTaskView(prevState => !prevState);
       setKbnView(false);
       setScrView(false)
       setScheduleView(false)
@@ -175,6 +178,7 @@ function Home() {
       setScheduleView(false)
       setCalendarView(false)
       setBinderView(false)
+      setTaskView(false)
 
     }
     const OpenScrView = () => {
@@ -183,6 +187,8 @@ function Home() {
       setScheduleView(false)
       setCalendarView(false)
       setBinderView(false)
+      setTaskView(false)
+
 
 
     }
@@ -192,6 +198,8 @@ function Home() {
       setScrView(false)
       setCalendarView(false)
       setBinderView(false)
+      setTaskView(false)
+
 
     }
     const OpenCalendarView = () => {
@@ -200,15 +208,17 @@ function Home() {
       setScrView(false)
       setScheduleView(false)
       setBinderView(false)
+      setTaskView(false)
 
     }
     
     const OpenBinderView = () => {
-      setCalendarView(prevState => !prevState);
+      setBinderView(prevState => !prevState);
       setKbnView(false)
       setScrView(false)
       setScheduleView(false)
-      setBinderView(true)
+      setCalendarView(false)
+      setTaskView(false)
     }
 
 const prevDay = () => {
@@ -502,15 +512,15 @@ useEffect(() => {
 
 
 
-    const fetchUser = async () => {
-      try {
-        const fetchedUser = await getUser();
-        console.log("Fetched user:", fetchedUser);
-        setuser(fetchedUser);
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
+
+      getUser()
+        .then(user => {
+          console.log("User:", user);
+        })
+        .catch(error => {
+          console.error("Erro tratado no componente:", error);
+        });
+
 
 
 
@@ -539,13 +549,39 @@ useEffect(() => {
     }, [selectedDate]); // Isso só será chamado se selectedDate for válido
 
     useEffect(() => {
-      fetchUser();
+      getUser()
+        .then(user => {
+          console.log('Usuário:', user);
+        })
+        .catch(error => {
+          console.error('Erro tratado no useEffect:', error);
+        });
     }, []);
 
 
     useEffect(() => {
       fetchevents();
     }, []);
+
+  useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+          setmenuUser(false);
+        }
+      };
+
+      // Adiciona o listener quando o menu está aberto
+      if (menuUser) {
+        document.addEventListener('mousedown', handleClickOutside);
+      } else {
+        document.removeEventListener('mousedown', handleClickOutside);
+      }
+
+      // Cleanup: remove o listener quando o componente desmonta ou menu fecha
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [menuUser]);
 
     const Theme = () => {
       setTheme(prevTheme => prevTheme === "dark" ? "light" : "dark");
@@ -1016,10 +1052,10 @@ useEffect(() => {
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
                           <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board-arrow"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
-                              <button onClick={OpenTaskView}><TaskAltIcon className="ic-board"/> Task Management</button>
-                              <button onClick={OpenKbnView}><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
-                              <button onClick={OpenScrView}><ViewArrayIcon className="ic-board"/>Scrum</button>
-                              <button onClick={OpenScheduleView}><ScheduleIcon className="ic-board"/>Schedule</button>
+                              <button className={TaskView ? "view-active" : ""} onClick={OpenTaskView}><TaskAltIcon className="ic-board"/> Task Management</button>
+                              <button className={KbnView ? "view-active" : ""} onClick={OpenKbnView}><CalendarViewWeekIcon className="ic-board"/>Kanban</button>
+                              <button className={ScrView ? "view-active" : ""} onClick={OpenScrView}><ViewArrayIcon className="ic-board"/>Scrum</button>
+                              <button className={ScheduleView ? "view-active" : ""} onClick={OpenScheduleView}><ScheduleIcon className="ic-board"/>Schedule</button>
                             </div>
                         </details>
                         <button onClick={OpenBinderView}><MenuBookIcon className="ic-boardbtn"/>Student Dashboard</button>
@@ -1029,7 +1065,7 @@ useEffect(() => {
                 </div>
             </div>
             <div className={`home ${showModal ? "container-blur" : " "}`}>
-               <div className={menuUser ? "menu-user" : "off"}>
+               <div ref={menuRef} className={menuUser ? "menu-user" : "off"}>
                 <div className="user">
                   <span><AccountCircleIcon className="icon-user"/></span>
                   <span className="user-name">{user?.username}</span>
@@ -1205,6 +1241,11 @@ useEffect(() => {
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                         <h4 className="title">Planner</h4>
                       </summary>
+                      <div className="list-planner">
+                        <ul>
+                          <li></li>
+                        </ul>
+                      </div>
                     </details>
                   </div>     
                 </div>

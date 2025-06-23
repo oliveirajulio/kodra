@@ -212,16 +212,34 @@
   border: none;
   margin-top: 0.5vh;
   margin: 1vh;
-  padding-top: 2vh;
+  padding-top: 1.5vh;
   width: 90%;
   height: 6vh;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   text-align: start;
 }
 
 .btn-view-enable button:hover {
-  border: solid 3px rgba(181, 76, 255, 0.9);
+  border: solid 3px rgba(181, 76, 255, 0.3);
 }
+
+.view-active {
+  position: relative;
+  display: flex;
+  color: #cb84fde6 !important;
+  background-color: #b54cff33 !important;
+  margin-top: 0.5vh;
+  margin: 1vh;
+  padding-top: 2vh;
+  width: 90%;
+  height: 6vh;
+  border-radius: 0.5rem;
+  text-align: start;
+  border: solid 2px rgba(181, 76, 255, 0.9) !important;
+}
+
+
+
 
 
 .btn-details {
@@ -283,7 +301,7 @@
   margin-left: 1vw ;
   margin-right: 1vw ;
   height: 6vh;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   text-align: start;
   color: var(--color_3);
   cursor: pointer;
@@ -785,6 +803,28 @@ summary {
   background-color: transparent;
 }
 
+.list-planner {
+  margin: 0;
+  width: 100%;
+  font-weight: 400;
+}
+
+.list-planner li {
+  height: 2.5rem;
+  margin-bottom: 0.3rem;
+  margin-left: -3vw;
+  font-size: 14px;
+  border: solid 1px var(--color_8);
+  border-radius: 1rem;
+  font-weight: 400;
+  list-style: none;
+  background-color: var(--color_5);
+}
+
+.list-planner ul::-webkit-scrollbar {
+  background-color: transparent;
+}
+
 .list-kbn {
   margin: 0;
   width: 100%;
@@ -1248,7 +1288,7 @@ flex-direction: column;
   margin-bottom: 4vh;
   height: 2.3rem;
   width: 22vw;
-  background-color: var(--color_1);
+  background-color: var(--color_6);
   border: solid 1px var(--color_12);
   border-radius: 2rem ;
   color: var(--color_3);
@@ -1269,7 +1309,7 @@ flex-direction: column;
   margin-bottom: 2vh;
   height: 2.3rem;
   width: 64vw;
-  background-color: var(--color_1);
+  background-color: var(--color_6);
   border: none;
   color: var(--color_12);
 }
@@ -1287,7 +1327,7 @@ flex-direction: column;
 
 .custom__control {
   margin-top: 0.5vh;
-  background-color: var(--color_1) !important; /* Cor de fundo */
+  background-color: var(--color_6) !important; /* Cor de fundo */
   border: solid 1px var(--color_12) !important;
   border-radius: 2rem !important ; /* Borda */
   height: 1vh; /* Altura */
@@ -1379,7 +1419,7 @@ flex-direction: column;
   border-radius: 5px;
 }
 
-.custom-quill {
+.quill {
   margin-top: 2vh;
   width: 64vw;
   
@@ -1387,7 +1427,7 @@ flex-direction: column;
 
 .custom-quill .ql-container {
   border: 1px solid var(--color_8) !important;
-  background-color: var(--color_1); /* Cor de fundo */
+  background-color: var(--color_6); /* Cor de fundo */
   font-size: 16px; /* Tamanho do texto */
   color: var(--color_4) !important;
 
@@ -1396,7 +1436,7 @@ flex-direction: column;
 .custom-quill .ql-toolbar {
   border: 1px solid var(--color_8) !important;
   margin-top: 0.5vh;
-  background-color: var(--color_1); /* Fundo da barra */  
+  background-color: var(--color_6); /* Fundo da barra */  
 }
 
 .custom-quill .ql-toolbar button {

@@ -1876,7 +1876,7 @@ flex-direction: column;
 
 .today {
   background-color: 1;
-  color: red;
+  color: var(--color_14);
   border: 1px solid var(--color_2);
 }
 

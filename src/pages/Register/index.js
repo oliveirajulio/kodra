@@ -8,6 +8,7 @@ function Register () {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
+    
 
     // Função para lidar com o envio dos dados
     const Register = async () => {
@@ -39,9 +40,11 @@ function Register () {
 
     return (
         <div className="container-signup">
-            <div className="intro-signup"></div>
+            <div className="intro-signup">
+                <img className="signup" src="/imagens/signup.png"/>
+            </div>
             <div className="register">
-                <h2 className="invite-signup">Sign up to </h2>
+                <h2 className="invite-signup">Create your account</h2>
 
                 <label className="lab-email">Email</label>
                 <input
@@ -76,7 +79,7 @@ function Register () {
                     Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.
                 </p>
 
-                <button className="btn-signup" onClick={Register}>Continue</button>
+                <button className="btn-signup" onClick={Register}>Register</button>
             </div>
         </div>
     );

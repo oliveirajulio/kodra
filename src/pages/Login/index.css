@@ -157,7 +157,7 @@
   
   .box-more {
     background-color: var(--color_1);
-    margin-top: 5vh;
+    margin-top: 1rem;
     height: auto;
     border: solid 1px rgba(240, 248, 255, 0.1);
     border-radius: 1rem;

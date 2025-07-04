@@ -9,6 +9,8 @@ function Dashboard () {
 
     const [showModal, setShowModal] = useState(false);
     const [menuUser, setmenuUser] = useState(false)
+      const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
+    
 
     const MenuUser = () => {
         setmenuUser(prevState => !prevState); 
@@ -17,6 +19,12 @@ function Dashboard () {
     const Home = () => {
         window.location.href = '/' 
     }
+
+    useEffect(() => {
+          // Update localStorage and document class when theme changes
+          localStorage.setItem("theme", theme);
+          document.documentElement.setAttribute('data-theme', theme);
+        }, [theme]);
 
     
     return (

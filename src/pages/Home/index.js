@@ -1050,7 +1050,7 @@ useEffect(() => {
                     <p className="intro">PLANNING</p>
                     <div className="buttons">
                         <details className="btn-details" open={openboard} onToggle={(e) => setopenboard(e.target.open)}>
-                          <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board-arrow"/>Board</span> {openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</summary>
+                          <summary className="arrow-board"><span className="info-view"><LeaderboardIcon className="ic-board-arrow"/><span className="title-info">Board{openboard ? <KeyboardArrowDownIcon className="icon-board"/> : <KeyboardArrowRightIcon className="icon-board" />}</span></span></summary>
                             <div className={openboard ? "btn-view-enable" : "btn-view"}>
                               <button className={TaskView ? "view-active" : ""} onClick={OpenTaskView}><TaskAltIcon className="ic-board"/> Task Management</button>
                               <button className={KbnView ? "view-active" : ""} onClick={OpenKbnView}><CalendarViewWeekIcon className="ic-board"/>Kanban</button>

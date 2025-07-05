@@ -27,6 +27,7 @@
 
   .intro-login {
     position: relative;
+    display: inline-flex;
     padding: 1rem;
     font-size: 800;
     width: 95%;
@@ -41,6 +42,23 @@
     display: inline-flex;
     justify-content: center;
   }
+
+.btn-register {
+  position: absolute  ;
+  display: flex;
+  right: 2rem;
+  border: none;
+  font-size: 14px;
+  background-color: transparent;
+  color: var(--color_14);
+  cursor: pointer;
+}
+
+.btn-register:hover {
+  padding-bottom: 0.1rem;
+  border-bottom: solid 3px var(--color_14);
+}
+
 
   .box-login {
     text-align: center;

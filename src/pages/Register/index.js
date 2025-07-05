@@ -44,6 +44,14 @@ function Register () {
                 <img className="signup" src="/imagens/signup.png"/>
             </div>
             <div className="register">
+
+                <div className="isologo-box">
+                     <h3> 
+                        <img className="isologo" src="/imagens/isologo.png"/>
+                        Kodra 
+                    </h3>   
+                </div>
+
                 <h2 className="invite-signup">Create your account</h2>
 
                 <label className="lab-email">Email</label>
@@ -67,17 +75,15 @@ function Register () {
                     Password should be at least 15 characters OR at least 8 characters including a number and a lowercase letter.
                 </p>
 
-                <label className="lab-username">Username</label>
+                <label className="lab-username">Your Name</label>
                 <input
                     className="username"
-                    placeholder="Username"
+                    placeholder="What do you want to be called?"
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}  // Atualiza o estado do username
                 />
-                <p className="warn-pass">
-                    Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.
-                </p>
+                
 
                 <button className="btn-signup" onClick={Register}>Register</button>
             </div>

@@ -52,8 +52,11 @@ function Login() {
     <div className="container-login">
 
       <div className="intro-login">
-        <h3> <img className="isologo" src="/imagens/isologo.png"/>
-         Kodra </h3>  
+        <h3> 
+          <img className="isologo" src="/imagens/isologo.png"/>
+            Kodra 
+        </h3>  
+        <button onClick={NewAcc} className="btn-register">Sign up</button>
       </div>
 
       <div className="box-login">

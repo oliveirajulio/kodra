@@ -1,3 +1,11 @@
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
 .container-signup {
     margin: 0;
     padding: 0;
@@ -31,16 +39,51 @@
     padding: 5.5rem;
 }
 
+.image-intro {
+    position: relative;
+    display: flex;
+    top: -2rem;
+    left: -5rem;
+    width: 70rem;
+}
+
+.btn-intro-access {
+    position: relative;
+    display: flex;
+    top: -2rem;
+    left: 3rem;
+}
+
+.login-btn { 
+    position: relative;
+    height: 2rem;
+    width: 4rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 14px !important;
+    color: var(--color_14);
+    background-color:rgba(181, 76, 255, 0.2);
+}
+
+.login-btn:hover { 
+   cursor: pointer;
+    background-color:rgba(181, 76, 255, 0.26);
+}
+
+
 .isologo-box {
     position: relative;
-    left: -4rem;
+    display: inline-flex;
     top: -3rem;
-    font-size: 18px !important;
+    font-size: 20px !important;
+    width: 100%;
 }
 
 .isologo-box h3 {
     position: relative;
     display: inline-flex;
+    color: var(--color_14);
+    font-weight: 600;
 }
 
 
@@ -77,6 +120,10 @@
     margin-top: 4vh;
 }
 
+.valid-pass {
+  color: rgba(63, 196, 110, 0.5) !important;
+}
+
 .pass {
     margin-top: 0.5vw;
     display: flex;
@@ -89,12 +136,25 @@
     font-size: 14px;
 } 
 
+.pass-error { 
+    border: solid 2px red ;
+
+}
+
 .warn-pass {
     position: relative;
     margin-top: 0.5vh;
     font-size: 12px !important;
     color: var(--color_2);
     font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+
+.error-shake {
+
+    color: red;
+    animation: shake 0.4s;
 }
 
 .lab-username {
@@ -116,8 +176,8 @@
 } 
 
 .btn-signup {
-    margin-top: 2.5vh;
-    width: 100%;
+    margin-top: 3rem;
+    width: 95%;
     height: 8vh;
     background-color: var(--color_14);
     color: var(--color_1);

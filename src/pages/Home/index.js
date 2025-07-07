@@ -125,6 +125,8 @@ function Home() {
   const [taskData, setTaskData] = useState({ done: 0, in_progress: 0, not_done: 0 });
   const { triggerRefresh } = useTaskRefresh();
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
+  const fetchedUser = useRef(false);
+
 
     const openModal = () => setShowModal(true);
     const openModalEvent = (date) => {
@@ -490,7 +492,6 @@ const nextDay = () => {
         console.error("❌ Detalhes do erro:", error.response?.data);
       }
     };
-
 // OU se você quiser buscar eventos de uma data específica:
 const fetchEventsForDate = async (date) => {
   const formattedDateBackend = getFormattedDateBackend(date);
@@ -515,6 +516,7 @@ useEffect(() => {
 
       getUser()
         .then(user => {
+          setuser(user)
           console.log("User:", user);
         })
         .catch(error => {
@@ -548,15 +550,21 @@ useEffect(() => {
       fetchTasks();
     }, [selectedDate]); // Isso só será chamado se selectedDate for válido
 
-    useEffect(() => {
-      getUser()
-        .then(user => {
-          console.log('Usuário:', user);
-        })
-        .catch(error => {
-          console.error('Erro tratado no useEffect:', error);
-        });
-    }, []);
+ 
+useEffect(() => {
+  if (!fetchedUser.current) {
+    getUser()
+      .then((user) => {
+        console.log("👤 Usuário recebido:", user);
+        setuser(user);
+        fetchedUser.current = true;
+      })
+      .catch((error) => {
+        console.error("❌ Erro ao buscar usuário:", error);
+      });
+  }
+}, []);
+
 
 
     useEffect(() => {

@@ -136,6 +136,21 @@
     font-size: 14px;
 } 
 
+.input-error {
+  border: 2px solid red;
+}
+
+.warn-email {
+  font-size: 0.9rem;
+  color: red;
+  margin-top: 4px;
+}
+
+.error-shake {
+  animation: shake 0.3s;
+}
+
+
 .pass-error { 
     border: solid 2px red ;
 

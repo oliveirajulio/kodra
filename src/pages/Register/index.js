@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Swal from 'sweetalert2';
 import register from "../../services/service-register";
+import checkEmailExists from "../../services/service-checkemail";
 import "./index.css";
 import { HealthAndSafety, PasswordSharp } from "@mui/icons-material";
 
@@ -10,6 +11,8 @@ function Register () {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [PasswordError, setPasswordError] = useState(false)
+    const [emailExistsError, setEmailExistsError] = useState(false);
+    const [emailTouched, setEmailTouched] = useState(false);
     
 
     // Função para lidar com o envio dos dados
@@ -64,6 +67,21 @@ function Register () {
         setPasswordError(!isValidPassword(newPass));
         }
 
+        const handleEmailChange = async (e) => {
+  const newEmail = e.target.value;
+  setEmail(newEmail);
+  setEmailTouched(true);
+
+  try {
+    const exists = await checkEmailExists(newEmail);
+    setEmailExistsError(exists);
+  } catch (err) {
+    console.error("Erro ao verificar email:", err);
+    setEmailExistsError(false); // assume que não existe em caso de erro
+  }
+};
+
+
     return (
         <div className="container-signup">
             <div className="intro-signup">
@@ -87,14 +105,18 @@ function Register () {
 
                 <h2 className="invite-signup">Create your account</h2>
 
-                <label className="lab-email">Email</label>
+               <label className="lab-email">Email</label>
                 <input
-                    className="email"
+                    className={`email ${emailExistsError ? "input-error" : ""}`}
                     placeholder="Email"
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}  // Atualiza o estado do email
-                />
+                    onChange={handleEmailChange}
+                    />
+
+                    {emailExistsError && emailTouched && (
+                    <p className="warn-email error-shake">Email already exists</p>
+                    )}
 
                 <label className="lab-pass">Password</label>
                 <input

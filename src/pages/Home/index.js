@@ -240,23 +240,29 @@ const nextDay = () => {
     
 
     const customStyles = {
+        
         option: (styles, { data, isFocused, isSelected }) => {
-          const backgroundColor = isSelected || isFocused
-            ? data.priority === "URGENT"
+          const backgroundColor =
+            isSelected
+              ? data.priority === "URGENT"
               ? "#6600cc"
               : data.priority === "HIGH"
               ? "#f77f00"
               : data.priority === "MEDIUM"
               ? "#2986cc "
-              : "#2a9d8f"
-            : styles.backgroundColor;
+              : "000000" 
+                : isFocused
+                ? " " // Cor de hover para todas as opções
+                : styles.backgroundColor;
       
           return {
             ...styles,
             backgroundColor,
-            color: isSelected || isFocused ? "white" : styles.color, // Ajusta a cor do texto para melhor contraste
+            color: isSelected ? "282c30" : styles.color,
+            cursor: "pointer",
           };
         },
+
         singleValue: (styles, { data }) => ({
           ...styles,
           backgroundColor:
@@ -306,7 +312,7 @@ const nextDay = () => {
                 ? "#F44336"
                 : "#1d2125" 
                 : isFocused
-                ? "#2a2f34" // Cor de hover para todas as opções
+                ? " " // Cor de hover para todas as opções
                 : styles.backgroundColor;
       
           return {
@@ -1251,7 +1257,11 @@ useEffect(() => {
                       </summary>
                       <div className="list-planner">
                         <ul>
-                          <li></li>
+                          <li className="events">
+                            <span className="bar-color">a</span>
+                            <span>31 de julho</span>
+                            <span>Plano no calendario</span>
+                          </li>
                         </ul>
                       </div>
                     </details>

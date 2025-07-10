@@ -811,13 +811,13 @@ summary {
 }
 
 .list-planner ul {
-  max-height: 20rem;
+  max-height: 8rem;
   overflow-y: auto;
   overflow-x: hidden;
 }
 .list-planner {
   margin: 0;
-  width: 100%;
+  width: 50rem;
   font-weight: 400;
 }
 
@@ -1927,17 +1927,44 @@ flex-direction: column;
 .events {
   position: relative;
   display: inline-flex;
+  width: 48rem;
 }
+
+.list-planner span {
+  position: relative;
+  width: auto;
+  top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+
 
 .bar-color {
   position: relative;
-  display: flex;
+  display: block;
+  align-items: center;
   top: 0.5rem;
-  left: 1.5rem;
+  margin-left: 2rem;
+  width: 0.2rem;
+  height: 1.5rem;
+}
+
+.date-event {
+  position: relative;
+  display: inline-flex;
   align-items: center;
   width: 0.3rem;
   height: 1.5rem;
-  background-color: red;
+  color: var(--color_12);
+}
+
+.name-event {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 0.3rem;
+  height: 1.5rem;
+  color: var(--color_3);
 }
 
 .reports-board {

@@ -126,6 +126,8 @@ function Home() {
   const { triggerRefresh } = useTaskRefresh();
   const label = { inputProps: { 'aria-label': 'Switch demo' } };
   const fetchedUser = useRef(false);
+  const currentMonth = new Date(selectedDate).getMonth();
+  const currentYear = new Date(selectedDate).getFullYear();
 
 
     const openModal = () => setShowModal(true);
@@ -1012,11 +1014,14 @@ useEffect(() => {
     })
   : tasks;
 
-   const filteredEvents = selectedFilter
-  ? events.filter(event => Number(event.area_id) === Number(selectedFilter))
-  : events;
+   const filteredEvents = events
 
-    const parseDateBR = (date) => new Date(new Date(date).toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+    const parseDateBR = (dateString) => {
+      const [year, month, day] = dateString.split('-');
+      return new Date(year, month - 1, day); // Usa diretamente os valores, sem UTC
+    };
+
+
 
 
     
@@ -1033,6 +1038,16 @@ useEffect(() => {
     function Dashboard () {
       window.location.href = '/dashboard'
     }
+
+   const currentMonthEvents = filteredEvents
+  .filter(event => {
+    const date = parseDateBR(event.date);
+    return (
+      date.getMonth() === currentMonth &&
+      date.getFullYear() === currentYear
+    );
+  })
+  .sort((a, b) => parseDateBR(a.date) - parseDateBR(b.date)); // Ordena por dia
 
 
 
@@ -1255,15 +1270,33 @@ useEffect(() => {
                         <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
                         <h4 className="title">Planner</h4>
                       </summary>
-                      <div className="list-planner">
+                     <div className="list-planner">
+                      {currentMonthEvents.length > 0 ? (
                         <ul>
-                          <li className="events">
-                            <span className="bar-color">a</span>
-                            <span>31 de julho</span>
-                            <span>Plano no calendario</span>
-                          </li>
+                          {currentMonthEvents.map((event, index) => {
+                            const date = parseDateBR(event.date);
+                            return (
+                              <li className="events" key={index}>
+                                <div
+                                className="bar-color"
+                                style={{ backgroundColor: event.color}}
+                              > </div>
+                                <span className="date-event">
+                                  {date.toLocaleDateString("en-US", {
+                                    month: "long",
+                                    day: "2-digit",
+                                  })}
+                                </span>
+                                <span className="name-event">{event.title}</span>
+                              </li>
+                            );
+                          })}
                         </ul>
-                      </div>
+                      ) : (
+                        <p>No events this month.</p>
+                      )}
+                    </div>
+
                     </details>
                   </div>     
                 </div>

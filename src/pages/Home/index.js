@@ -78,7 +78,7 @@ function Home() {
   const [showCalendar, setShowCalendar] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
   const [open, setopen] = useState(true)
-  const [openboard, setopenboard] = useState(false)     
+  const [openboard, setopenboard] = useState(true)     
   const [tasks, setTasks] = useState([]);
   const [events, setEvents] = useState([])
   const [user, setuser] = useState(false)
@@ -238,6 +238,12 @@ const nextDay = () => {
   setSelectedDate(newDate);
   weekday(newDate);
 };
+
+useEffect(() => {
+    // Seta o dia da semana atual ao montar o componente
+    const today = new Date();
+     setDayOfWeek(today.toLocaleDateString("en-US", { weekday: "long" }));
+  }, []);
 
     
 

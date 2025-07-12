@@ -43,8 +43,9 @@ Inspired by tools like **Jira**, this project stands out by offering a sleek, in
 🔗 [LinkedIn](https://www.linkedin.com/in/julio-cesar-oliveira-1150411a1/)  
 
 ## ⚖️ License & Copyright
-
-This project is protected under "All Rights Reserved".
+Copyright (c) 2025 Julio Cesar Oliveira.
+This project is protected under 
+"All Rights Reserved".
 
 You may view the code, but you are not allowed to reuse, modify, distribute, or sell it without explicit permission from the author.
 

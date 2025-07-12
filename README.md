@@ -41,4 +41,12 @@ Inspired by tools like **Jira**, this project stands out by offering a sleek, in
 **Julio Cesar**  
 💼 Front-End Developer | UX/UI | IT Student  
 🔗 [LinkedIn](https://www.linkedin.com/in/julio-cesar-oliveira-1150411a1/)  
-📧 contact@email.com
+
+## ⚖️ License & Copyright
+
+This project is protected under "All Rights Reserved".
+
+You may view the code, but you are not allowed to reuse, modify, distribute, or sell it without explicit permission from the author.
+
+For usage inquiries, contact:
+📧 juliocesargomes33@gmail.com 

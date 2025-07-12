@@ -36,7 +36,7 @@ Inspired by tools like **Jira**, this project stands out by offering a sleek, in
 - [x] Project filters
 - [x] Priority system (URGENT, HIGH, MEDIUM)
 - [x] Productivity charts
-- [ ] Calendar integration
+- [x] Calendar integration
 
 ## 🙋‍♂️ Author
 

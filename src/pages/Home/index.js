@@ -77,8 +77,10 @@ function Home() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCalendar, setShowCalendar] = useState(false);
   const [showIcon, setShowIcon] = useState(true);
-  const [open, setopen] = useState(true)
-  const [openboard, setopenboard] = useState(true)     
+  const [open, setopen] = useState(true);
+  const [openboard, setopenboard] = useState(true);
+  const [opentask, setopentask] = useState(true);
+  const [openevent, setopenevent] = useState(true);
   const [tasks, setTasks] = useState([]);
   const [events, setEvents] = useState([])
   const [user, setuser] = useState(false)
@@ -1045,15 +1047,21 @@ useEffect(() => {
       window.location.href = '/dashboard'
     }
 
-   const currentMonthEvents = filteredEvents
-  .filter(event => {
-    const date = parseDateBR(event.date);
-    return (
-      date.getMonth() === currentMonth &&
-      date.getFullYear() === currentYear
-    );
-  })
-  .sort((a, b) => parseDateBR(a.date) - parseDateBR(b.date)); // Ordena por dia
+    const today = new Date(); // Data atual no sistema
+    today.setHours(0, 0, 0, 0); // Zera o horário para comparar só a data
+
+    const currentMonthEvents = filteredEvents
+      .filter(event => {
+        const date = parseDateBR(event.date);
+        date.setHours(0, 0, 0, 0); // Zera também a hora do evento
+
+        return (
+          date >= today &&
+          date.getMonth() === currentMonth &&
+          date.getFullYear() === currentYear
+        );
+      })
+      .sort((a, b) => parseDateBR(a.date) - parseDateBR(b.date));
 
 
 
@@ -1223,9 +1231,9 @@ useEffect(() => {
 
               <div className="main-board">  
                 <div className='board'>
-                    <details open={open} onToggle={(e) => setopen(e.target.open)}>
-                        <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
-                        <h4 className="title">Work</h4>
+                    <details open={opentask} onToggle={(e) => setopentask(e.target.open)}>
+                        <summary>{opentask ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+                        <h4 className="title">Task Board</h4>
                         <p className="length">
                           {loadingtask 
                             ? "Loading..." 
@@ -1272,9 +1280,9 @@ useEffect(() => {
                         <button onClick={openModal} className="add-issue">+ Create task</button>
                     </details> 
                   <div className="planner-board">
-                    <details open={open} onToggle={(e) => setopen(e.target.open)}>
-                        <summary>{open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
-                        <h4 className="title">Planner</h4>
+                    <details open={openevent} onToggle={(e) => setopenevent(e.target.open)}>
+                        <summary>{openevent ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+                        <h4 className="title">Incoming events</h4>
                       </summary>
                      <div className="list-planner">
                       {currentMonthEvents.length > 0 ? (

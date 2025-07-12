@@ -1,7 +1,9 @@
 
 # 🧠 KODRA BOARD
 
-Link: https://kodra.vercel.app/login
+![Status do Projeto](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+
+Link: https://kodra.vercel.app/login    
 
 ## ✨ About the Project
 

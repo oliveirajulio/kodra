@@ -1,7 +1,7 @@
 
 # 🧠 KODRA BOARD
 
-![Project Preview](https://via.placeholder.com/1200x400?text=Insert+a+project+preview+image+or+GIF)
+![Project Preview](https://kodra.vercel.app/login)
 
 ## ✨ About the Project
 

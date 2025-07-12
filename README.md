@@ -1,7 +1,7 @@
 
 # 🧠 KODRA BOARD
 
-![Project Preview](https://kodra.vercel.app/login)
+Link: https://kodra.vercel.app/login
 
 ## ✨ About the Project
 

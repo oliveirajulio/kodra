@@ -87,6 +87,7 @@ function Home() {
   const [newTask, setNewTask] = useState({ task_id: '', type: '', name: '' });
   const [showModal, setShowModal] = useState(false);
   const [showModalEvent, setShowModalEvent] = useState(false);
+  const [showmodalarea, setshowmodalarea] = useState(false)
   const [modalTask, setModalTask] = useState(false)
   const [dayOfWeek, setDayOfWeek] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
@@ -1213,7 +1214,7 @@ useEffect(() => {
                         </li>
                       ) : (
                         <li>
-                          <button onClick={() => setIsEditingArea(true)}>
+                          <button onClick={() => setshowmodalarea(true)}>
                             <AddIcon className="ic-section" /> Add Filter
                           </button>
                         </li>
@@ -1785,6 +1786,15 @@ useEffect(() => {
                         </nav>
                 </div>
             </div>
+
+          
+          {showmodalarea && ( 
+          <div id="modal-area">
+              <div className="overlay-area">
+
+              </div>
+         </div>
+          )}
 
           {showModalEvent && ( 
           <div id="modal-event">

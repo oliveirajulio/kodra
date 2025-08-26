@@ -14,7 +14,7 @@ function Router() {
         <BrowserRouter>
             <Routes>
                 <Route path="/signup" element={<Register />}/>
-                <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+                <Route path="/" element={ <Home /> } />
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
             </Routes>    

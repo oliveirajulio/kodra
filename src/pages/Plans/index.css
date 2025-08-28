@@ -10,21 +10,111 @@
 
 .nav-plans {
     position: relative;
+    padding: 0;
     align-items: center;
     display: inline-flex;
-    top: 20%;
+    top: 15%;
     width: 100%;
 }
 
 .nav-plans ul {
+    position: relative;
+    display: inline-flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.nav-plans button {
+.nav-plans li {
     position: relative;
-    width: 15rem;
-    height: 20rem;
+    background-color: var(--color_5);
+    width: 25rem;
+    height:30rem;
     border: none;
     margin-left: 2rem;
+    border-radius: 1rem;
 
 }
+
+.nav-plans li:hover {
+   border: solid 3px var(--color_14);
+
+}
+
+.intro-plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+
+
+.name-plan-free {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    font-weight: 700;
+    padding-left: 2rem;
+    padding-top: 4.5rem;
+}
+
+
+.name-plan-basic {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    font-weight: 700;
+    padding-left: 2rem;
+    padding-top: 4.5rem;
+
+}
+
+.name-plan-premium {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    font-weight: 700;
+    padding-left: 2rem;
+    padding-top: 4.5rem;
+
+}
+
+.price-plan-free {
+    position: relative;
+    padding-left: 2rem;
+    font-size: 16px;
+    font-weight: 700;
+    padding-top: 1rem;
+}
+
+
+.price-plan-basic {
+    position: relative;
+    font-size: 16px;
+    font-weight: 700;
+    padding-left: 2rem;
+    padding-top: 1rem;
+
+}
+
+.price-plan-premium {
+    position: relative;
+    font-size: 16px;
+    font-weight: 700;
+    padding-left: 2rem;
+    padding-top: 1rem;
+
+}
+
+.line-horiz {
+    width: 90%;
+    margin: 1rem;
+    margin-top: 2rem;
+}
+
+
 

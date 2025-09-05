@@ -1101,6 +1101,22 @@ summary {
   z-index: 1000;
 }
 
+.btn-bottom {
+  position: relative;
+  display: flex;
+  margin-top: 9rem;
+  margin-left: 90%;
+
+}
+
+.btn-bottom button{
+  cursor: pointer;
+  margin-left: 0.5rem;
+  background-color: transparent;
+  border: none;
+  color: var(--color_2);
+  font-weight: 800;
+}
 
 .overlay {
   position: fixed;

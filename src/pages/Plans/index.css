@@ -22,10 +22,9 @@
     display: inline-flex;
     margin: 0;
     padding: 0;
-    list-style: none;
 }
 
-.nav-plans li {
+.nav-plans .plan-free {
     position: relative;
     background-color: var(--color_5);
     width: 25rem;
@@ -33,10 +32,48 @@
     border: none;
     margin-left: 2rem;
     border-radius: 1rem;
+    list-style: none;
+
 
 }
 
-.nav-plans li:hover {
+.nav-plans .plan-free:hover {
+   border: solid 3px var(--color_14);
+
+}
+
+.nav-plans .plan-pro {
+    position: relative;
+    background-color: var(--color_5);
+    width: 25rem;
+    height:30rem;
+    border: none;
+    margin-left: 2rem;
+    border-radius: 1rem;
+    list-style: none;
+
+
+}
+
+.nav-plans .plan-pro:hover {
+   border: solid 3px var(--color_14);
+
+}
+
+.nav-plans .plan-premium {
+    position: relative;
+    background-color: var(--color_5);
+    width: 25rem;
+    height:30rem;
+    border: none;
+    margin-left: 2rem;
+    border-radius: 1rem;
+    list-style: none;
+
+
+}
+
+.nav-plans .plan-premium:hover {
    border: solid 3px var(--color_14);
 
 }
@@ -116,5 +153,15 @@
     margin-top: 2rem;
 }
 
+.nav-benef {
+    position: relative;
+    padding: 3rem;
+}
+
+
+.nav-benef ul{
+    display: flex;
+    flex-direction: column;
+}
 
 

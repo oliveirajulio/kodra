@@ -1839,8 +1839,8 @@ useEffect(() => {
                         </span>
 
                         <div className="btn-bottom">
-                          <button onClick={addevent}>Save</button>
-                          <button onClick={closeModalEvent}>Cancel</button>
+                          <button onClick={addevent}><CheckIcon/></button>
+                          <button onClick={closeModalEvent}><CloseIcon/></button>
                         </div>
 
 

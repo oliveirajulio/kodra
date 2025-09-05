@@ -11,6 +11,14 @@ function Plans () {
                             <span className="name-plan-free">Free</span>
                             <span className="price-plan-free">R$</span>
                             <hr className="line-horiz"/>
+                            <nav className="nav-benef">
+                                <ul>
+                                    <li>Plano Gratuito</li>
+                                    <li>5 Tarefas limitadas por dia</li>
+                                    <li>1 área/projeto</li>
+                                    <li>Visualização em lista</li>
+                                </ul>
+                            </nav>
                         </div>
                     </li>
                     <li className="plan-premium">
@@ -18,7 +26,13 @@ function Plans () {
                             <span className="name-plan-basic">Basic</span>
                             <span className="price-plan-basic">R$</span>
                             <hr className="line-horiz"/>
-
+                            <nav>
+                                <ul>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </ul>
+                            </nav>
                         </div>
 
                     </li>
@@ -27,7 +41,13 @@ function Plans () {
                             <span className="name-plan-premium">Premium</span>
                             <span className="price-plan-premium">R$</span>
                             <hr className="line-horiz"/>
-
+                            <nav className="nav-benef">
+                                <ul>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </ul>
+                            </nav>
 
                         </div>
 
